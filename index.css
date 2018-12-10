@@ -1,0 +1,264 @@
+#next {
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    right: 67%;
+    background: black;
+    border-radius: 50px;
+}
+
+#next img {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    left: 10px;
+    border-radius: 35px;
+    transform: scale(-1, 1);
+}
+
+#prev {
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 67%;
+    background: black;
+    border-radius: 50px;
+}
+
+#prev img {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    left: 10px;
+    background: black;
+    border-radius: 35px;
+}
+
+#BD_show img {
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    height: 100%;
+    margin-left: 24.5%;
+    position: absolute;
+}
+
+#menu_gauche {
+    width: 250px;
+    height: 73%;
+    position: absolute;
+    border-radius: 5px;
+    border: 3px solid #ff4d4d;
+    bottom: 10px;
+    left: 10px;
+    padding: 10px;
+    overflow-y: scroll;
+}
+::-webkit-scrollbar {
+    width: 20px;
+    margin: 2px;
+}
+::-webkit-scrollbar-thumb {
+    background: #ff4d4d;
+    border-radius: 5px;
+}
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #b30000;
+}
+#menu {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 7%;
+    height: 100%;
+    background: #ff4d4d;
+}
+
+#save img {
+    width: 45px;
+    height: 45px;
+    border-radius: 23px;
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+
+#save {
+    background: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 30px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    border: 2px solid black;
+}
+
+#add {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    width: 200px;
+    height: 200px;
+    display: contents;
+}
+
+#add img {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 100px;
+    position: absolute;
+    right: 57px;
+    top: 50px;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+#add img:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+#delete img {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    background: white;
+    border-radius: 100px;
+    position: absolute;
+    right: 57px;
+    top: 250px;
+    transform: scale(1.1) rotate(45deg);
+    -webkit-transform: scale(1) rotate(45deg);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+#delete img:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1) rotate(45deg);
+}
+
+#edit img:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+#edit img {
+    display: flex;
+    width: 95px;
+    height: 95px;
+    background: white;
+    border-radius: 100px;
+    position: fixed;
+    border: 4px solid white;
+    right: 57px;
+    top: 450px;
+    z-index: 20;
+    transform: scale(1.1);
+    -webkit-transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+#move img {
+    display: flex;
+    width: 95px;
+    height: 95px;
+    background: white;
+    border-radius: 100px;
+    position: fixed;
+    right: 57px;
+    top: 650px;
+    z-index: 20;
+    transform: scale(1.1);
+    -webkit-transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
+}
+
+#move img:hover {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+/*                                                Drag'n'Drop                                                         */
+
+#drop-area {
+    border: 2px solid #ccc;
+    width: 250px;
+    font-family: sans-serif;
+    margin: auto;
+    border-radius: 10px;
+    padding: 10px;
+    position: fixed;
+    display: flex;
+    top: 24px;
+    left: 10px;
+}
+
+#drop-area label {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#drop-area:hover {
+    border-color: #ff4d4d;
+    border-radius: 10px;
+}
+
+#drop-area.hover {
+    border-color: #ff4d4d;
+    border-radius: 10px;
+}
+
+p {
+    margin-top: 0;
+}
+
+.my-form {
+    margin-bottom: 10px;
+}
+
+#gallery {
+    margin-top: 10px;
+}
+
+#gallery img {
+    width: 230px;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px;
+    background: #ccc;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.button:hover {
+    background: #ddd;
+}
+
+#fileElem {
+    display: none;
+}
