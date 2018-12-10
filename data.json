@@ -1,0 +1,47 @@
+/*Square detection failed on file ./Sample/CaptainFlash/CaptainFlash_page_1.png*/
+{
+  "regions_of_interest": [
+      {
+        "x": 322,
+        "y": 84,
+        "width": 464,
+        "height": 462
+      },
+    {
+      "x": 786,
+      "y": 84,
+      "width": 517,
+      "height": 462
+    },
+    {
+      "x": 322,
+      "y": 546,
+      "width": 309,
+      "height": 572
+    },
+    {
+      "x": 631,
+      "y": 546,
+      "width": 323,
+      "height": 572
+    },
+    {
+      "x": 954,
+      "y": 546,
+      "width": 349,
+      "height": 541
+    },
+    {
+      "x": 760,
+      "y": 1087,
+      "width": 543,
+      "height": 437
+    },
+    {
+      "x": 322,
+      "y": 1118,
+      "width": 438,
+      "height": 406
+    }
+  ]
+}
