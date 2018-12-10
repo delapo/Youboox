@@ -1,0 +1,16 @@
+#next img {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top:50%;
+    right: 70%;
+    transform:scale(-1,1);
+}
+
+#prev img {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top:50%;
+    left: 70%;
+}
