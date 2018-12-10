@@ -8,13 +8,19 @@
 </head>
 <body>
 <div id="menu_gauche">
-
+    <div id="gallery"></div>
 </div>
 <div id="prev">
     <img src="https://www.dsbrowser.com/documentation/images/8/8d/Fleche-droite.png">
 </div>
 <div id="BD_show">
-    <img src="CaptainFlash_page_7.png"/>
+</div>
+<div id="drop-area">
+    <form class="my-form">
+        <p>Veuillez séléctionner des images à rajouter !</p>
+        <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+        <label class="button" for="fileElem">Select some files</label>
+    </form>
 </div>
 <div id="next">
     <img src="https://www.dsbrowser.com/documentation/images/8/8d/Fleche-droite.png">
@@ -37,5 +43,7 @@
         <img src="4d38a18f-f2e7-4df4-95ed-5cf2332654ed.png">
     </div>
 </div>
+
+<script src="dragndrop.js"></script>
 </body>
 </html>
