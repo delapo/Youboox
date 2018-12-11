@@ -1,0 +1,45 @@
+<template>
+    <div id="menu_gauche2">
+    </div>
+</template>
+
+<script>
+import MenuDroite from './MenuDroite'
+export default {
+  name: 'MenuGauche',
+  components: {MenuDroite},
+  data () {
+    return {
+      msg: 'Welcome to Your Vue.js App'
+    }
+  }
+}
+</script>
+
+<style scoped>
+    #menu_gauche2 {
+        width: 250px;
+        height: 73%;
+        position: absolute;
+        border-radius: 5px;
+        border: 3px solid #ff4d4d;
+        bottom: 10px;
+        left: 10px;
+        padding: 10px;
+        overflow-y: scroll;
+    }
+    ::-webkit-scrollbar {
+        width: 20px;
+        margin: 2px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #ff4d4d;
+        border-radius: 5px;
+    }
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #b30000;
+    }
+</style>
