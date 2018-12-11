@@ -38,7 +38,7 @@ function handleFiles(files) {
 }
 
 function uploadFile(file) {
-  let url = 'http://localhost:63342/Youboox_project/index.html?_ijt=43elipd3is3nri8qg0o0lusugi';
+  let url = 'http://localhost:8080/#';
   let formData = new FormData();
 
   formData.append('file', file);
