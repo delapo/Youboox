@@ -28,4 +28,18 @@ export default {
         padding: 10px;
         overflow-y: scroll;
     }
+    ::-webkit-scrollbar {
+        width: 20px;
+        margin: 2px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #ff4d4d;
+        border-radius: 5px;
+    }
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px grey;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #b30000;
+    }
 </style>

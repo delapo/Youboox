@@ -13,7 +13,7 @@
             <img src="https://image.freepik.com/icones-gratuites/ecriture-sur-un-cahier-ouvert_318-44015.jpg">
         </section>
         <section id="move">
-            <img src="4d38a18f-f2e7-4df4-95ed-5cf2332654ed.png">
+            <img src="../assets/4d38a18f-f2e7-4df4-95ed-5cf2332654ed.png">
         </section>
     </div>
 </template>
