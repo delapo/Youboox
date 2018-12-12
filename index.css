@@ -104,6 +104,9 @@
     right: 5px;
     border: 2px solid black;
 }
+.available img {
+    background-color : green;
+}
 
 #add {
     position: absolute;
@@ -112,6 +115,9 @@
     width: 200px;
     height: 200px;
     display: contents;
+}
+.add {
+    background-color : green;
 }
 
 #add img {
@@ -153,6 +159,9 @@
     -webkit-transform: scale(1.1);
     transform: scale(1.1) rotate(45deg);
 }
+.delete {
+    background-color : green;
+}
 
 #edit img:hover {
     -webkit-transform: scale(1.1);
@@ -175,6 +184,9 @@
     -webkit-transition: .3s ease-in-out;
     transition: .3s ease-in-out;
 }
+.edit {
+    background-color : green;
+}
 
 #move img {
     display: flex;
@@ -195,6 +207,9 @@
 #move img:hover {
     -webkit-transform: scale(1.1);
     transform: scale(1.1);
+}
+.move {
+    background-color : green;
 }
 
 /*                                                Drag'n'Drop                                                         */
@@ -261,4 +276,13 @@ p {
 
 #fileElem {
     display: none;
+}
+
+#bd {
+    width : 50%;
+    height: 50%;
+    margin-left: 24.5%;
+    position : absolute;
+    top: 0;
+    bottom : 0;
 }

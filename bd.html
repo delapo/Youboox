@@ -1,12 +1,19 @@
 <!DOCTYPE HTML>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="index.css">
 
     <p id="demo"></p>
     <div id="demo1"></div>
 
     <style>
-        .bd {position: absolute;}
+        .bd {position: absolute;
+        color : red;
+        font-size: 45px;
+        }
+        .zz {
+            color:red;
+        }
     </style>
 
 
@@ -58,28 +65,38 @@
             '}';
 
         obj = JSON.parse(json);
-        console.log(obj);
-        console.log(obj.regions_of_interest.length);
-        console.log(obj.regions_of_interest[1]);
-        console.log(obj.width);
-        console.log(obj.height);
-        var x = 0;
-        while(x <= obj.regions_of_interest.length){
-            var newdiv = document.createElement("div");
+        console.log( obj.regions_of_interest);
+        console.log( obj.regions_of_interest[1]);
 
-            newdiv.setAttribute('id', 'bd');
+        for(z = 0; z <= obj.regions_of_interest.length; z++)
+        {
+            var newdiv = document.createElement("div");
+            newdiv.setAttribute('id', 'number' + z);
             newdiv.setAttribute('class', 'bd');
-            newdiv.style.marginLeft = obj.regions_of_interest[x].x + 'px';
-            newdiv.style.marginTop = obj.regions_of_interest[x].y + 'px';
-            newdiv.style.width = obj.regions_of_interest[x].width + 'px';
-            newdiv.style.height = obj.regions_of_interest[x].height + 'px';
-            newdiv.style.border = "thick solid #0000FF";
+            newdiv.setAttribute('number', z);
+            newdiv.style.marginLeft = obj.regions_of_interest[z].x + 'px';
+            newdiv.style.marginTop = obj.regions_of_interest[z].y + 'px';
+            newdiv.style.width = obj.regions_of_interest[z].width + 'px';
+            newdiv.style.height = obj.regions_of_interest[z].height + 'px';
+            newdiv.style.border = "thick solid black";
             var select = document.getElementById('demo1');
             select.appendChild(newdiv);
-            x = x + 1;
+            var r = document.getElementById('number' + z);
+            console.log(r);
+            r.innerHTML = z;
         }
 
+        function deletebd() {
+            var z = casebd.value;
+           document.getElementById("number" + z).remove();
+
+        }
     </script>
+    <label for="casebd"> </label>
+    <input type="number" id="casebd" name="casebd">
+
+    <button onclick="deletebd();">delete a box !</button>
+
 </head>
 <body>
 
