@@ -1,20 +1,8 @@
 <template>
     <div id="menu_gauche2">
+        <div id="gallery"></div>
     </div>
 </template>
-
-<script>
-import MenuDroite from './MenuDroite'
-export default {
-  name: 'MenuGauche',
-  components: {MenuDroite},
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
-}
-</script>
 
 <style scoped>
     #menu_gauche2 {
@@ -41,5 +29,15 @@ export default {
     }
     ::-webkit-scrollbar-thumb:hover {
         background: #b30000;
+    }
+    #gallery {
+        margin-top: 10px;
+    }
+
+    #page {
+        width: 230px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        vertical-align: middle;
     }
 </style>
