@@ -1,5 +1,6 @@
 <template>
-    <div id="drop-area" ref="azerty" v-on:dragenter="hover" v-on:dragover="hover" v-on:dragleave="unhover" v-on:drop="handleDrop">
+    <div id="drop-area" ref="azerty" v-on:dragenter="hover" v-on:dragover="hover" v-on:dragleave="unhover"
+         v-on:drop="handleDrop">
         <form class="my-form">
             <p>Veuillez séléctionner des images à rajouter !</p>
             <input type="file" id="fileElem" multiple accept="image/*" ref="myFiles" @change="handleFiles">
@@ -29,7 +30,6 @@ export default {
       e.stopPropagation()
       var area = this.$refs.azerty
       area.classList.remove('hover')
-      //    area.addEventListener('drop', this.handleDrop, false)
     },
     handleDrop (e) {
       var files = e.dataTransfer.files
@@ -57,23 +57,44 @@ export default {
         method: 'POST',
         body: formData
       })
-        .then(() => { console.log('Done') })
-        .catch(() => { console.log('Error') })
+        .then(() => {
+          console.log('Done')
+        })
+        .catch(() => {
+          console.log('Error')
+        })
     },
     previewFile (file) {
+      console.log(file)
       let reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onloadend = function () {
         let img = document.createElement('img')
         img.src = reader.result
-        img.id = 'page'
+        img.className = 'page'
+        img.ref = 'images'
+        img.addEventListener('click', function () {
+          centerImage(file)
+        }, false)
         document.getElementById('gallery').appendChild(img)
       }
     }
   }
 }
+
+function centerImage (file) {
+  console.log(file)
+  let reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onloadend = function () {
+    var select = document.getElementById('imageCenter')
+    select.src = reader.result
+  }
+}
+
 </script>
-<style scoped>
+
+<style>
     #drop-area {
         border: 2px solid #ccc;
         width: 250px;
@@ -83,8 +104,9 @@ export default {
         padding: 10px;
         position: fixed;
         display: flex;
-        top: 24px;
-        left: 10px;
+        bottom: 15px;
+        z-index: 10000;
+        right: 240px;
     }
 
     #drop-area label {
@@ -115,7 +137,7 @@ export default {
     }
 
     #gallery img {
-        width: 230px;
+        width: 180px;
         margin-bottom: 10px;
         margin-right: 10px;
         vertical-align: middle;
@@ -138,4 +160,14 @@ export default {
         display: none;
     }
 
+    #gallery {
+        margin-top: 10px;
+    }
+
+    .page {
+        width: 230px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
 </style>
