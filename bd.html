@@ -23,12 +23,9 @@
         }
     </style>
 
-
     <script>
       $.getJSON("data.json", function(json) {
           var obj = json.regions_of_interest;
-          console.log( obj);
-          console.log( obj[1])
               for(z = 0; z <= obj.length; z++)
               {
                   var newdiv = document.createElement("div");
@@ -43,28 +40,83 @@
                   var select = document.getElementById('demo1');
                   select.appendChild(newdiv);
                   var r = document.getElementById('number' + z);
-                  console.log(r);
                   r.innerHTML = z;
               }
-
-              function deletebd() {
-                  var z = casebd.value;
-                  document.getElementById("number" + z).remove();
-
-              }
           });
+      function deletebd() {
+          var z = casebd.value;
+          document.getElementById("number" + z).remove();
+      }
+      function modifybd() {
+          var z = modifyingbd.value;
+          var t = modifying1bd.value;
+          var h = modifyinghbd.value;
+          document.getElementById("number" + z).style.width = t + "px";
+          document.getElementById("number" + z).style.height = h + "px";
+      }
+      function movebd() {
+          var z = movingbd.value;
+          var r = movingxbd.value;
+          var u = movingybd.value;
+          console.log( document.getElementById("number" + z));
+          document.getElementById("number" + z).style.marginLeft = r + "px";
+          document.getElementById("number" + z).style.marginTop = u + "px";
+      }
 
 
-        function deletebd() {
-            var z = casebd.value;
-           document.getElementById("number" + z).remove();
 
-        }
+          /*  jQuery.ajax({
+                dataType: "json",
+                url: "data.json",
+                success: function(response) {
+
+                      data =  {
+                        "x": 322,
+                        "y": 84,
+                        "width": 200,
+                        "height": 200
+                    };
+                    var obj1 = jQuery.parseJSON(response);
+                    console.log(obj1);
+                }
+
+            });*/
+
+
+      function addbd() {
+          var z = addingbd.value;
+          document.getElementById("number" + z).add();
+      }
     </script>
+
     <label for="casebd"> </label>
     <input type="number" id="casebd" name="casebd">
 
     <button onclick="deletebd();">delete a box !</button>
+
+
+    <br><br><label for="modifyingbd"> </label>
+    <input type="number" id="modifyingbd" name="modifyingbd">
+    <a>Choosse the box</a>
+    <input type="number" id="modifying1bd" name="modifying1bd">
+    <a>Choosse the width</a>
+    <input type="number" id="modifyinghbd" name="modifying1bd">
+    <a>Choosse the height</a>
+    <button onclick="modifybd();">Modify the box !</button>
+
+    <br><br> <label for="addingbd"> </label>
+    <input type="number" id="addingbd" name="addingbd">
+
+    <button onclick="addbd();">add a box !</button>
+
+    <br><br> <label for="movingbd"> </label>
+    <input type="number" id="movingbd" name="movingbd">
+    <a>Choosse the box</a> <br>
+    <input type="number" id="movingxbd" name="movingbd">
+    <a>Choosse the x</a> <br>
+    <input type="number" id="movingybd" name="movingbd">
+    <a>Choosse the y</a> <br>
+    <button onclick="movebd();">move a box !</button>
 
 </head>
 <body>
