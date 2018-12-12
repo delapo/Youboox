@@ -1,6 +1,5 @@
 <template>
-    <div id="drop-area" ref="azerty" v-on:dragenter="hover" v-on:dragover="hover" v-on:dragleave="unhover"
-         v-on:drop="handleDrop">
+    <div id="drop-area" ref="azerty" v-on:dragenter="hover" v-on:dragover="hover" v-on:dragleave="unhover" v-on:drop="handleDrop">
         <form class="my-form">
             <p>Veuillez séléctionner des images à rajouter !</p>
             <input type="file" id="fileElem" multiple accept="image/*" ref="myFiles" @change="handleFiles">
@@ -21,33 +20,36 @@ export default {
     hover (e) {
       e.preventDefault()
       e.stopPropagation()
-      var area = this.$refs.azerty
+      let area = this.$refs.azerty
       area.classList.add('hover')
       area.addEventListener('drop', this.unhover, false)
     },
     unhover (e) {
       e.preventDefault()
       e.stopPropagation()
-      var area = this.$refs.azerty
+      let area = this.$refs.azerty
       area.classList.remove('hover')
+      //    area.addEventListener('drop', this.handleDrop, false)
     },
     handleDrop (e) {
-      var files = e.dataTransfer.files
+      let files = e.dataTransfer.files
       console.log(files, 'hzief')
       this.handleDropFiles(files)
     },
     handleDropFiles (files) {
       files = [...files]
-      files.forEach(this.uploadFile)
+      // files.forEach(this.uploadFile)
       files.forEach(this.previewFile)
+      this.middleImg(files)
       console.log(files)
     },
-    handleFiles (e) {
-      var files = document.getElementById('fileElem').files
+    handleFiles () {
+      let files = document.getElementById('fileElem').files
       console.log('azeaze', files)
       files = [...files]
-      files.forEach(this.uploadFile)
+      // files.forEach(this.uploadFile)
       files.forEach(this.previewFile)
+      this.middleImg(files)
     },
     uploadFile (file) {
       let url = 'http://localhost:8080/'
@@ -57,43 +59,62 @@ export default {
         method: 'POST',
         body: formData
       })
-        .then(() => {
-          console.log('Done')
-        })
-        .catch(() => {
-          console.log('Error')
-        })
+        .then(() => { console.log('Done') })
+        .catch(() => { console.log('Error') })
     },
     previewFile (file) {
-      console.log(file)
       let reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onloadend = function () {
         let img = document.createElement('img')
         img.src = reader.result
-        img.className = 'page'
-        img.ref = 'images'
+        img.class = 'page'
         img.addEventListener('click', function () {
-          centerImage(file)
+          console.log('asas')
         }, false)
         document.getElementById('gallery').appendChild(img)
+      }
+    },
+    middleImg (files) {
+      let i = 0
+      let prev = document.getElementById('prev')
+      let next = document.getElementById('next')
+      let reader = new FileReader()
+      prev.addEventListener('click', function () {
+        reader.readAsDataURL(files[i + 1])
+        reader.onloadend = function () {
+          let select = document.getElementById('imageCenter')
+          select.src = reader.result
+        }
+        i++
+      }, true)
+      next.addEventListener('click', function () {
+        reader.readAsDataURL(files[i - 1])
+        reader.onloadend = function () {
+          let select = document.getElementById('imageCenter')
+          select.src = reader.result
+        }
+        i--
+      }, true)
+      reader.readAsDataURL(files[i])
+      reader.onloadend = function () {
+        let select = document.getElementById('imageCenter')
+        select.src = reader.result
       }
     }
   }
 }
 
-function centerImage (file) {
-  console.log(file)
+/*  function centerImage (files) {
+  console.log(files)
   let reader = new FileReader()
-  reader.readAsDataURL(file)
+  reader.readAsDataURL(files[0])
   reader.onloadend = function () {
     var select = document.getElementById('imageCenter')
     select.src = reader.result
   }
-}
-
+} */
 </script>
-
 <style>
     #drop-area {
         border: 2px solid #ccc;
