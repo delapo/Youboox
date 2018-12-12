@@ -30,7 +30,7 @@ export default {
         position: absolute;
         z-index: 1;
         top: 50%;
-        left: 70%;
+        left: 5%;
         background: black;
         border-radius: 50px;
         transform: scale(1.1);
@@ -61,7 +61,7 @@ export default {
         position: absolute;
         z-index: 1;
         top: 50%;
-        left: 5%;
+        left: 70%;
         background: black;
         border-radius: 50px;
         transform: scale(1.1);
