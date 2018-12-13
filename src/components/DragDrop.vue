@@ -37,25 +37,10 @@ export default {
       this.handleDropFiles(files)
     },
     handleDropFiles (files) {
+      files = [...files]
       // files.forEach(this.uploadFile)
-      files.forEach(this.previewFile)
-      function rec (files, i) {
-        let file = files[i]
-        let reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onloadend = function () {
-          let img = document.createElement('img')
-          img.src = reader.result
-          img.class = 'page'
-          img.addEventListener('click', function () {
-            console.log('asas')
-          }, false)
-          document.getElementById('gallery').appendChild(img)
-          if (files[i + 1]) {
-            rec(files, i + 1)
-          }
-        }
-      } rec(files, 0)
+      this.$data.files = this.$data.files.concat(files)
+      this.previewFile(0)
       this.middleImg(files)
       console.log(files)
     },
@@ -63,25 +48,9 @@ export default {
       let files = document.getElementById('fileElem').files
       files = [...files]
       // files.forEach(this.uploadFile)
-      // files.forEach(this.previewFile)
-      function rec (files, i) {
-        let file = files[i]
-        let reader = new FileReader()
-        reader.readAsDataURL(file)
-        reader.onloadend = function () {
-          let img = document.createElement('img')
-          img.src = reader.result
-          img.class = 'page'
-          img.addEventListener('click', function () {
-            console.log('asas')
-          }, false)
-          document.getElementById('gallery').appendChild(img)
-          if (files[i + 1]) {
-            rec(files, i + 1)
-          }
-        }
-      } rec(files, 0)
-      this.middleImg(files)
+      this.$data.files = this.$data.files.concat(files)
+      this.previewFile(0)
+      this.middleImg()
     },
     uploadFile (file) {
       let url = 'http://localhost:8080/'
@@ -94,7 +63,29 @@ export default {
         .then(() => { console.log('Done') })
         .catch(() => { console.log('Error') })
     },
-    middleImg (files) {
+    previewFile (i) {
+      if (document.getElementById('gallery').getElementsByTagName('img')[i] != null) {
+        setTimeout(() => { this.previewFile(i + 1) }, 100)
+      } else {
+        let file = this.$data.files[i]
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onloadend = function () {
+          let img = document.createElement('img')
+          img.src = reader.result
+          img.class = 'page'
+          img.addEventListener('click', function () {
+            console.log('asas')
+          }, false)
+          document.getElementById('gallery').appendChild(img)
+        }
+        if (this.$data.files[i + 1]) {
+          setTimeout(() => { this.previewFile(i + 1) }, 100)
+        }
+      }
+    },
+    middleImg () {
+      let files = this.$data.files
       let i = 0
       let prev = document.getElementById('prev')
       let next = document.getElementById('next')
@@ -193,4 +184,3 @@ export default {
         vertical-align: middle;
     }
 </style>
-
