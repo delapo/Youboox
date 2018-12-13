@@ -55,6 +55,7 @@ new Vue({
             this.delete_selected = "not selected";
             this.edit_selected = "not selected";
             this.move_selected = "tool_selected";
+
             break;
         }
       }
@@ -62,13 +63,16 @@ new Vue({
   }
 });
 
+var x, y, prev_x, prev_y;
+
 function Tool(e){
-  let tools = ['_add', 'del', 'edit', 'move'].map(name => ({
+  let tools = ['_add', 'del', 'move', 'edit'].map(name => ({
     name,
     img_but: document.getElementById(name).firstChild,
     div: e.path[0],
   }));
-  const tool = tools.find(x => x.img_but.classList.value === "tool_selected");
+  console.log(tools)
+  const tool = tools.find(x => x.img_but.classList.contains("tool_selected"));
   if ( tool ){
     window[tool.name](tool, e);
   }else{
@@ -83,11 +87,33 @@ function del(tool, e){
   let div = tool.div;
   div.parentNode.removeChild(div);
 }
+
+function move(tool, e){
+  let div = tool.div;
+  div.addEventListener("mousedown", function() { onMousedown(e, div) });
+  div.addEventListener("mousemove", function() { onMousemove(e, div) });
+  div.addEventListener("mouseup", function() { onMouseup(e, div) });
+  console.log("end");
+
+  function onMousedown(e, div){
+    var prev_x = x - div.offsetLeft;
+    var prev_y = y - div.offsetTop;
+  }
+
+  function onMousemove(e, div){
+    x = e.pageX;
+    y = e.pageY;
+    div.style.left = (x - prev_x) + 'px';
+    div.style.top = (y - prev_y) + 'px';
+  }
+
+  function onMouseup(e, div){
+    div = false;
+  }
+}
+
 function edit(tool, e){
   console.log("function edit");
-}
-function move(tool, e){
-  console.log("function move");
 }
 
 $.getJSON("data.json", function(json) {
@@ -104,7 +130,8 @@ $.getJSON("data.json", function(json) {
     region_div.style.top = (regions[region].y)/2 + "px";
     region_div.style.left = (regions[region].x)/2 + "px";
     region_div.style.border = "1px solid blue";
-    region_div.onclick = function(e) { Tool(e); };
+    region_div.draggable = true;
+    region_div.onclick = Tool;
     board.appendChild(region_div);
   }
   });
