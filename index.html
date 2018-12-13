@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="index.css">
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+          integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+          crossorigin="anonymous">
+  </script>
+
+  <link rel="stylesheet" type="text/css" href="index.css">
     <title>Youboox</title>
 </head>
 <body>
@@ -30,21 +36,21 @@
     <div id="save">
         <img src="https://png2.kisspng.com/20180701/url/kisspng-computer-icons-floppy-disk-hard-drives-creative-technology-5b388cfddeae08.9101295715304327659121.png">
     </div>
-    <div id="add">
-        <img src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
+    <div id="_add">
+        <img v-bind:class="add_selected" v-on:click="check(1)" src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
     </div>
-    <div id="delete">
-        <img src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
+    <div id="del">
+        <img v-bind:class="delete_selected" v-on:click="check(2)" src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
     </div>
     <div id="edit">
-        <img src="https://image.freepik.com/icones-gratuites/ecriture-sur-un-cahier-ouvert_318-44015.jpg">
+        <img v-bind:class="edit_selected" v-on:click="check(3)" src="https://image.freepik.com/icones-gratuites/ecriture-sur-un-cahier-ouvert_318-44015.jpg">
     </div>
     <div id="move">
-        <img src="4d38a18f-f2e7-4df4-95ed-5cf2332654ed.png">
+        <img v-bind:class="move_selected" v-on:click="check(4)" src="4d38a18f-f2e7-4df4-95ed-5cf2332654ed.png">
     </div>
 </div>
-
+<div id="board"></div>
 <script src="dragndrop.js"></script>
-
+<script src="select_tool.js"></script>
 </body>
 </html>

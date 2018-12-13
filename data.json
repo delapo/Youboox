@@ -1,12 +1,11 @@
-/*Square detection failed on file ./Sample/CaptainFlash/CaptainFlash_page_1.png*/
 {
   "regions_of_interest": [
-      {
-        "x": 322,
-        "y": 84,
-        "width": 464,
-        "height": 462
-      },
+    {
+      "x": 322,
+      "y": 84,
+      "width": 464,
+      "height": 462
+    },
     {
       "x": 786,
       "y": 84,
