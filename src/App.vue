@@ -1,6 +1,7 @@
 <template>
     <div id="app">
         <menu-gauche></menu-gauche>
+        <do-undo></do-undo>
         <menu-droite></menu-droite>
         <drag-drop></drag-drop>
         <middle-image></middle-image>
@@ -12,6 +13,7 @@ import MenuGauche from '@/components/MenuGauche'
 import MenuDroite from '@/components/MenuDroite'
 import DragDrop from '@/components/DragDrop'
 import MiddleImage from '@/components/MiddleImage'
+import DoUndo from '@/components/DoUndo'
 
 export default {
   name: 'App',
@@ -19,7 +21,8 @@ export default {
     'menu-gauche': MenuGauche,
     'menu-droite': MenuDroite,
     'middle-image': MiddleImage,
-    'drag-drop': DragDrop
+    'drag-drop': DragDrop,
+    'do-undo': DoUndo
   }
 }
 </script>

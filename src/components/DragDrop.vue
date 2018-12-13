@@ -37,18 +37,50 @@ export default {
       this.handleDropFiles(files)
     },
     handleDropFiles (files) {
-      files = [...files]
       // files.forEach(this.uploadFile)
       files.forEach(this.previewFile)
+      function rec (files, i) {
+        let file = files[i]
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onloadend = function () {
+          let img = document.createElement('img')
+          img.src = reader.result
+          img.class = 'page'
+          img.addEventListener('click', function () {
+            console.log('asas')
+          }, false)
+          document.getElementById('gallery').appendChild(img)
+          if (files[i + 1]) {
+            rec(files, i + 1)
+          }
+        }
+      } rec(files, 0)
       this.middleImg(files)
       console.log(files)
     },
     handleFiles () {
       let files = document.getElementById('fileElem').files
-      console.log('azeaze', files)
       files = [...files]
       // files.forEach(this.uploadFile)
-      files.forEach(this.previewFile)
+      // files.forEach(this.previewFile)
+      function rec (files, i) {
+        let file = files[i]
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onloadend = function () {
+          let img = document.createElement('img')
+          img.src = reader.result
+          img.class = 'page'
+          img.addEventListener('click', function () {
+            console.log('asas')
+          }, false)
+          document.getElementById('gallery').appendChild(img)
+          if (files[i + 1]) {
+            rec(files, i + 1)
+          }
+        }
+      } rec(files, 0)
       this.middleImg(files)
     },
     uploadFile (file) {
@@ -61,19 +93,6 @@ export default {
       })
         .then(() => { console.log('Done') })
         .catch(() => { console.log('Error') })
-    },
-    previewFile (file) {
-      let reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onloadend = function () {
-        let img = document.createElement('img')
-        img.src = reader.result
-        img.class = 'page'
-        img.addEventListener('click', function () {
-          console.log('asas')
-        }, false)
-        document.getElementById('gallery').appendChild(img)
-      }
     },
     middleImg (files) {
       let i = 0
@@ -104,21 +123,12 @@ export default {
     }
   }
 }
-
-/*  function centerImage (files) {
-  console.log(files)
-  let reader = new FileReader()
-  reader.readAsDataURL(files[0])
-  reader.onloadend = function () {
-    var select = document.getElementById('imageCenter')
-    select.src = reader.result
-  }
-} */
 </script>
 <style>
     #drop-area {
         border: 2px solid #ccc;
         width: 250px;
+        height: 150px;
         font-family: sans-serif;
         margin: auto;
         border-radius: 10px;
@@ -126,44 +136,39 @@ export default {
         position: fixed;
         display: flex;
         bottom: 15px;
+        text-align: center;
         z-index: 10000;
-        right: 240px;
+        right: 280px;
     }
-
     #drop-area label {
-        margin-left: auto;
+        margin-left:auto;
         margin-right: auto;
+        margin-top: 10%;
+        width: 200px;
     }
-
     #drop-area:hover {
         border-color: #ff4d4d;
         border-radius: 10px;
     }
-
     #drop-area.hover {
         border-color: #ff4d4d;
         border-radius: 10px;
     }
-
     p {
         margin-top: 0;
     }
-
     .my-form {
         margin-bottom: 10px;
     }
-
     #gallery {
         margin-top: 10px;
     }
-
     #gallery img {
         width: 180px;
         margin-bottom: 10px;
         margin-right: 10px;
         vertical-align: middle;
     }
-
     .button {
         display: inline-block;
         padding: 10px;
@@ -172,19 +177,15 @@ export default {
         border-radius: 5px;
         border: 1px solid #ccc;
     }
-
     .button:hover {
         background: #ddd;
     }
-
     #fileElem {
         display: none;
     }
-
     #gallery {
         margin-top: 10px;
     }
-
     .page {
         width: 230px;
         margin-bottom: 10px;
@@ -192,3 +193,4 @@ export default {
         vertical-align: middle;
     }
 </style>
+

@@ -27,7 +27,7 @@ export default {
         position: absolute;
         z-index: 1;
         top: 50%;
-        left: 5%;
+        left: 5.5%;
         background: black;
         border-radius: 50px;
         transform: scale(1.1);
@@ -58,7 +58,7 @@ export default {
         position: absolute;
         z-index: 1;
         top: 50%;
-        left: 70%;
+        left: 62%;
         background: black;
         border-radius: 50px;
         transform: scale(1.1);
@@ -86,7 +86,7 @@ export default {
 
     #BD_show img {
         top: 0;
-        left: 5%;
+        left: 1%;
         width: 70%;
         position: absolute;
     }
