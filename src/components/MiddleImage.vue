@@ -20,7 +20,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
     #next {
         width: 70px;
         height: 70px;
@@ -88,6 +88,23 @@ export default {
         top: 0;
         left: 1%;
         width: 70%;
+        position: relative;
+    }
+    #displayGrid {
+        position: fixed;
+        left: 500px;
+        z-index: 1000;
+    }
+    .bd {position: absolute;
+        color : red;
+        font-size: 45px;
+    }
+    .zz {
+        color:red;
+    }
+    #fullGrid {
         position: absolute;
+        left: 11%;
+        top: 0px;
     }
 </style>
