@@ -1,3 +1,4 @@
+
 <template>
     <div>
         <div id="dropJason">
@@ -9,6 +10,42 @@
                 <input type="file" id="fileElem" multiple accept="image/*" ref="myFiles" @change="handleFiles">
                 <label class="button" for="fileElem">Select some files</label>
             </form>
+        </div>
+        <div>
+        <label for="casebd"> </label>
+        <input type="number" id="casebd" name="casebd">
+
+        <br> <button v-on:click="deletebd();">delete a box !</button>
+
+        <br><br><label for="modifyingbd"> </label>
+        <br><input type="number" id="modifyingbd" name="modifyingbd">
+        <a>Choosse the box</a>
+        <br> <input type="number" id="modifying1bd" name="modifying1bd">
+        <a>Choosse the width</a>
+        <br><input type="number" id="modifyinghbd" name="modifying1bd">
+        <a>Choosse the height</a>
+        <br><button v-on:click="modifybd();">Modify the box !</button>
+
+        <br><input type="number" id="addingbd" name="movingbd">
+        <a>Choosse the box</a>
+        <br><input type="number" id="casew" name="casew">
+        <a>Choosse the width</a>
+        <br><input type="number" id="caseh" name="caseh">
+        <a>Choosse the height</a>
+        <br> <input type="number" id="casex" name="casex">
+        <a>Choosse the x</a> <br>
+        <input type="number" id="casey" name="casey">
+        <a>Choosse the y</a> <br>
+        <br><button v-on:click="addbd();">add a box !</button>
+
+        <br><br> <label for="movingbd"> </label>
+        <input type="number" id="movingbd" name="movingbd">
+        <a>Choosse the box</a> <br>
+        <input type="number" id="movingxbd" name="movingbd">
+        <a>Choosse the x</a> <br>
+        <input type="number" id="movingybd" name="movingbd">
+        <a>Choosse the y</a> <br>
+        <button v-on:click="movebd();">move a box !</button>
         </div>
     </div>
 </template>
@@ -53,6 +90,47 @@ export default {
       }
       reader.readAsText(jasonFile, 'utf8')
     },
+    deletebd () {
+      var z = casebd.value
+      document.getElementById('number' + z).remove()
+    },
+    modifybd () {
+      var z = modifyingbd.value
+      var t = modifying1bd.value
+      var h = modifyinghbd.value
+      document.getElementById('number' + z).style.width = t + 'px'
+      document.getElementById('number' + z).style.height = h + 'px'
+    },
+    movebd () {
+      var z = movingbd.value
+      var r = movingxbd.value
+      var u = movingybd.value
+      console.log(document.getElementById('number' + z))
+      document.getElementById('number' + z).style.marginLeft = r + 'px'
+      document.getElementById('number' + z).style.marginTop = u + 'px'
+    },
+
+    addbd () {
+      let i = 20
+      var z = addingbd.value
+      var w = casew.value
+      var e = caseh.value
+      var xx = casex.value
+      var yy = casey.value
+      var newcase = document.createElement('div')
+      var select = document.getElementById('number' + z)
+      newcase.setAttribute('class', 'new')
+      newcase.setAttribute('number', '2')
+      newcase.setAttribute('id', 'number' + i)
+      newcase.style.border = 'thick solid red'
+      newcase.style.width = w + 'px'
+      newcase.style.height = e + 'px'
+      newcase.style.marginLeft = xx + 'px'
+      newcase.style.marginTop = yy + 'px'
+      select.appendChild(newcase)
+      i = i + 1
+    },
+
     hover (e) {
       e.preventDefault()
       e.stopPropagation()

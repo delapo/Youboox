@@ -3,8 +3,8 @@
         <menu-gauche></menu-gauche>
         <do-undo></do-undo>
         <menu-droite></menu-droite>
-        <drag-drop></drag-drop>
         <middle-image></middle-image>
+        <drag-drop></drag-drop>
     </div>
 </template>
 
