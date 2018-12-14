@@ -71,7 +71,9 @@ function Tool(e){
   }));
   console.log(tools)
   const tool = tools.find(x => x.img_but.classList.contains("tool_selected"));
-  if ( tool ){
+  console.log(tool)
+
+  if ( tool !== undefined){
     window[tool.name](tool, e);
   }else{
     console.log("no tool");
@@ -93,9 +95,12 @@ function move(tool, e){
   let div_left = parseInt(div.style.left);
   let cursor_left = e.pageX - div.parentNode.offsetLeft;
   let cursor_top = e.pageY - div.parentNode.offsetTop;
-  div.parentNode.addEventListener("dragstart", function() { onDragstart(e, div) });
-  div.parentNode.addEventListener("dragover", function() { ondragover(e, div, div_top, div_left, cursor_left, cursor_top) })
-  div.parentNode.addEventListener("dragend", function() { ondragend(e, div) });
+  div.parentNode.addEventListener("dragstart", _funcs);
+  function _funcs(){onDragstart(e, div)}
+  div.parentNode.addEventListener("dragover", _funco)
+  function _funco(){ondragover(e, div, div_top, div_left, cursor_left, cursor_top)}
+  div.parentNode.addEventListener("dragend", _funce);
+  function _funce(){ondragend(e, div)}
   console.log("end");
 
   function onDragstart(e, div){
@@ -120,6 +125,9 @@ function move(tool, e){
   }
   function ondragend(e, div){
     div.draggable = false;
+    div.parentNode.removeEventListener("dragstart", _funcs);
+    div.parentNode.removeEventListener("dragover", _funco);
+    div.parentNode.removeEventListener("dragend", _funce)
     console.log("dragend");
   }
 }
