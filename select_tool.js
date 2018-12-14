@@ -63,8 +63,6 @@ new Vue({
   }
 });
 
-var x, y, prev_x, prev_y;
-
 function Tool(e){
   let tools = ['_add', 'del', 'move', 'edit'].map(name => ({
     name,
@@ -90,26 +88,48 @@ function del(tool, e){
 
 function move(tool, e){
   let div = tool.div;
-  div.addEventListener("mousedown", function() { onMousedown(e, div) });
-  div.addEventListener("mousemove", function() { onMousemove(e, div) });
-  div.addEventListener("mouseup", function() { onMouseup(e, div) });
+  div.draggable = true;
+  let div_top = parseInt(div.style.top);
+  let div_left = parseInt(div.style.left);
+  div.parentNode.addEventListener("dragstart", function() { onDragstart(e, div) });
+  div.parentNode.addEventListener("drag", function() { ondragover(e, div, div_top, div_left) })
+  div.parentNode.addEventListener("dragend", function() { ondragend(e, div) });
   console.log("end");
 
-  function onMousedown(e, div){
-    var prev_x = x - div.offsetLeft;
-    var prev_y = y - div.offsetTop;
+  function onDragstart(e, div){
+    console.log("dragstart");
+  }
+  function ondragover(e, div, div_top, div_left) {
+    e = window.event;
+    /* calc position of mouse refer to parent node */
+    let cursor_left = (e.pageX - div.parentNode.offsetLeft);
+    let cursor_top = (e.pageY - div.parentNode.offsetTop);
+    /* calc diff btw div origin position and cursor current position */
+    let dif_left = cursor_left - div_left;
+    let dif_top = cursor_top - div_top;
+    /* calc div origin with current mouse position */
+    let left = cursor_left - dif_left;
+    let top = cursor_top - dif_top;
+    /* replace mouse position */
+    div.style.left = left + "px";
+    div.style.top = top + "px";
+
+  }
+  function ondragend(e, div){
+    console.log(div.style.left, div.style.top);
+    console.log("dragend");
   }
 
-  function onMousemove(e, div){
-    x = e.pageX;
-    y = e.pageY;
-    div.style.left = (x - prev_x) + 'px';
-    div.style.top = (y - prev_y) + 'px';
-  }
 
-  function onMouseup(e, div){
-    div = false;
-  }
+
+  /* function onMousemove(e, div){
+    function test(){
+    let x = e.clientX;
+    let y = e.clientY;
+    console.log("div", div.style.left, div.style.top);
+    console.log("mouse", x, y);
+    }test();
+  } */
 }
 
 function edit(tool, e){
@@ -130,7 +150,7 @@ $.getJSON("data.json", function(json) {
     region_div.style.top = (regions[region].y)/2 + "px";
     region_div.style.left = (regions[region].x)/2 + "px";
     region_div.style.border = "1px solid blue";
-    region_div.draggable = true;
+    region_div.draggable = false;
     region_div.onclick = Tool;
     board.appendChild(region_div);
   }

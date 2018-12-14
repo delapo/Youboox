@@ -248,12 +248,11 @@ p {
 
 #board{
   position: absolute;
-  top:0;
-  left: 50%;
-  height: fit-content;
-  width: fit-content;
+  top: 0;
+  left: 23%;
 
- margin-left: -27%;
+}
 
-  border: .2em solid black;
+[draggable=true] {
+  cursor: move;
 }
