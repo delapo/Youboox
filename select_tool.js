@@ -93,7 +93,7 @@ function move(tool, e){
   let div_left = parseInt(div.style.left);
   div.parentNode.addEventListener("dragstart", function() { onDragstart(e, div) });
   div.parentNode.addEventListener("drag", function() { ondragover(e, div, div_top, div_left) })
-  div.parentNode.addEventListener("dragend", function() { ondragend(e, div) });
+  div.parentNode.addEventListener("dragend", function() { ondragend(e, div, div_top, div_left) });
   console.log("end");
 
   function onDragstart(e, div){
@@ -115,8 +115,22 @@ function move(tool, e){
     div.style.top = top + "px";
 
   }
-  function ondragend(e, div){
-    console.log(div.style.left, div.style.top);
+  function ondragend(e, div, div_top, div_left){
+    e = window.event;
+    /* calc position of mouse refer to parent node */
+    let cursor_left = (e.pageX - div.parentNode.offsetLeft);
+    let cursor_top = (e.pageY - div.parentNode.offsetTop);
+    /* calc diff btw div origin position and cursor current position */
+    let dif_left = cursor_left - div_left;
+    let dif_top = cursor_top - div_top;
+    /* calc div origin with current mouse position */
+    let left = cursor_left - dif_left;
+    let top = cursor_top - dif_top;
+    /* replace mouse position */
+    div.style.left = left;
+    div.style.top = top;
+
+    div.draggable = false;
     console.log("dragend");
   }
 
