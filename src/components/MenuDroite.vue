@@ -5,19 +5,19 @@
             <div id="save_text" v-show="showSave === e"><p>Sauvegarder</p></div>
         </section>
         <section id="add" v-for="e in 15" :key="e.id" @mouseover="showAdd = e" @mouseout="showAdd = null">
-            <img src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
+            <img v-bind:class="add_selected" v-on:click="check(1)" src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
             <div id="add_text" v-show="showAdd === e"><p>Ajouter une case</p></div>
         </section>
         <section id="delete" v-for="e in 15" :key="e.id" @mouseover="showRm = e" @mouseout="showRm = null">
-            <img src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
+            <img v-bind:class="delete_selected" v-on:click="check(2)" src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
             <div id="rm_text" v-show="showRm === e">Supprimer une case</div>
         </section>
         <section id="edit" v-for="e in 15" :key="e.id" @mouseover="showEdit = e" @mouseout="showEdit = null">
-            <img src="https://image.freepik.com/icones-gratuites/ecriture-sur-un-cahier-ouvert_318-44015.jpg">
+            <img v-bind:class="edit_selected" v-on:click="check(3)" src="https://image.freepik.com/icones-gratuites/ecriture-sur-un-cahier-ouvert_318-44015.jpg">
             <div id="edit_text" v-show="showEdit === e">Modifier une case</div>
         </section>
         <section id="move" v-for="e in 15" :key="e.id" @mouseover="showMove = e" @mouseout="showMove = null">
-            <img src="../assets/4d38a18f-f2e7-4df4-95ed-5cf2332654ed.png">
+            <img v-bind:class="move_selected" v-on:click="check(4)" src="../assets/4d38a18f-f2e7-4df4-95ed-5cf2332654ed.png">
             <div id="move_text" v-show="showMove === e">Déplacer une case</div>
         </section>
     </div>
@@ -32,13 +32,75 @@ export default {
       showRm: null,
       showEdit: null,
       showMove: null,
-      showSave: null
+      showSave: null,
+      add_selected: 'not selected',
+      delete_selected: 'not selected',
+      edit_selected: 'not selected',
+      move_selected: 'not selected',
+      selected: 0
+    }
+  },
+  methods: {
+    check (int) {
+      if (int === this.selected) {
+        this.selected = 0
+        switch (int) {
+          case 1:
+            this.add_selected = 'not selected'
+            break
+          case 2:
+            this.delete_selected = 'not selected'
+            break
+          case 3:
+            this.edit_selected = 'not selected'
+            break
+          case 4:
+            this.move_selected = 'not selected'
+            console.log('coucou')
+            break
+        }
+      } else {
+        switch (int) {
+          case 1:
+            this.selected = 1
+            this.add_selected = 'tool_selected'
+            console.log('add')
+            this.delete_selected = 'not selected'
+            this.edit_selected = 'not selected'
+            this.move_selected = 'not selected'
+            break
+          case 2:
+            this.selected = 2
+            this.add_selected = 'not selected'
+            this.delete_selected = 'tool_selected'
+            console.log('del')
+            this.edit_selected = 'not selected'
+            this.move_selected = 'not selected'
+            break
+          case 3:
+            this.selected = 3
+            this.add_selected = 'not selected'
+            this.delete_selected = 'not selected'
+            this.edit_selected = 'tool_selected'
+            console.log('edit')
+            this.move_selected = 'not selected'
+            break
+          case 4:
+            this.selected = 4
+            this.add_selected = 'not selected'
+            this.delete_selected = 'not selected'
+            this.edit_selected = 'not selected'
+            this.move_selected = 'tool_selected'
+            console.log('move')
+            break
+        }
+      }
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
     #menu {
         position: fixed;
         right: -250px;
@@ -241,5 +303,9 @@ export default {
 
     #save_text {
         position: fixed;
+    }
+    .tool_selected {
+        background-color: #4BDF4B !important;
+        border: 3.5px solid #4BDF4B !important;
     }
 </style>

@@ -90,11 +90,6 @@ export default {
         width: 70%;
         position: relative;
     }
-    #displayGrid {
-        position: fixed;
-        left: 500px;
-        z-index: 1000;
-    }
     .bd {position: absolute;
         color : red;
         font-size: 45px;
@@ -105,6 +100,7 @@ export default {
     #fullGrid {
         position: absolute;
         left: 11%;
-        top: 0px;
+        top: 0;
+        width: 70%;
     }
 </style>

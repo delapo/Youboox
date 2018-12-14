@@ -13,39 +13,39 @@
         </div>
         <div>
         <label for="casebd"> </label>
-        <input type="number" id="casebd" name="casebd">
+        <input type="number" id="casebd" name="casebd" ref="casebd">
 
-        <br> <button v-on:click="deletebd();">delete a box !</button>
+        <br> <button v-on:click="deletebd()">delete a box !</button>
 
         <br><br><label for="modifyingbd"> </label>
-        <br><input type="number" id="modifyingbd" name="modifyingbd">
+        <br><input type="number" id="modifyingbd" name="modifyingbd" ref="modifyingbd">
         <a>Choosse the box</a>
-        <br> <input type="number" id="modifying1bd" name="modifying1bd">
+        <br> <input type="number" id="modifying1bd" name="modifying1bd" ref="modifying1bd">
         <a>Choosse the width</a>
-        <br><input type="number" id="modifyinghbd" name="modifying1bd">
+        <br><input type="number" id="modifyinghbd" name="modifyinghbd" ref="modifyinghbd">
         <a>Choosse the height</a>
-        <br><button v-on:click="modifybd();">Modify the box !</button>
+        <br><button v-on:click="modifybd()">Modify the box !</button>
 
-        <br><input type="number" id="addingbd" name="movingbd">
+        <br><input type="number" id="addingbd" name="movingbd" ref="movingbd">
         <a>Choosse the box</a>
-        <br><input type="number" id="casew" name="casew">
+        <br><input type="number" id="casew" name="casew" ref="casew">
         <a>Choosse the width</a>
-        <br><input type="number" id="caseh" name="caseh">
+        <br><input type="number" id="caseh" name="caseh" ref="caseh">
         <a>Choosse the height</a>
-        <br> <input type="number" id="casex" name="casex">
+        <br> <input type="number" id="casex" name="casex" ref="casex">
         <a>Choosse the x</a> <br>
-        <input type="number" id="casey" name="casey">
+        <input type="number" id="casey" name="casey" ref="casey">
         <a>Choosse the y</a> <br>
-        <br><button v-on:click="addbd();">add a box !</button>
+        <br><button v-on:click="addbd()">add a box !</button>
 
         <br><br> <label for="movingbd"> </label>
-        <input type="number" id="movingbd" name="movingbd">
+        <input type="number" id="movingbd" name="movingbd" ref="movingbd">
         <a>Choosse the box</a> <br>
-        <input type="number" id="movingxbd" name="movingbd">
+        <input type="number" id="movingxbd" name="movingxbd" ref="movingxbd">
         <a>Choosse the x</a> <br>
-        <input type="number" id="movingybd" name="movingbd">
+        <input type="number" id="movingybd" name="movingybd" ref="movingybd">
         <a>Choosse the y</a> <br>
-        <button v-on:click="movebd();">move a box !</button>
+        <button v-on:click="movebd()">move a box !</button>
         </div>
     </div>
 </template>
@@ -91,20 +91,20 @@ export default {
       reader.readAsText(jasonFile, 'utf8')
     },
     deletebd () {
-      var z = casebd.value
+      var z = this.$refs.casebd.value
       document.getElementById('number' + z).remove()
     },
     modifybd () {
-      var z = modifyingbd.value
-      var t = modifying1bd.value
-      var h = modifyinghbd.value
+      var z = this.$refs.modifyingbd.value
+      var t = this.$refs.modifying1bd.value
+      var h = this.$refs.modifyinghbd.value
       document.getElementById('number' + z).style.width = t + 'px'
       document.getElementById('number' + z).style.height = h + 'px'
     },
     movebd () {
-      var z = movingbd.value
-      var r = movingxbd.value
-      var u = movingybd.value
+      var z = this.$refs.movingbd.value
+      var r = this.$refs.movingxbd.value
+      var u = this.$refs.movingybd.value
       console.log(document.getElementById('number' + z))
       document.getElementById('number' + z).style.marginLeft = r + 'px'
       document.getElementById('number' + z).style.marginTop = u + 'px'
@@ -112,11 +112,11 @@ export default {
 
     addbd () {
       let i = 20
-      var z = addingbd.value
-      var w = casew.value
-      var e = caseh.value
-      var xx = casex.value
-      var yy = casey.value
+      var z = this.$refs.addingbd.value
+      var w = this.$refs.casew.value
+      var e = this.$refs.caseh.value
+      var xx = this.$refs.casex.value
+      var yy = this.$refs.casey.value
       var newcase = document.createElement('div')
       var select = document.getElementById('number' + z)
       newcase.setAttribute('class', 'new')
