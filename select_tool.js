@@ -133,7 +133,12 @@ function move(tool, e){
 }
 
 function edit(tool, e){
-  console.log("function edit");
+  let div = tool.div;
+  div.addEventListener("resize", );
+  function _edit(){
+    div.resize = "both";
+  }
+
 }
 
 $.getJSON("data.json", function(json) {
@@ -151,6 +156,7 @@ $.getJSON("data.json", function(json) {
     region_div.style.left = (regions[region].x)/2 + "px";
     region_div.style.border = "1px solid blue";
     region_div.draggable = false;
+    region_div.resize = "";
     region_div.onclick = Tool;
     board.appendChild(region_div);
   }
