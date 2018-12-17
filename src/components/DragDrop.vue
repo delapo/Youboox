@@ -193,12 +193,18 @@ export default {
         method: 'POST',
         body: formData
       })
-        .then(() => { console.log('Done') })
-        .catch(() => { console.log('Error') })
+        .then(() => {
+          console.log('Done')
+        })
+        .catch(() => {
+          console.log('Error')
+        })
     },
     previewFile (i) {
       if (document.getElementById('gallery').getElementsByTagName('img')[i] != null) {
-        setTimeout(() => { this.previewFile(i + 1) }, 100)
+        setTimeout(() => {
+          this.previewFile(i + 1)
+        }, 100)
       } else {
         let file = this.$data.files[i]
         let reader = new FileReader()
@@ -248,20 +254,29 @@ export default {
     }
   }
 }
+
+function del (tool, e) {
+  let div = tool.div
+  div.parentNode.removeChild(div)
+}
+
 function Tool (e) {
   let tools = ['_add', 'del', 'move', 'edit'].map(name => ({
     name,
-    img_but: document.getElementById(name).childNodes,
+    img_but: document.getElementById(name).firstChild,
     div: e.path[0]
   }))
-  console.log(this.img_but)
-  const tool = tools.find(x => x.img_but.classList.contains('tools_selected'))
-  if (tool) {
-    window[tool.name](tool, e)
+  const tool = tools.find(x => x.img_but.classList.contains('tool_selected'))
+
+  if (tool !== undefined) {
+    var fun = eval(tool.name)
+    console.log(fun)
+    fun(tool, e)
   } else {
     console.log('no tool')
   }
 }
+
 </script>
 <style>
     #drop-area {
