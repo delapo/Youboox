@@ -3,7 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VuexUndoRedo from '../build/plugin.js'
 
+Vue.use(VuexUndoRedo)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
