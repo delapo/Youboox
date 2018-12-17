@@ -30,7 +30,7 @@
                 </div>
                 <img src="http://l-3ab.com/images/Slider/double-fleche.png">
                 <div id="addCase">
-                    <input type="number" id="addingbd" name="movingbd" ref="movingbd" placeholder="Select a box">
+                    <input type="number" id="addingbd" name="addingbd" ref="addingbd" placeholder="Select a box">
                     <input type="number" id="casew" name="casew" ref="casew" placeholder="Set a width">
                     <input type="number" id="caseh" name="caseh" ref="caseh" placeholder="Set a height">
                     <input type="number" id="casex" name="casex" ref="casex" placeholder="Set a X position">
@@ -53,7 +53,8 @@ export default {
   name: 'drag-drop',
   data () {
     return {
-      files: []
+      files: [],
+      i: 20
     }
   },
   methods: {
@@ -128,7 +129,8 @@ export default {
     },
 
     addbd () {
-      let i = 20
+      console.log(this.$data.i)
+
       var z = this.$refs.addingbd.value
       var w = this.$refs.casew.value
       var e = this.$refs.caseh.value
@@ -138,14 +140,14 @@ export default {
       var select = document.getElementById('number' + z)
       newcase.setAttribute('class', 'new')
       newcase.setAttribute('number', '2')
-      newcase.setAttribute('id', 'number' + i)
+      newcase.setAttribute('id', 'number' + this.$data.i)
       newcase.style.border = 'thick solid red'
       newcase.style.width = w + 'px'
       newcase.style.height = e + 'px'
       newcase.style.marginLeft = xx + 'px'
       newcase.style.marginTop = yy + 'px'
       select.appendChild(newcase)
-      i = i + 1
+      this.$data.i = this.$data.i + 1
     },
 
     hover (e) {
