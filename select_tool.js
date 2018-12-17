@@ -175,7 +175,7 @@ function move(tool, e){
 function edit(tool, e) {
   let div = tool.div;
 
-  let div_resize = document.getElementById("tl_resize");
+  const div_resize = document.getElementById("tl_resize");
   if (!div_resize) {
     console.log("no resize div");
 
@@ -190,21 +190,16 @@ function edit(tool, e) {
 
   /* commun part */
 
-  let cursor_left = e.pageX - div.parentNode.offsetLeft;
-  let cursor_top = e.pageY - div.parentNode.offsetTop;
-
   let curr_width = parseInt(div.style.width);
   let curr_height = parseInt(div.style.height);
 
   let div_top = parseInt(div.style.top);
   let div_left = parseInt(div.style.left);
 
-  /* part tl */
-
   div.parentNode.addEventListener("dragstart", _funcs_edit);
   function _funcs_edit(){onDragstart_edit(e, div)}
   div.parentNode.addEventListener("dragover", _funco_edit)
-  function _funco_edit(){ondragover_edit(e, div, cursor_left, cursor_top, curr_width, curr_height, div_left, div_top)}
+  function _funco_edit(){ondragover_edit(e, div, curr_width, curr_height, div_left, div_top)}
   div.parentNode.addEventListener("dragend", _funce_edit);
   function _funce_edit(){ondragend_edit(e, div)}
 
@@ -212,27 +207,23 @@ function edit(tool, e) {
     console.log("dragstart");
   }
 
-  function ondragover_edit(e, div, cursor_left, cursor_top, curr_width, curr_height, div_left, div_top) {;
-    console.log("cursor", cursor_left, cursor_top);
+  function ondragover_edit(e, div, curr_width, curr_height, div_left, div_top) {
+
+    console.log("cursor", div_left, div_top);
     e = window.event;
 
     /* calc position of mouse refer to parent node */
 
-
     let curr_left = (e.pageX - div.parentNode.offsetLeft);
     let curr_top = (e.pageY - div.parentNode.offsetTop);
-
-    let left_dif = cursor_left - div_left;
-    let top_dif = cursor_top - div_top;
-
 
 
     /* calc diff height and width */
 
-    let diff_left = cursor_left - curr_left;
-    let diff_top = cursor_top - curr_top;
+    let diff_left = div_left - curr_left;
+    let diff_top = div_top - curr_top;
 
-    /* calc new dif height and width */
+    /* calc new diff height and width */
 
     console.log("width", curr_width, "height", curr_height);
 
@@ -244,8 +235,8 @@ function edit(tool, e) {
     div.style.width = new_width + "px";
     div.style.height = new_height + "px";
 
-    div.style.left = curr_left - left_dif + "px";
-    div.style.top = curr_top - top_dif + "px";
+    div.style.left = curr_left + "px";
+    div.style.top = curr_top + "px";
   }
   function ondragend_edit(e, div){
     div.draggable = false;
