@@ -445,5 +445,5 @@ function Tool (e) {
         top: 40%;
         width: 25px;
         height: 80px;
-    }
+    } 
 </style>
