@@ -89,23 +89,6 @@ export default {
           var r = document.getElementById('number' + z)
           r.innerHTML = '<p>' + z + '</p>'
         }
-        console.log(typeof this.tool)
-        /* var x = document.getElementById('fullGrid').childNodes
-            x[x.length - 1].addEventListener('click', () => { console.log('coucou') }, false) */
-      }
-    },
-    tool: function Tool (e) {
-      let tools = ['_add', 'del', 'move', 'edit'].map(name => ({
-        name,
-        img_but: document.getElementById(name).firstChild,
-        div: e.path[0]
-      }))
-      console.log(tools)
-      const tool = tools.find(x => x.img_but.classList.contains('tools_selected'))
-      if (tool) {
-        window[tool.name](tool, e)
-      } else {
-        console.log('no tool')
       }
     },
     deletebd () {
@@ -263,27 +246,27 @@ function del (tool, e) {
 function _add (tool, e) {
   let div = tool.div
   div.draggable = true
-  let cursor_left = e.pageX - div.parentNode.offsetLeft
-  let cursor_top = e.pageY - div.parentNode.offsetTop
+  let cursorLeft = e.pageX - div.parentNode.offsetLeft
+  let cursorTop = e.pageY - div.parentNode.offsetTop
 
-  let board = document.getElementById('board')
+  let board = document.getElementById('fullGrid')
 
-  let new_div = document.createElement('div')
-  new_div.style.position = 'absolute'
-  new_div.className = 'square_add'
+  let newDiv = document.createElement('div')
+  newDiv.style.position = 'absolute'
+  newDiv.className = 'square_add'
 
-  new_div.style.left = cursor_left + 175 + 'px'
-  new_div.style.top = cursor_top + 'px'
+  newDiv.style.left = cursorLeft - 50 + 'px'
+  newDiv.style.top = cursorTop - 50 + 'px'
 
-  new_div.style.width = '100px'
-  new_div.style.height = '100px'
+  newDiv.style.width = '100px'
+  newDiv.style.height = '100px'
 
-  new_div.style.border = '3px solid red'
+  newDiv.style.border = '3px solid red'
 
-  new_div.draggable = false
-  new_div.onclick = Tool
+  newDiv.draggable = false
+  newDiv.onclick = Tool
 
-  board.appendChild(new_div)
+  board.appendChild(newDiv)
 }
 
 function move (tool, e) {
@@ -321,88 +304,6 @@ function move (tool, e) {
     div.style.top = y + 'px'
   }
 
-  function edit (tool, e) {
-    let div = tool.div
-
-    let div_resize = document.getElementById('tl_resize')
-    if (!div_resize) {
-      console.log('no resize div')
-
-      let div_resize_tl = document.createElement('div')
-      div_resize_tl.id = 'tl_resize'
-      div_resize_tl.draggable = true
-      div.appendChild(div_resize_tl)
-    } else if (div_resize) {
-      div.appendChild(document.getElementById('tl_resize'))
-    }
-
-    /* commun part */
-
-    let cursor_left = e.pageX - div.parentNode.offsetLeft
-    let cursor_top = e.pageY - div.parentNode.offsetTop
-
-    let curr_width = parseInt(div.style.width)
-    let curr_height = parseInt(div.style.height)
-
-    let div_top = parseInt(div.style.top)
-    let div_left = parseInt(div.style.left)
-
-    /* part tl */
-
-    div.parentNode.addEventListener('dragstart', _funcs_edit)
-    function _funcs_edit () { onDragstart_edit(e, div) }
-    div.parentNode.addEventListener('dragover', _funco_edit)
-    function _funco_edit () { ondragover_edit(e, div, cursor_left, cursor_top, curr_width, curr_height, div_left, div_top) }
-    div.parentNode.addEventListener('dragend', _funce_edit)
-    function _funce_edit () { ondragend_edit(e, div) }
-
-    function onDragstart_edit (e, div) {
-      console.log('dragstart')
-    }
-
-    function ondragover_edit (e, div, cursor_left, cursor_top, curr_width, curr_height, div_left, div_top) {
-      ;
-      console.log('cursor', cursor_left, cursor_top)
-      e = window.event
-
-      /* calc position of mouse refer to parent node */
-
-      let curr_left = (e.pageX - div.parentNode.offsetLeft)
-      let curr_top = (e.pageY - div.parentNode.offsetTop)
-
-      let left_dif = cursor_left - div_left
-      let top_dif = cursor_top - div_top
-
-      /* calc diff height and width */
-
-      let diff_left = cursor_left - curr_left
-      let diff_top = cursor_top - curr_top
-
-      /* calc new dif height and width */
-
-      console.log('width', curr_width, 'height', curr_height)
-
-      let new_width = curr_width + diff_left
-      let new_height = curr_height + diff_top
-
-      /* applie new position */
-
-      div.style.width = new_width + 'px'
-      div.style.height = new_height + 'px'
-
-      div.style.left = curr_left - left_dif + 'px'
-      div.style.top = curr_top - top_dif + 'px'
-    }
-    function ondragend_edit (e, div) {
-      div.draggable = false
-      div.parentNode.removeEventListener('dragstart', _funcs_edit)
-      div.parentNode.removeEventListener('dragover', _funco_edit)
-      div.parentNode.removeEventListener('dragend', _funce_edit)
-      div.removeChild(document.getElementById('tl_resize'))
-      console.log('dragend')
-    }
-  }
-
   function ondragend (e, div) {
     div.draggable = false
     div.parentNode.removeEventListener('dragstart', _funcs)
@@ -416,10 +317,11 @@ function Tool (e) {
   let tools = ['_add', 'del', 'move', 'edit'].map(name => ({
     name,
     img_but: document.getElementById(name).firstChild,
-    div: e.path[0]
+    div: e.path[0],
+    fn: window[name]
   }))
   const tool = tools.find(x => x.img_but.classList.contains('tool_selected'))
-
+  console.log(tool);
   if (tool !== undefined) {
     var fun = eval(tool.name)
     console.log(fun)
@@ -432,71 +334,71 @@ function Tool (e) {
 function edit (tool, e) {
   let div = tool.div
 
-  const div_resize = document.getElementById('tl_resize')
-  if (!div_resize) {
+  const divResize = document.getElementById('tl_resize')
+  if (!divResize) {
     console.log('no resize div')
 
-    let div_resize_tl = document.createElement('div')
-    div_resize_tl.id = 'tl_resize'
-    div_resize_tl.draggable = true
-    div.appendChild(div_resize_tl)
-  } else if (div_resize) {
+    let divResizeTl = document.createElement('div')
+    divResizeTl.id = 'tl_resize'
+    divResizeTl.draggable = true
+    div.appendChild(divResizeTl)
+  } else if (divResize) {
     div.appendChild(document.getElementById('tl_resize'))
   }
 
   /* commun part */
 
-  let curr_width = parseInt(div.style.width)
-  let curr_height = parseInt(div.style.height)
+  let currWidth = parseInt(div.style.width)
+  let currHeight = parseInt(div.style.height)
 
-  let div_top = parseInt(div.style.top)
-  let div_left = parseInt(div.style.left)
+  let divTop = parseInt(div.style.top)
+  let divLeft = parseInt(div.style.left)
 
-  div.parentNode.addEventListener('dragstart', _funcs_edit)
-  function _funcs_edit () { onDragstart_edit(e, div) }
-  div.parentNode.addEventListener('dragover', _funco_edit)
-  function _funco_edit () { ondragover_edit(e, div, curr_width, curr_height, div_left, div_top) }
-  div.parentNode.addEventListener('dragend', _funce_edit)
-  function _funce_edit () { ondragend_edit(e, div) }
+  div.parentNode.addEventListener('dragstart', _funcsEdit)
+  function _funcsEdit () { onDragstartEdit(e, div) }
+  div.parentNode.addEventListener('dragover', _funcoEdit)
+  function _funcoEdit () { ondragoverEdit(e, div, currWidth, currHeight, divLeft, divTop) }
+  div.parentNode.addEventListener('dragend', _funceEdit)
+  function _funceEdit () { ondragendEdit(e, div) }
 
-  function onDragstart_edit (e, div) {
+  function onDragstartEdit (e, div) {
     console.log('dragstart')
   }
 
-  function ondragover_edit (e, div, curr_width, curr_height, div_left, div_top) {
-    console.log('cursor', div_left, div_top)
+  function ondragoverEdit (e, div, currWidth, currHeight, divLeft, divTop) {
+    console.log('cursor', divLeft, divTop)
     e = window.event
 
     /* calc position of mouse refer to parent node */
 
-    let curr_left = (e.pageX - div.parentNode.offsetLeft)
-    let curr_top = (e.pageY - div.parentNode.offsetTop)
+    let currLeft = (e.pageX - div.parentNode.offsetLeft)
+    let currTop = (e.pageY - div.parentNode.offsetTop)
 
     /* calc diff height and width */
 
-    let diff_left = div_left - curr_left
-    let diff_top = div_top - curr_top
+    let diffLeft = divLeft - currLeft
+    let diffTop = divTop - currTop
 
     /* calc new diff height and width */
 
-    console.log('width', curr_width, 'height', curr_height)
+    console.log('width', currWidth, 'height', currHeight)
 
-    let new_width = curr_width + diff_left
-    let new_height = curr_height + diff_top
+    let newWidth = currWidth + diffLeft
+    let newHeight = currHeight + diffTop
 
     /* applie new position */
 
-    div.style.width = new_width + 'px'
-    div.style.height = new_height + 'px'
+    div.style.width = newWidth + 'px'
+    div.style.height = newHeight + 'px'
 
-    div.style.left = curr_left + 'px'
-    div.style.top = curr_top + 'px'
+    div.style.left = currLeft + 'px'
+    div.style.top = currTop + 'px'
   }
-  function ondragend_edit (e, div) {
+  function ondragendEdit (e, div) {
     div.draggable = false
-    div.parentNode.removeEventListener('dragstart', _funcs_edit)
-    div.parentNode.removeEventListener('dragover', _funco_edit)
-    div.parentNode.removeEventListener('dragend', _funce_edit)
+    div.parentNode.removeEventListener('dragstart', _funcsEdit)
+    div.parentNode.removeEventListener('dragover', _funcoEdit)
+    div.parentNode.removeEventListener('dragend', _funceEdit)
     div.removeChild(document.getElementById('tl_resize'))
     console.log('dragend')
   }
@@ -686,7 +588,7 @@ function edit (tool, e) {
     }
 
     #fullGrid {
-        height : 800px;
-        width : 800px;
+        height : 920px;
+        width : 1080px;
     }
 </style>
