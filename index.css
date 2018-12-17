@@ -250,9 +250,37 @@ p {
   position: absolute;
   top: 0;
   left: 23%;
+  width: 800px;
+  height: 800px;
 
 }
 
 [draggable=true] {
   cursor: move;
+}
+
+#tl_resize{
+  position: absolute;
+  background-color: black;
+
+  top: 0;
+  left: 0;
+
+  width: 10px;
+  height: 10px;
+}
+
+#br_resize{
+  position: absolute;
+  background-color: black;
+
+  bottom: 0;
+  right: 0;
+
+  width: 10px;
+  height: 10px;
+}
+
+.square_add {
+
 }
