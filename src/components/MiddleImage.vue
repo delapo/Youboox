@@ -90,13 +90,13 @@ export default {
         width: 70%;
         position: relative;
     }
-    .bd {position: absolute;
+    /* .bd {position: absolute;
         color : red;
         font-size: 45px;
     }
     .zz {
         color:red;
-    }
+    } */
     #fullGrid {
         position: absolute;
         left: 11%;

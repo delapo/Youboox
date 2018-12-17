@@ -55,8 +55,7 @@ export default {
   name: 'drag-drop',
   data () {
     return {
-      files: [],
-      jason: []
+      files: []
     }
   },
   methods: {
@@ -64,6 +63,7 @@ export default {
       console.log(document.getElementById('jasonElem').files)
       var jasonFile = document.getElementById('jasonElem').files[0]
       var reader = new FileReader()
+      reader.readAsText(jasonFile, 'utf8')
       reader.onload = function (json) {
         var result = reader.result
         var array = JSON.parse(result)
@@ -78,17 +78,36 @@ export default {
           newdiv.setAttribute('id', 'number' + z)
           newdiv.setAttribute('class', 'bd')
           newdiv.setAttribute('number', z)
-          newdiv.style.marginLeft = (obj[z].x) * 1.1 + 'px'
-          newdiv.style.marginTop = (obj[z].y) * 0.825 + 'px'
+          newdiv.style.position = 'absolute'
+          newdiv.style.left = (obj[z].x) * 1.1 + 'px'
+          newdiv.style.top = (obj[z].y) * 0.825 + 'px'
           newdiv.style.width = (obj[z].width) * 1.1 + 'px'
           newdiv.style.height = (obj[z].height) * 0.825 + 'px'
           newdiv.style.border = 'thick solid #ff4d4d'
+          newdiv.draggable = false
+          newdiv.addEventListener('click', Tool, false)
           fullGrid.appendChild(newdiv)
           var r = document.getElementById('number' + z)
           r.innerHTML = z
         }
+        console.log(typeof this.tool)
+        /* var x = document.getElementById('fullGrid').childNodes
+        x[x.length - 1].addEventListener('click', () => { console.log('coucou') }, false) */
       }
-      reader.readAsText(jasonFile, 'utf8')
+    },
+    tool: function Tool (e) {
+      let tools = ['_add', 'del', 'move', 'edit'].map(name => ({
+        name,
+        img_but: document.getElementById(name).firstChild,
+        div: e.path[0]
+      }))
+      console.log(tools)
+      const tool = tools.find(x => x.img_but.classList.contains('tools_selected'))
+      if (tool) {
+        window[tool.name](tool, e)
+      } else {
+        console.log('no tool')
+      }
     },
     deletebd () {
       var z = this.$refs.casebd.value
@@ -227,6 +246,20 @@ export default {
         select.src = reader.result
       }
     }
+  }
+}
+function Tool (e) {
+  let tools = ['_add', 'del', 'move', 'edit'].map(name => ({
+    name,
+    img_but: document.getElementById(name).childNodes,
+    div: e.path[0]
+  }))
+  console.log(this.img_but)
+  const tool = tools.find(x => x.img_but.classList.contains('tools_selected'))
+  if (tool) {
+    window[tool.name](tool, e)
+  } else {
+    console.log('no tool')
   }
 }
 </script>

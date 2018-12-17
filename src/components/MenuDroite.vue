@@ -1,22 +1,22 @@
 <template>
     <div id="menu">
-        <section id="save" v-for="e in 15" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null">
+        <section id="save" v-for="e in 1" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null">
             <img src="https://img.icons8.com/metro/1600/save-as.png">
             <div id="save_text" v-show="showSave === e"><p>Sauvegarder</p></div>
         </section>
-        <section id="add" v-for="e in 15" :key="e.id" @mouseover="showAdd = e" @mouseout="showAdd = null">
+        <section id="_add" ref="add" v-for="e in 1" :key="e.id" @mouseover="showAdd = e" @mouseout="showAdd = null">
             <img v-bind:class="add_selected" v-on:click="check(1)" src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
             <div id="add_text" v-show="showAdd === e"><p>Ajouter une case</p></div>
         </section>
-        <section id="delete" v-for="e in 15" :key="e.id" @mouseover="showRm = e" @mouseout="showRm = null">
+        <section id="del" ref="del" v-for="e in 1" :key="e.id" @mouseover="showRm = e" @mouseout="showRm = null">
             <img v-bind:class="delete_selected" v-on:click="check(2)" src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
             <div id="rm_text" v-show="showRm === e">Supprimer une case</div>
         </section>
-        <section id="edit" v-for="e in 15" :key="e.id" @mouseover="showEdit = e" @mouseout="showEdit = null">
+        <section id="edit" ref="edit" v-for="e in 1" :key="e.id" @mouseover="showEdit = e" @mouseout="showEdit = null">
             <img v-bind:class="edit_selected" v-on:click="check(3)" src="https://image.freepik.com/icones-gratuites/ecriture-sur-un-cahier-ouvert_318-44015.jpg">
             <div id="edit_text" v-show="showEdit === e">Modifier une case</div>
         </section>
-        <section id="move" v-for="e in 15" :key="e.id" @mouseover="showMove = e" @mouseout="showMove = null">
+        <section id="move" ref="move" v-for="e in 1" :key="e.id" @mouseover="showMove = e" @mouseout="showMove = null">
             <img v-bind:class="move_selected" v-on:click="check(4)" src="../assets/4d38a18f-f2e7-4df4-95ed-5cf2332654ed.png">
             <div id="move_text" v-show="showMove === e">Déplacer une case</div>
         </section>
@@ -157,7 +157,7 @@ export default {
         display: contents;
     }
 
-    #add img {
+    #_add img {
         display: flex;
         width: 70px;
         height: 70px;
@@ -173,12 +173,12 @@ export default {
         transition: .3s ease-in-out;
     }
 
-    #add img:hover {
+    #_add img:hover {
         -webkit-transform: scale(1.1);
         transform: scale(1.1);
     }
 
-    #delete img {
+    #del img {
         display: flex;
         width: 70px;
         height: 70px;
@@ -194,7 +194,7 @@ export default {
         transition: .3s ease-in-out;
     }
 
-    #delete img:hover {
+    #del img:hover {
         -webkit-transform: scale(1.1);
         transform: scale(1.1) rotate(45deg);
     }
