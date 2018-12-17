@@ -1,13 +1,15 @@
 <template>
     <div id="middleImage">
-        <section id="prev">
-            <img ref="prev" src="https://www.dsbrowser.com/documentation/images/8/8d/Fleche-droite.png">
+        <section id="prev" v-for="e in 1" :key="e.id" @mouseover="showMove= e" @mouseout="showMove = null">
+        <img ref="prev" src="https://www.dsbrowser.com/documentation/images/8/8d/Fleche-droite.png">
+            <div id="move_text1" v-show="showMove === e">Next</div>
         </section>
         <section id="BD_show">
             <img id="imageCenter"/>
         </section>
-        <section id="next">
+        <section id="next" v-for="e in 1" :key="e.id" @mouseover="shownext = e" @mouseout="shownext = null">
             <img ref="next" src="https://www.dsbrowser.com/documentation/images/8/8d/Fleche-droite.png">
+            <div id="move_text1" v-show="shownext === e">Prev</div>
         </section>
     </div>
 </template>
@@ -15,6 +17,13 @@
 <script>
 export default {
   name: 'middle-image',
+  data () {
+    return {
+      showMove: null,
+      shownext: null
+
+    }
+  },
   methods: {
   }
 }
@@ -128,4 +137,23 @@ export default {
         top: 30px;
         width: 70%;
     }
+    #middleImage {
+        z-index: 0;
+    }
+
+    #move_text1 {
+        position: fixed;
+        top: 72px;
+        right: 10px;
+        background: aliceblue;
+        padding: 5px;
+        border-radius: 20px;
+        border: 2px solid black;
+        z-index: 100;
+    }
+
+    #move_text1 p {
+        margin: auto;
+    }
+
 </style>
