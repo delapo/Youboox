@@ -15,7 +15,8 @@
         border-top: 2px solid #ff4d4d;
         border-bottom: 2px solid #ff4d4d;
         bottom: 10px;
-        right: 10px;
+        right: 2.5%;
+        z-index: 10;
         background-color: rgba(0, 0, 0, 0.02);
         padding: 10px;
         overflow-y: scroll;

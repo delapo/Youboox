@@ -1,13 +1,15 @@
 <template>
     <div id="middleImage">
-        <section id="prev">
-            <img ref="prev" src="https://www.dsbrowser.com/documentation/images/8/8d/Fleche-droite.png">
+        <section id="prev" v-for="e in 1" :key="e.id" @mouseover="showMove= e" @mouseout="showMove = null">
+        <img ref="prev" src="https://www.dsbrowser.com/documentation/images/8/8d/Fleche-droite.png">
+            <div id="move_text1" v-show="showMove === e">Next</div>
         </section>
         <section id="BD_show">
             <img id="imageCenter"/>
         </section>
-        <section id="next">
+        <section id="next" v-for="e in 1" :key="e.id" @mouseover="shownext = e" @mouseout="shownext = null">
             <img ref="next" src="https://www.dsbrowser.com/documentation/images/8/8d/Fleche-droite.png">
+            <div id="move_text1" v-show="shownext === e">Prev</div>
         </section>
     </div>
 </template>
@@ -15,6 +17,13 @@
 <script>
 export default {
   name: 'middle-image',
+  data () {
+    return {
+      showMove: null,
+      shownext: null
+
+    }
+  },
   methods: {
   }
 }
@@ -34,6 +43,9 @@ export default {
         -webkit-transform: scale(1);
         -webkit-transition: .3s ease-in-out;
         transition: .3s ease-in-out;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
     }
 
     #next:hover {
@@ -58,15 +70,18 @@ export default {
         position: absolute;
         z-index: 1;
         top: 50%;
-        left: 62%;
+        right: 18%;
         background: black;
         border-radius: 50px;
         transform: scale(1.1);
         -webkit-transform: scale(1);
         -webkit-transition: .3s ease-in-out;
         transition: .3s ease-in-out;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -webkit-user-drag: none;
     }
-
     #prev:hover {
         transform: scale(1);
         -webkit-transform: scale(1.1);
@@ -82,25 +97,62 @@ export default {
         left: 10px;
         background: black;
         border-radius: 35px;
+        -webkit-user-drag: none;
     }
 
     #BD_show img {
-        top: 0;
+        top: 30px;
         left: 1%;
-        width: 70%;
+        width: 85%;
         position: relative;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -webkit-user-drag: none;
+        z-index: -50;
     }
-    /* .bd {position: absolute;
-        color : red;
+    .bd {
         font-size: 45px;
+        background: rgba(255, 255, 255, 0.5);
+        -webkit-user-select: unset;
+        -moz-user-select: unset;
+    }
+    .bd p {
+        margin: 10px;
+        padding-left: 25px;
+    border: black 2px solid;
+        border-radius: 50px;
+        width: 50px;
+        background: rgba(255, 77, 77, 0.5);
+        -webkit-user-select: none;
+        -moz-user-select: none;
     }
     .zz {
         color:red;
-    } */
+    }
     #fullGrid {
         position: absolute;
         left: 11%;
-        top: 0;
+        top: 30px;
         width: 70%;
     }
+    #middleImage {
+        z-index: 0;
+    }
+
+    #move_text1 {
+        position: fixed;
+        top: 72px;
+        right: 10px;
+        background: aliceblue;
+        padding: 5px;
+        border-radius: 20px;
+        border: 2px solid black;
+        z-index: 100;
+    }
+
+    #move_text1 p {
+        margin: auto;
+    }
+
 </style>
