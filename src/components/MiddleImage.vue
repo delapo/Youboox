@@ -67,10 +67,10 @@ export default {
     #prev {
         width: 70px;
         height: 70px;
-        position: absolute;
+        position: fixed;
         z-index: 1;
         top: 50%;
-        right: 18%;
+        left: 1180px;
         background: black;
         border-radius: 50px;
         transform: scale(1.1);
@@ -102,8 +102,9 @@ export default {
 
     #BD_show img {
         top: 30px;
-        left: 1%;
-        width: 85%;
+        margin-left: -5%;
+        height: 1300px;
+        width: 1400px;
         position: relative;
         -webkit-user-select: none;
         -khtml-user-select: none;
