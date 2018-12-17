@@ -91,7 +91,7 @@ function _add(tool, e){
   div.parentNode.addEventListener("dragstart", _funcs_add);
   function _funcs_add(){onDragstart_add(cursor_left, cursor_top)}
   div.parentNode.addEventListener("dragover", _funco_add)
-  function _funco_add(){ondragover_add(e, div, cursor_left, cursor_top)}
+  function _funco_add(){ondragover_add(e, div)}
   div.parentNode.addEventListener("dragend", _funce_add);
   function _funce_add(){ondragend_add(e, div)}
 
@@ -100,11 +100,11 @@ function _add(tool, e){
     let new_div = document.createElement("div");
     new_div.style.position = "absolute";
     new_div.className = "square_add";
-    new_div.style.left = cursor_left;
-    new_div.style.top = cursor_top;
+    new_div.style.left = cursor_left + "px";
+    new_div.style.top = cursor_top + "px";
     console.log("left", cursor_left, "top", cursor_top);
-    new_div.style.width = "10px";
-    new_div.style.height = "10px";
+    new_div.style.width = "100px";
+    new_div.style.height = "100px";
     new_div.style.border = "1px solid blue";
     new_div.draggable = false;
     new_div.onclick = Tool;
@@ -112,9 +112,7 @@ function _add(tool, e){
     console.log("dragstart");
   }
 
-    function ondragover_add(e, div, cursor_left, cursor_top) {
-    console.log("cursor", cursor_left, cursor_top);
-    e = window.event;
+    function ondragover_add(e, div) {
     }
     function ondragend_add(e, div) {
       div.parentNode.removeEventListener("dragstart", _funcs_add);
