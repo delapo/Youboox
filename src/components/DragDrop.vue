@@ -1,51 +1,49 @@
-
 <template>
     <div>
         <div id="dropJason">
             <input type="file" id="jasonElem" accept="application/json" ref="myJason" @change="displayJason">
+            <p> JSON </p>
         </div>
-        <div id="drop-area" ref="azerty" v-on:dragenter="hover" v-on:dragover="hover" v-on:dragleave="unhover" v-on:drop="handleDrop">
+        <div id="drop-area" ref="azerty" v-on:dragenter="hover" v-on:dragover="hover" v-on:dragleave="unhover"
+             v-on:drop="handleDrop">
+            <img src="https://vignette.wikia.nocookie.net/i-shall-seal-the-heavens/images/2/2f/Plus.png/revision/latest?cb=20180221183139">
             <form class="my-form">
-                <p>Veuillez séléctionner des images à rajouter !</p>
                 <input type="file" id="fileElem" multiple accept="image/*" ref="myFiles" @change="handleFiles">
-                <label class="button" for="fileElem">Select some files</label>
+                <label class="button" for="fileElem">Select or drop some files</label>
             </form>
         </div>
         <div>
-        <label for="casebd"> </label>
-        <input type="number" id="casebd" name="casebd" ref="casebd">
-
-        <br> <button v-on:click="deletebd()">delete a box !</button>
-
-        <br><br><label for="modifyingbd"> </label>
-        <br><input type="number" id="modifyingbd" name="modifyingbd" ref="modifyingbd">
-        <a>Choosse the box</a>
-        <br> <input type="number" id="modifying1bd" name="modifying1bd" ref="modifying1bd">
-        <a>Choosse the width</a>
-        <br><input type="number" id="modifyinghbd" name="modifyinghbd" ref="modifyinghbd">
-        <a>Choosse the height</a>
-        <br><button v-on:click="modifybd()">Modify the box !</button>
-
-        <br><input type="number" id="addingbd" name="movingbd" ref="movingbd">
-        <a>Choosse the box</a>
-        <br><input type="number" id="casew" name="casew" ref="casew">
-        <a>Choosse the width</a>
-        <br><input type="number" id="caseh" name="caseh" ref="caseh">
-        <a>Choosse the height</a>
-        <br> <input type="number" id="casex" name="casex" ref="casex">
-        <a>Choosse the x</a> <br>
-        <input type="number" id="casey" name="casey" ref="casey">
-        <a>Choosse the y</a> <br>
-        <br><button v-on:click="addbd()">add a box !</button>
-
-        <br><br> <label for="movingbd"> </label>
-        <input type="number" id="movingbd" name="movingbd" ref="movingbd">
-        <a>Choosse the box</a> <br>
-        <input type="number" id="movingxbd" name="movingxbd" ref="movingxbd">
-        <a>Choosse the x</a> <br>
-        <input type="number" id="movingybd" name="movingybd" ref="movingybd">
-        <a>Choosse the y</a> <br>
-        <button v-on:click="movebd()">move a box !</button>
+            <div id="manualSet">
+                <div id="deleteCase">
+                    <label for="casebd"> </label>
+                    <input type="number" id="casebd" name="casebd" ref="casebd" placeholder="number of the box">
+                    <button v-on:click="deletebd()">delete a box !</button>
+                </div>
+                <div id="modifyCase"><label for="modifyingbd"> </label><input type="number" id="modifyingbd"
+                                                                              name="modifyingbd" ref="modifyingbd"
+                                                                              placeholder="Set a box">
+                    <input type="number" id="modifying1bd" name="modifying1bd" ref="modifying1bd"
+                           placeholder="Set a width">
+                    <input type="number" id="modifyinghbd" name="modifyinghbd" ref="modifyinghbd"
+                           placeholder="Set a height">
+                    <button v-on:click="modifybd()">Modify the box !</button>
+                </div>
+                <img src="http://l-3ab.com/images/Slider/double-fleche.png">
+                <div id="addCase">
+                    <input type="number" id="addingbd" name="movingbd" ref="movingbd" placeholder="Select a box">
+                    <input type="number" id="casew" name="casew" ref="casew" placeholder="Set a width">
+                    <input type="number" id="caseh" name="caseh" ref="caseh" placeholder="Set a height">
+                    <input type="number" id="casex" name="casex" ref="casex" placeholder="Set a X position">
+                    <input type="number" id="casey" name="casey" ref="casey" placeholder="Set a Y position">
+                    <button v-on:click="addbd()">add a box !</button>
+                </div>
+                <div id="moveCase"><label for="movingbd"> </label>
+                    <input type="number" id="movingbd" name="movingbd" ref="movingbd" placeholder="Select a box">
+                    <input type="number" id="movingxbd" name="movingxbd" ref="movingxbd" placeholder="Set a X position">
+                    <input type="number" id="movingybd" name="movingybd" ref="movingybd" placeholder="Set a Y position">
+                    <button v-on:click="movebd()">move a box !</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -88,11 +86,11 @@ export default {
           newdiv.addEventListener('click', Tool, false)
           fullGrid.appendChild(newdiv)
           var r = document.getElementById('number' + z)
-          r.innerHTML = z
+          r.innerHTML = '<p>' + z + '</p>'
         }
         console.log(typeof this.tool)
         /* var x = document.getElementById('fullGrid').childNodes
-        x[x.length - 1].addEventListener('click', () => { console.log('coucou') }, false) */
+            x[x.length - 1].addEventListener('click', () => { console.log('coucou') }, false) */
       }
     },
     tool: function Tool (e) {
@@ -259,9 +257,7 @@ function del (tool, e) {
   let div = tool.div
   div.parentNode.removeChild(div)
 }
-function _add (tool, e) {
-  console.log('function _add')
-}
+
 function Tool (e) {
   let tools = ['_add', 'del', 'move', 'edit'].map(name => ({
     name,
@@ -278,95 +274,77 @@ function Tool (e) {
     console.log('no tool')
   }
 }
-function move (tool, e) {
-  let div = tool.div
-  div.draggable = true
-  let divTop = parseInt(div.style.top)
-  let divLeft = parseInt(div.style.left)
-  let cursorLeft = e.pageX - div.parentNode.offsetLeft
-  let cursorTop = e.pageY - div.parentNode.offsetTop
-  div.parentNode.addEventListener('dragstart', _funcs)
-  function _funcs () { onDragstart(e, div) }
-  div.parentNode.addEventListener('dragover', _funco)
-  function _funco () { ondragover(e, div, divTop, divLeft, cursorLeft, cursorTop) }
-  div.parentNode.addEventListener('dragend', _funce)
-  function _funce () { ondragend(e, div) }
-  console.log('end')
-
-  function onDragstart (e, div) {
-    console.log('dragstart')
-  }
-  function ondragover (e, div, divTop, divLeft, cursorLeft, cursorTop) {
-    console.log('div', divLeft, divTop, 'cursor', cursorLeft, cursorTop)
-    e = window.event
-    /* calc position of mouse refer to parent node */
-    let currLeft = (e.pageX - div.parentNode.offsetLeft)
-    let currTop = (e.pageY - div.parentNode.offsetTop)
-    /* calc diff btw div origin position and cursor current position */
-    let difLeft = cursorLeft - divLeft
-    let difTop = cursorTop - divTop
-    /* calc new div position */
-    let x = currLeft - difLeft
-    let y = currTop - difTop
-    /* applie new position */
-    div.style.left = x + 'px'
-    div.style.top = y + 'px'
-  }
-  function ondragend (e, div) {
-    div.draggable = false
-    div.parentNode.removeEventListener('dragstart', _funcs)
-    div.parentNode.removeEventListener('dragover', _funco)
-    div.parentNode.removeEventListener('dragend', _funce)
-    console.log('dragend')
-  }
-}
 
 </script>
 <style>
     #drop-area {
-        border: 2px solid #ccc;
-        width: 250px;
-        height: 150px;
+        width: 40%;
+        height: 20%;
+        border: 3px #ff4d4d solid;
         font-family: sans-serif;
         margin: auto;
         border-radius: 10px;
         padding: 10px;
         position: fixed;
-        display: flex;
-        bottom: 15px;
+        bottom: 20%;
         text-align: center;
-        z-index: 10000;
-        right: 280px;
+        z-index: 100;
+        right: -39.5%;
+        background: #ff4d4d;
+        -webkit-transition: .7s ease-in-out;
+        transition: .7s ease-in-out;
+    }
+    #drop-area:hover{
+        height: 40%;
+        right: 0;
+        bottom: 10%;
+    }
+    #drop-area img{
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top:0;
+        left: 0;
     }
     #drop-area label {
-        margin-left:auto;
-        margin-right: auto;
-        margin-top: 10%;
-        width: 200px;
+        display: block;
+        margin-top: 5%;
+        width: 160px;
+        margin-left: 35%;
+        text-align: center;
     }
+
     #drop-area:hover {
         border-color: #ff4d4d;
         border-radius: 10px;
     }
+
     #drop-area.hover {
         border-color: #ff4d4d;
         border-radius: 10px;
     }
+
     p {
         margin-top: 0;
     }
+
     .my-form {
         margin-bottom: 10px;
     }
+
     #gallery {
         margin-top: 10px;
+        background: white;
     }
+
     #gallery img {
         width: 180px;
         margin-bottom: 10px;
         margin-right: 10px;
         vertical-align: middle;
+        background: white;
     }
+
     .button {
         display: inline-block;
         padding: 10px;
@@ -375,38 +353,97 @@ function move (tool, e) {
         border-radius: 5px;
         border: 1px solid #ccc;
     }
+
     .button:hover {
         background: #ddd;
     }
+
     #fileElem {
         display: none;
     }
+
     #gallery {
         margin-top: 10px;
     }
+
     .page {
         width: 230px;
         margin-bottom: 10px;
         margin-right: 10px;
         vertical-align: middle;
     }
+
     #dropJason {
-        border: 2px solid #ccc;
-        width: auto;
-        height: auto;
+        border: 2px solid #111;
+        width: 300px;
+        height: 40px;
         font-family: sans-serif;
         margin: auto;
         border-radius: 10px;
+        background: #ff4d4d;
         padding: 10px;
         position: fixed;
         display: flex;
-        bottom: 200px;
+        top: -45px;
         text-align: center;
         z-index: 10000;
-        right: 280px;
+        right: 45%;
+        -webkit-transition: .7s ease-in-out;
+        transition: .7s ease-in-out;
+    }
+    #dropJason p{
+        text-align: center;
+        position: absolute;
+        bottom: -15px;
+        margin-left: 40%;
     }
     #dropJason:hover {
-        border-color: #ff4d4d;
+        border-color: #ccc;
         border-radius: 10px;
+        top:0;
+    }
+
+    #manualSet {
+        top: 20%;
+        z-index: 100000;
+        background: #ff4d4d;
+        border-radius: 20px;
+        padding-right: 30px;
+        width: 20%;
+        left: -20%;
+        position: fixed;
+        display: inline-block;
+        margin-right: auto;
+        font-size: 15px;
+        -webkit-transition: .7s ease-in-out;
+        transition: .7s ease-in-out;
+    }
+
+    #manualSet:hover {
+        left: 0;
+    }
+
+    #manualSet p {
+        margin-bottom: -5px;
+    }
+
+    #addCase, #moveCase, #deleteCase, #modifyCase {
+        border: 1px darkred solid;
+        border-radius: 20px;
+        margin: 5px;
+        display: grid;
+        padding: 10px;
+    }
+
+    #manualSet input {
+        text-align: center;
+    }
+
+    #manualSet img {
+        position: absolute;
+        left: 92%;
+        top: 40%;
+        width: 25px;
+        height: 80px;
     }
 </style>

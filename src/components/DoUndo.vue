@@ -42,7 +42,8 @@ export default {
         z-index: 100;
         left: 0;
     }
-    #do img{
+
+    #do img {
         width: 60px;
         height: 60px;
         position: fixed;
