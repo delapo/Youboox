@@ -419,13 +419,14 @@ function edit (tool, e) {
         text-align: center;
         z-index: 100;
         right: -39.5%;
-        background: #ff4d4d;
+        background: rgba(255, 77, 77, 0.9);
         -webkit-transition: .7s ease-in-out;
         transition: .7s ease-in-out;
     }
     #drop-area:hover{
-        height: 40%;
-        right: 0;
+        height: 45%;
+        width: 50%;
+        right: -5%;
         bottom: 10%;
     }
     #drop-area img{
@@ -435,11 +436,18 @@ function edit (tool, e) {
         top:0;
         left: 0;
     }
+    #test123{
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top:0;
+        left: 30px;
+    }
     #drop-area label {
         display: block;
-        margin-top: 5%;
-        width: 160px;
-        margin-left: 35%;
+        margin-top: 20%;
+        width: 180px;
+        margin-left: 32%;
         text-align: center;
     }
 
@@ -529,7 +537,7 @@ function edit (tool, e) {
     #dropJason:hover {
         border-color: #ccc;
         border-radius: 10px;
-        top:0;
+        top:-1%;
     }
 
     #manualSet {
@@ -549,7 +557,7 @@ function edit (tool, e) {
     }
 
     #manualSet:hover {
-        left: 0;
+        left: -1%;
     }
 
     #manualSet p {
@@ -588,7 +596,7 @@ function edit (tool, e) {
     }
 
     #fullGrid {
-        height : 920px;
-        width : 1080px;
+        height : 800px;
+        width : 800px;
     }
 </style>
