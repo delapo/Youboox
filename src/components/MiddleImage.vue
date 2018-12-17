@@ -35,8 +35,9 @@ export default {
         height: 70px;
         position: fixed;
         z-index: 1;
-        top: 50%;
-        left: 5.5%;
+        top: 45%;
+        margin-right: 0;
+        left: 15%;
         background: black;
         border-radius: 50px;
         transform: scale(1.1);
@@ -69,8 +70,8 @@ export default {
         height: 70px;
         position: fixed;
         z-index: 1;
-        top: 50%;
-        left: 1180px;
+        top: 45%;
+        right: 20%;
         background: black;
         border-radius: 50px;
         transform: scale(1.1);
@@ -102,10 +103,10 @@ export default {
 
     #BD_show img {
         top: 30px;
-        height: 1320px;
-        width: 1450px;
+        height: 1300px;
+        width: 1100px;
+        left: 11%;
         position: absolute;
-        right: 10%;
         -webkit-user-select: none;
         -khtml-user-select: none;
         -moz-user-select: none;
@@ -130,12 +131,6 @@ export default {
     }
     .zz {
         color:#bf2512;
-    }
-    #fullGrid {
-        position: absolute;
-        left: 11%;
-        top: 30px;
-        width: 70%;
     }
     #middleImage {
         z-index: 0;
