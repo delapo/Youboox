@@ -1,8 +1,9 @@
 <template>
     <div id="menu">
-        <section id="save" v-for="e in 1" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null">
+        <section id="save" v-for="e in 1" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null" v-on:click="displayInput">
             <img src="https://img.icons8.com/metro/1600/save-as.png">
             <div id="save_text" v-show="showSave === e"><p>Sauvegarder</p></div>
+            <div id="download-area"></div>
         </section>
         <section id="_add" ref="add" v-for="e in 1" :key="e.id" @mouseover="showAdd = e" @mouseout="showAdd = null">
             <img v-bind:class="add_selected" v-on:click="check(1)" src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
@@ -94,6 +95,22 @@ export default {
             console.log('move')
             break
         }
+      }
+    },
+    dlFile () {
+      console.log('saved')
+    },
+    displayInput () {
+      if (document.getElementById('jsonName') === null) {
+        let input = document.createElement('input')
+        let button = document.createElement('button')
+        document.getElementById('download-area').appendChild(input)
+        document.getElementById('download-area').appendChild(button)
+        input.type = 'text'
+        input.placeholder = 'Entrer le nom du Json'
+        input.id = 'jsonName'
+        button.click = this.dlFile()
+        button.textContent = 'Télécharger le JSON'
       }
     }
   }
@@ -307,5 +324,11 @@ export default {
     .tool_selected {
         background-color: #4BDF4B !important;
         border: 3.5px solid #4BDF4B !important;
+    }
+    #download-area {
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        z-index: 999;
     }
 </style>
