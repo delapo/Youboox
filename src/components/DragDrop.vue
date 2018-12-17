@@ -90,9 +90,6 @@ export default {
           var r = document.getElementById('number' + z)
           r.innerHTML = z
         }
-        console.log(typeof this.tool)
-        /* var x = document.getElementById('fullGrid').childNodes
-        x[x.length - 1].addEventListener('click', () => { console.log('coucou') }, false) */
       }
     },
     tool: function Tool (e) {
