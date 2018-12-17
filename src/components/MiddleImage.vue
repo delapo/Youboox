@@ -33,7 +33,7 @@ export default {
     #next {
         width: 70px;
         height: 70px;
-        position: absolute;
+        position: fixed;
         z-index: 1;
         top: 50%;
         left: 5.5%;
@@ -91,7 +91,7 @@ export default {
     #prev img {
         width: 50px;
         height: 50px;
-        position: absolute;
+        position: fixed;
         z-index: 1;
         top: 10px;
         left: 10px;
@@ -102,10 +102,10 @@ export default {
 
     #BD_show img {
         top: 30px;
-        margin-left: -5%;
-        height: 1300px;
-        width: 1400px;
-        position: relative;
+        height: 1320px;
+        width: 1450px;
+        position: absolute;
+        right: 10%;
         -webkit-user-select: none;
         -khtml-user-select: none;
         -moz-user-select: none;
@@ -139,6 +139,7 @@ export default {
     }
     #middleImage {
         z-index: 0;
+        border: none;
     }
 
     #move_text1 {
