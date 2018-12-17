@@ -82,7 +82,6 @@ export default {
         -moz-user-select: none;
         -webkit-user-drag: none;
     }
-
     #prev:hover {
         transform: scale(1);
         -webkit-transform: scale(1.1);
