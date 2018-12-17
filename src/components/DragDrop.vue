@@ -259,7 +259,9 @@ function del (tool, e) {
   let div = tool.div
   div.parentNode.removeChild(div)
 }
-
+function _add (tool, e) {
+  console.log('function _add')
+}
 function Tool (e) {
   let tools = ['_add', 'del', 'move', 'edit'].map(name => ({
     name,
@@ -274,6 +276,48 @@ function Tool (e) {
     fun(tool, e)
   } else {
     console.log('no tool')
+  }
+}
+function move (tool, e) {
+  let div = tool.div
+  div.draggable = true
+  let divTop = parseInt(div.style.top)
+  let divLeft = parseInt(div.style.left)
+  let cursorLeft = e.pageX - div.parentNode.offsetLeft
+  let cursorTop = e.pageY - div.parentNode.offsetTop
+  div.parentNode.addEventListener('dragstart', _funcs)
+  function _funcs () { onDragstart(e, div) }
+  div.parentNode.addEventListener('dragover', _funco)
+  function _funco () { ondragover(e, div, divTop, divLeft, cursorLeft, cursorTop) }
+  div.parentNode.addEventListener('dragend', _funce)
+  function _funce () { ondragend(e, div) }
+  console.log('end')
+
+  function onDragstart (e, div) {
+    console.log('dragstart')
+  }
+  function ondragover (e, div, divTop, divLeft, cursorLeft, cursorTop) {
+    console.log('div', divLeft, divTop, 'cursor', cursorLeft, cursorTop)
+    e = window.event
+    /* calc position of mouse refer to parent node */
+    let currLeft = (e.pageX - div.parentNode.offsetLeft)
+    let currTop = (e.pageY - div.parentNode.offsetTop)
+    /* calc diff btw div origin position and cursor current position */
+    let difLeft = cursorLeft - divLeft
+    let difTop = cursorTop - divTop
+    /* calc new div position */
+    let x = currLeft - difLeft
+    let y = currTop - difTop
+    /* applie new position */
+    div.style.left = x + 'px'
+    div.style.top = y + 'px'
+  }
+  function ondragend (e, div) {
+    div.draggable = false
+    div.parentNode.removeEventListener('dragstart', _funcs)
+    div.parentNode.removeEventListener('dragover', _funco)
+    div.parentNode.removeEventListener('dragend', _funce)
+    console.log('dragend')
   }
 }
 
