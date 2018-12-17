@@ -78,10 +78,10 @@ export default {
           newdiv.setAttribute('class', 'bd')
           newdiv.setAttribute('number', z)
           newdiv.style.position = 'absolute'
-          newdiv.style.left = (obj[z].x) * 0.8 + 'px'
-          newdiv.style.top = (obj[z].y) * 0.8 + 'px'
-          newdiv.style.width = (obj[z].width) * 0.8 + 'px'
-          newdiv.style.height = (obj[z].height) * 0.8 + 'px'
+          newdiv.style.left = (obj[z].x) * 1 + 'px'
+          newdiv.style.top = (obj[z].y) * 1 + 'px'
+          newdiv.style.width = (obj[z].width) * 1 + 'px'
+          newdiv.style.height = (obj[z].height) * 1 + 'px'
           newdiv.style.border = 'thick solid #ff4d4d'
           newdiv.draggable = false
           newdiv.addEventListener('click', Tool, false)
