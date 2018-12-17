@@ -7,6 +7,7 @@
         <div id="drop-area" ref="azerty" v-on:dragenter="hover" v-on:dragover="hover" v-on:dragleave="unhover"
              v-on:drop="handleDrop">
             <img src="https://vignette.wikia.nocookie.net/i-shall-seal-the-heavens/images/2/2f/Plus.png/revision/latest?cb=20180221183139">
+            <img src="https://img.icons8.com/metro/1600/minus-math.png" id="test123">
             <form class="my-form">
                 <input type="file" id="fileElem" multiple accept="image/*" ref="myFiles" @change="handleFiles">
                 <label class="button" for="fileElem">Select or drop some files</label>
@@ -290,13 +291,14 @@ function Tool (e) {
         text-align: center;
         z-index: 100;
         right: -39.5%;
-        background: #ff4d4d;
+        background: rgba(255, 77, 77, 0.9);
         -webkit-transition: .7s ease-in-out;
         transition: .7s ease-in-out;
     }
     #drop-area:hover{
-        height: 40%;
-        right: 0;
+        height: 45%;
+        width: 50%;
+        right: -5%;
         bottom: 10%;
     }
     #drop-area img{
@@ -306,11 +308,18 @@ function Tool (e) {
         top:0;
         left: 0;
     }
+    #test123{
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top:0;
+        left: 30px;
+    }
     #drop-area label {
         display: block;
-        margin-top: 5%;
-        width: 160px;
-        margin-left: 35%;
+        margin-top: 20%;
+        width: 180px;
+        margin-left: 32%;
         text-align: center;
     }
 
@@ -400,7 +409,7 @@ function Tool (e) {
     #dropJason:hover {
         border-color: #ccc;
         border-radius: 10px;
-        top:0;
+        top:-1%;
     }
 
     #manualSet {
@@ -420,7 +429,7 @@ function Tool (e) {
     }
 
     #manualSet:hover {
-        left: 0;
+        left: -1%;
     }
 
     #manualSet p {
@@ -445,5 +454,5 @@ function Tool (e) {
         top: 40%;
         width: 25px;
         height: 80px;
-    } 
+    }
 </style>

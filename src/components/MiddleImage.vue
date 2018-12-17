@@ -114,12 +114,12 @@ export default {
     border: black 2px solid;
         border-radius: 50px;
         width: 50px;
-        background: rgba(255, 77, 77, 0.5);
+        background: rgba(255, 66, 39, 0.7);
         -webkit-user-select: none;
         -moz-user-select: none;
     }
     .zz {
-        color:red;
+        color:#bf2512;
     }
     #fullGrid {
         position: absolute;

@@ -6,11 +6,11 @@
             <div id="download-area"></div>
         </section>
         <section id="_add" ref="add" v-for="e in 1" :key="e.id" @mouseover="showAdd = e" @mouseout="showAdd = null">
-            <img v-bind:class="add_selected" v-on:click="check(1)" src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
+            <img v-bind:class="add_selected" v-on:click="check(1)" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaWv7Z9KZToWdMyUCma8E1jAdzkXd27WIVJ-QuJMurz7s7gLUX_g">
             <div id="add_text" v-show="showAdd === e"><p>Ajouter une case</p></div>
         </section>
         <section id="del" ref="del" v-for="e in 1" :key="e.id" @mouseover="showRm = e" @mouseout="showRm = null">
-            <img v-bind:class="delete_selected" v-on:click="check(2)" src="https://cdn0.iconfinder.com/data/icons/math-business-icon-set/93/1_1-512.png">
+            <img v-bind:class="delete_selected" v-on:click="check(2)" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaWv7Z9KZToWdMyUCma8E1jAdzkXd27WIVJ-QuJMurz7s7gLUX_g">
             <div id="rm_text" v-show="showRm === e">Supprimer une case</div>
         </section>
         <section id="edit" ref="edit" v-for="e in 1" :key="e.id" @mouseover="showEdit = e" @mouseout="showEdit = null">
@@ -132,10 +132,9 @@ export default {
     #save img {
         width: 62px;
         height: 62px;
-        border-radius: 35px;
-        position: fixed;
-        top: 6px;
-        right: 6px;
+        position: absolute;
+        bottom: 6px;
+        left:6px;
     }
 
     #save_text {
@@ -156,10 +155,10 @@ export default {
 
     #save {
         background: white;
-        width: 60px;
-        height: 60px;
-        border-radius: 35px;
+        width: 70px;
+        height: 70px;
         position: fixed;
+        border-radius: 10Px;
         top: 5px;
         right: 5px;
         border: 2px solid black;
@@ -180,19 +179,19 @@ export default {
         height: 70px;
         background: white;
         border-radius: 100px;
-        border: 0.5px solid white;
+        border: 3px solid white;
         position: fixed;
         right: 215px;
         top: 10px;
-        -webkit-transform: scale(1);
-        transform: scale(1);
+        -webkit-transform: scale(1) rotate(45deg);
+        transform: scale(1) rotate(45deg);
         -webkit-transition: .3s ease-in-out;
         transition: .3s ease-in-out;
     }
 
     #_add img:hover {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
+        -webkit-transform: scale(1.1) rotate(45deg);
+        transform: scale(1.1) rotate(45deg);
     }
 
     #del img {
@@ -201,19 +200,19 @@ export default {
         height: 70px;
         background: white;
         border-radius: 100px;
-        border: 0.5px solid white;
+        border: 3px solid white;
         position: fixed;
         right: 185px;
         top: 100px;
-        transform: scale(1.1) rotate(45deg);
-        -webkit-transform: scale(1) rotate(45deg);
+        transform: scale(1.1);
+        -webkit-transform: scale(1);
         -webkit-transition: .3s ease-in-out;
         transition: .3s ease-in-out;
     }
 
     #del img:hover {
         -webkit-transform: scale(1.1);
-        transform: scale(1.1) rotate(45deg);
+        transform: scale(1.1);
     }
 
     #edit img:hover {
@@ -244,6 +243,7 @@ export default {
         height: 70px;
         background: white;
         border-radius: 100px;
+        border: 0.5px solid white;
         position: fixed;
         right: 10px;
         top: 210px;
@@ -322,8 +322,8 @@ export default {
         position: fixed;
     }
     .tool_selected {
-        background-color: #4BDF4B !important;
-        border: 3.5px solid #4BDF4B !important;
+        background-color: #ff4d4d !important;
+        border: 3.5px solid #ff4d4d !important;
     }
     #download-area {
         position: absolute;

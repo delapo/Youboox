@@ -10,10 +10,10 @@
         height: 58%;
         position: fixed;
         border-radius: 8px;
-        border-right: 3px solid #ff4d4d;
-        border-left: 3px solid #ff4d4d;
-        border-top: 2px solid #ff4d4d;
-        border-bottom: 2px solid #ff4d4d;
+        border-right: 3px solid #c54343;
+        border-left: 3px solid #c54343;
+        border-top: 2px solid #c54343;
+        border-bottom: 2px solid #c54343;
         bottom: 10px;
         right: 2.5%;
         z-index: 10;
@@ -28,7 +28,7 @@
     }
 
     ::-webkit-scrollbar-thumb {
-        background: #ff4d4d;
+        background: #c54343;
         border-radius: 5px;
     }
 
@@ -37,6 +37,6 @@
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: #b30000;
+        background: #c54343;
     }
 </style>
