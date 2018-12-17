@@ -3,8 +3,9 @@
         <section id="save" v-for="e in 1" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null" v-on:click="displayInput">
             <img src="https://img.icons8.com/metro/1600/save-as.png">
             <div id="save_text" v-show="showSave === e"><p>Sauvegarder</p></div>
-            <div id="download-area"></div>
         </section>
+        <div id="download-area"></div>
+
         <section id="_add" ref="add" v-for="e in 1" :key="e.id" @mouseover="showAdd = e" @mouseout="showAdd = null">
             <img v-bind:class="add_selected" v-on:click="check(1)" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaWv7Z9KZToWdMyUCma8E1jAdzkXd27WIVJ-QuJMurz7s7gLUX_g">
             <div id="add_text" v-show="showAdd === e"><p>Ajouter une case</p></div>
@@ -98,7 +99,28 @@ export default {
       }
     },
     dlFile () {
-      console.log('saved')
+      let strWindowName = document.getElementById('jsonName').value
+      console.log(strWindowName)
+      document.getElementById('download-area').innerHTML = ''
+      let fileContent = []
+      for (let i = 0; i < document.getElementById('fullGrid').childElementCount; i++) {
+        let div = document.getElementById('fullGrid').childNodes[i]
+        let x = (parseInt(div.style.left) / 1.1 >> 0)
+        let y = (parseInt(div.style.top) / 0.825 >> 0)
+        let width = (parseInt(div.style.width) / 1.1 >> 0)
+        let height = (parseInt(div.style.height) / 0.825 >> 0)
+        let table = (JSON.parse('{"x":' + x + ',"y":' + y + ',"width":' + width + ',"height":' + height + '}'))
+        fileContent = fileContent.concat(table)
+      }
+      let finalTable = JSON.parse('{"regions_of_interest":' + JSON.stringify(fileContent) + '}')
+      let a = document.createElement('a')
+      let blob = new Blob([JSON.stringify(finalTable)], {type: 'octet/stream'})
+      let url = window.URL.createObjectURL(blob)
+      a.href = url
+      a.download = strWindowName
+      a.click()
+      window.URL.revokeObjectURL(url)
+      a.remove()
     },
     displayInput () {
       if (document.getElementById('jsonName') === null) {
@@ -109,7 +131,7 @@ export default {
         input.type = 'text'
         input.placeholder = 'Entrer le nom du Json'
         input.id = 'jsonName'
-        button.click = this.dlFile()
+        button.addEventListener('click', this.dlFile, false)
         button.textContent = 'Télécharger le JSON'
       }
     }
@@ -327,8 +349,8 @@ export default {
     }
     #download-area {
         position: absolute;
-        top: 60px;
-        right: 20px;
+        top: 250px;
+        right: 500px;
         z-index: 999;
     }
 </style>
