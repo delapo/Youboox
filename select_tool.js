@@ -88,38 +88,25 @@ function _add(tool, e){
   div.draggable = true;
   let cursor_left = e.pageX - div.parentNode.offsetLeft;
   let cursor_top = e.pageY - div.parentNode.offsetTop;
-  div.parentNode.addEventListener("dragstart", _funcs_add);
-  function _funcs_add(){onDragstart_add(cursor_left, cursor_top)}
-  div.parentNode.addEventListener("dragover", _funco_add)
-  function _funco_add(){ondragover_add(e, div)}
-  div.parentNode.addEventListener("dragend", _funce_add);
-  function _funce_add(){ondragend_add(e, div)}
 
-  function onDragstart_add(cursor_left, cursor_top){
-    let board = document.getElementById("board");
-    let new_div = document.createElement("div");
-    new_div.style.position = "absolute";
-    new_div.className = "square_add";
-    new_div.style.left = cursor_left + "px";
-    new_div.style.top = cursor_top + "px";
-    console.log("left", cursor_left, "top", cursor_top);
-    new_div.style.width = "100px";
-    new_div.style.height = "100px";
-    new_div.style.border = "1px solid blue";
-    new_div.draggable = false;
-    new_div.onclick = Tool;
-    board.appendChild(new_div);
-    console.log("dragstart");
-  }
+  let board = document.getElementById("board");
 
-    function ondragover_add(e, div) {
-    }
-    function ondragend_add(e, div) {
-      div.parentNode.removeEventListener("dragstart", _funcs_add);
-      div.parentNode.removeEventListener("dragover", _funco_add);
-      div.parentNode.removeEventListener("dragend", _funce_add)
-      console.log("dragend");
-    }
+  let new_div = document.createElement("div");
+  new_div.style.position = "absolute";
+  new_div.className = "square_add";
+
+  new_div.style.left = cursor_left - 50 + "px";
+  new_div.style.top = cursor_top - 50 + "px";
+
+  new_div.style.width = "100px";
+  new_div.style.height = "100px";
+
+  new_div.style.border = "1px solid blue";
+
+  new_div.draggable = false;
+  new_div.onclick = Tool;
+
+  board.appendChild(new_div);
 }
 
 /*------------------------------------------------- function del -----------------------------------------------------*/
