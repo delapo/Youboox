@@ -59,7 +59,6 @@ export default {
   },
   methods: {
     displayJason () {
-      console.log(document.getElementById('jasonElem').files)
       var jasonFile = document.getElementById('jasonElem').files[0]
       var reader = new FileReader()
       reader.readAsText(jasonFile, 'utf8')
@@ -71,7 +70,6 @@ export default {
         var select = document.getElementById('BD_show')
         select.appendChild(fullGrid)
         var obj = array.regions_of_interest
-        console.log(obj)
         for (var z = 0; z <= obj.length - 1; z++) {
           var newdiv = document.createElement('div')
           newdiv.setAttribute('id', 'number' + z)
@@ -106,14 +104,11 @@ export default {
       var z = this.$refs.movingbd.value
       var r = this.$refs.movingxbd.value
       var u = this.$refs.movingybd.value
-      console.log(document.getElementById('number' + z))
       document.getElementById('number' + z).style.marginLeft = r + 'px'
       document.getElementById('number' + z).style.marginTop = u + 'px'
     },
 
     addbd () {
-      console.log(this.$data.i)
-
       var z = this.$refs.addingbd.value
       var w = this.$refs.casew.value
       var e = this.$refs.caseh.value
@@ -149,7 +144,6 @@ export default {
     },
     handleDrop (e) {
       let files = e.dataTransfer.files
-      console.log(files, 'hzief')
       this.handleDropFiles(files)
     },
     handleDropFiles (files) {
@@ -157,8 +151,7 @@ export default {
       // files.forEach(this.uploadFile)
       this.$data.files = this.$data.files.concat(files)
       this.previewFile(0)
-      this.middleImg(files)
-      console.log(files)
+      this.middleImg(0)
     },
     handleFiles () {
       let files = document.getElementById('fileElem').files
@@ -166,7 +159,7 @@ export default {
       // files.forEach(this.uploadFile)
       this.$data.files = this.$data.files.concat(files)
       this.previewFile(0)
-      this.middleImg()
+      this.middleImg(0)
     },
     uploadFile (file) {
       let url = 'http://localhost:8080/'
@@ -185,20 +178,24 @@ export default {
     },
     previewFile (i) {
       if (document.getElementById('gallery').getElementsByTagName('img')[i] != null) {
-        setTimeout(() => {
-          this.previewFile(i + 1)
-        }, 100)
+        this.previewFile(i + 1)
       } else {
         let file = this.$data.files[i]
+        let files = this.$data.files
         let reader = new FileReader()
         reader.readAsDataURL(file)
         reader.onloadend = () => {
           let img = document.createElement('img')
           img.src = reader.result
           img.class = 'page'
-          console.log(file)
           img.addEventListener('click', function () {
-            console.log('asas')
+            reader.readAsDataURL(files[i])
+            reader.onloadend = function () {
+              let select = document.getElementById('imageCenter')
+              select.src = reader.result
+            }
+          })
+          img.addEventListener('click', function () {
           }, false)
           document.getElementById('gallery').appendChild(img)
           if (this.$data.files[i + 1]) {
@@ -207,9 +204,8 @@ export default {
         }
       }
     },
-    middleImg () {
+    middleImg (i) {
       let files = this.$data.files
-      let i = 0
       let prev = document.getElementById('prev')
       let next = document.getElementById('next')
       let reader = new FileReader()
@@ -288,7 +284,6 @@ function move (tool, e) {
     console.log('dragstart')
   }
   function ondragover (e, div, divTop, divLeft, cursorLeft, cursorTop) {
-    console.log('div', divLeft, divTop, 'cursor', cursorLeft, cursorTop)
     e = window.event
     /* calc position of mouse refer to parent node */
     let currLeft = (e.pageX - div.parentNode.offsetLeft)
@@ -321,10 +316,8 @@ function Tool (e) {
     fn: window[name]
   }))
   const tool = tools.find(x => x.img_but.classList.contains('tool_selected'))
-  console.log(tool);
   if (tool !== undefined) {
     var fun = eval(tool.name)
-    console.log(fun)
     fun(tool, e)
   } else {
     console.log('no tool')
@@ -366,7 +359,6 @@ function edit (tool, e) {
   }
 
   function ondragoverEdit (e, div, currWidth, currHeight, divLeft, divTop) {
-    console.log('cursor', divLeft, divTop)
     e = window.event
 
     /* calc position of mouse refer to parent node */
@@ -380,8 +372,6 @@ function edit (tool, e) {
     let diffTop = divTop - currTop
 
     /* calc new diff height and width */
-
-    console.log('width', currWidth, 'height', currHeight)
 
     let newWidth = currWidth + diffLeft
     let newHeight = currHeight + diffTop
@@ -401,6 +391,12 @@ function edit (tool, e) {
     div.parentNode.removeEventListener('dragend', _funceEdit)
     div.removeChild(document.getElementById('tl_resize'))
     console.log('dragend')
+  }
+  function undo (undoTb) {
+  }
+  function redo (redoTb) {
+    let redo[] = [...redo] + undoTb[i]
+    i++
   }
 }
 
@@ -524,7 +520,7 @@ function edit (tool, e) {
         top: -45px;
         text-align: center;
         z-index: 10000;
-        right: 45%;
+        right: 44%;
         -webkit-transition: .4s ease-in-out;
         transition: .4s ease-in-out;
     }
