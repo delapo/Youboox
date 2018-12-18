@@ -115,6 +115,8 @@ export default {
         background: rgba(255, 255, 255, 0.5);
         -webkit-user-select: unset;
         -moz-user-select: unset;
+        border: none;
+
     }
     .bd p {
         margin: 10px;

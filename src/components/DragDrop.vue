@@ -4,12 +4,12 @@
             <input type="file" id="jasonElem" accept="application/json" ref="myJason" @change="displayJason">
             <p> JSON </p>
         </div>
-        <div id="drop-area" ref="azerty" v-on:dragenter="hover" v-on:dragover="hover" v-on:dragleave="unhover"
+        <div id="drop-area" ref="azerty" v-on:dragenter="hover" v-on:dragover="hover" v-on:dragleave="unhover" v-on:click="dropFileZone"
              v-on:drop="handleDrop">
-            <img src="https://vignette.wikia.nocookie.net/i-shall-seal-the-heavens/images/2/2f/Plus.png/revision/latest?cb=20180221183139">
+            <img class="plus" src="https://elitegraphicsllc.com/wp-content/plugins/udraw/designer/includes/img/photo-icon.png">
             <form class="my-form">
                 <input type="file" id="fileElem" multiple accept="image/*" ref="myFiles" @change="handleFiles">
-                <label class="button" for="fileElem">Select or drop some files</label>
+                <label class="button" for="fileElem" >Select or drop some files</label>
             </form>
         </div>
         <div>
@@ -54,6 +54,8 @@ export default {
   data () {
     return {
       files: [],
+      undo: [],
+      redo: [],
       i: 20
     }
   },
@@ -129,7 +131,11 @@ export default {
       select.appendChild(newcase)
       this.$data.i = this.$data.i + 1
     },
-
+    dropFileZone () {
+      let select = document.getElementById('drop-area')
+      let selectImg = document.getElementById('plus-ou-moins')
+      select.classList.toggle('drop-area-hover')
+    },
     hover (e) {
       e.preventDefault()
       e.stopPropagation()
@@ -250,10 +256,9 @@ function _add (tool, e) {
   div.draggable = true
   let cursorLeft = e.pageX - div.parentNode.offsetLeft
   let cursorTop = e.pageY - div.parentNode.offsetTop
-
   let board = document.getElementById('fullGrid')
-
   let newDiv = document.createElement('div')
+
   newDiv.style.position = 'absolute'
   newDiv.className = 'square_add'
 
@@ -270,7 +275,6 @@ function _add (tool, e) {
   newDiv.onclick = Tool
   board.appendChild(newDiv)
   var r = document.getElementById('number' + y)
-  console.log(r)
   r.innerHTML = '<p>' + y + '</p>'
   y = y + 1
 }
@@ -294,7 +298,6 @@ function move (tool, e) {
     console.log('dragstart')
   }
   function ondragover (e, div, divTop, divLeft, cursorLeft, cursorTop) {
-    console.log('div', divLeft, divTop, 'cursor', cursorLeft, cursorTop)
     e = window.event
     /* calc position of mouse refer to parent node */
     let currLeft = (e.pageX - div.parentNode.offsetLeft)
@@ -327,10 +330,8 @@ function Tool (e) {
     fn: window[name]
   }))
   const tool = tools.find(x => x.img_but.classList.contains('tool_selected'))
-  console.log(tool);
   if (tool !== undefined) {
     var fun = eval(tool.name)
-    console.log(fun)
     fun(tool, e)
   } else {
     console.log('no tool')
@@ -408,10 +409,21 @@ function edit (tool, e) {
     div.removeChild(document.getElementById('tl_resize'))
     console.log('dragend')
   }
+  function redo () {
+  }
+  function undo () {
+  }
 }
 
 </script>
 <style>
+    #menu img{
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -webkit-user-drag: none;
+    }
+
     #drop-area {
         width: 40%;
         height: 20%;
@@ -424,20 +436,14 @@ function edit (tool, e) {
         bottom: 20%;
         text-align: center;
         z-index: 100;
-        right: -39.5%;
+        right: -39%;
         background: rgba(255, 77, 77, 0.9);
         -webkit-transition: .7s ease-in-out;
         transition: .7s ease-in-out;
     }
-    #drop-area:hover{
-        height: 45%;
-        width: 50%;
-        right: -5%;
-        bottom: 10%;
-    }
     #drop-area img{
-        width: 30px;
-        height: 30px;
+        width: 45px;
+        height:45px;
         position: absolute;
         top:0;
         left: 0;
@@ -456,7 +462,6 @@ function edit (tool, e) {
         margin-left: 32%;
         text-align: center;
     }
-
     #drop-area:hover {
         border-color: #ff4d4d;
         border-radius: 10px;
@@ -530,7 +535,7 @@ function edit (tool, e) {
         top: -45px;
         text-align: center;
         z-index: 10000;
-        right: 45%;
+        right: 44%;
         -webkit-transition: .4s ease-in-out;
         transition: .4s ease-in-out;
     }
@@ -598,7 +603,12 @@ function edit (tool, e) {
         width: 10px;
         height: 10px;
     }
-
+    .drop-area-hover{
+        height: 45% !important;
+        width: 50% !important;
+        right: -5% !important;
+        bottom: 10% !important;
+    }
     #fullGrid {
         top: 60px;
         position: absolute;
