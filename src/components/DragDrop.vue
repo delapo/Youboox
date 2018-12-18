@@ -126,6 +126,7 @@ export default {
     },
 
     addbd () {
+      var y = document.getElementById('fullGrid').childElementCount
       var z = this.$refs.addingbd.value
       var w = this.$refs.casew.value
       var e = this.$refs.caseh.value
@@ -135,14 +136,17 @@ export default {
       var select = document.getElementById('number' + z)
       newcase.setAttribute('class', 'new')
       newcase.setAttribute('number', '2')
-      newcase.setAttribute('id', 'number' + this.$data.i)
+      newcase.setAttribute('id', 'number' + y)
       newcase.style.border = 'thick solid red'
       newcase.style.width = w + 'px'
       newcase.style.height = e + 'px'
       newcase.style.marginLeft = xx + 'px'
       newcase.style.marginTop = yy + 'px'
       select.appendChild(newcase)
-      this.$data.i = this.$data.i + 1
+      var r = document.getElementById('number' + y)
+      console.log(r)
+      r.innerHTML = '<p>' + y + '</p>'
+      y = y + 1
     },
 
     hover (e) {
@@ -341,7 +345,7 @@ function Tool (e) {
     fn: window[name]
   }))
   const tool = tools.find(x => x.img_but.classList.contains('tool_selected'))
-  console.log(tool);
+  console.log(tool)
   if (tool !== undefined) {
     var fun = eval(tool.name)
     fun(tool, e)
@@ -615,5 +619,15 @@ function edit (tool, e) {
     #fullGrid {
         top: 60px;
         position: absolute;
+    }
+    .square_add p {
+        margin: 10px;
+        padding-left: 25px;
+        border: black 2px solid;
+        border-radius: 50px;
+        width: 50px;
+        background: rgba(255, 66, 39, 0.7);
+        -webkit-user-select: none;
+        font-size: 45px;
     }
 </style>
