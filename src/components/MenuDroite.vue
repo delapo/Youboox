@@ -4,7 +4,6 @@
             <img src="https://img.icons8.com/metro/1600/save-as.png">
             <div id="save_text" v-show="showSave === e"><p>Sauvegarder</p></div>
         </section>
-        <div id="download-area"></div>
 
         <section id="_add" ref="add" v-for="e in 1" :key="e.id" @mouseover="showAdd = e" @mouseout="showAdd = null">
             <img v-bind:class="add_selected" v-on:click="check(1)" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaWv7Z9KZToWdMyUCma8E1jAdzkXd27WIVJ-QuJMurz7s7gLUX_g">
@@ -58,7 +57,6 @@ export default {
             break
           case 4:
             this.move_selected = 'not selected'
-            console.log('coucou')
             break
         }
       } else {
@@ -100,15 +98,14 @@ export default {
     },
     dlFile () {
       let strWindowName = document.getElementById('jsonName').value
-      console.log(strWindowName)
       document.getElementById('download-area').innerHTML = ''
       let fileContent = []
       for (let i = 0; i < document.getElementById('fullGrid').childElementCount; i++) {
         let div = document.getElementById('fullGrid').childNodes[i]
-        let x = (parseInt(div.style.left) * 1 >> 0)
-        let y = (parseInt(div.style.top) * 1 >> 0)
-        let width = (parseInt(div.style.width) * 1 >> 0)
-        let height = (parseInt(div.style.height) * 1 >> 0)
+        let x = (parseInt(div.style.left) >> 0)
+        let y = (parseInt(div.style.top) >> 0)
+        let width = (parseInt(div.style.width) >> 0)
+        let height = (parseInt(div.style.height) >> 0)
         let table = (JSON.parse('{"x":' + x + ',"y":' + y + ',"width":' + width + ',"height":' + height + '}'))
         fileContent = fileContent.concat(table)
       }
@@ -121,11 +118,15 @@ export default {
       a.click()
       window.URL.revokeObjectURL(url)
       a.remove()
+      document.getElementById('download-area').remove()
     },
     displayInput () {
       if (document.getElementById('jsonName') === null) {
+        let div = document.createElement('div')
         let input = document.createElement('input')
         let button = document.createElement('button')
+        document.getElementById('menu').appendChild(div)
+        div.id = 'download-area'
         document.getElementById('download-area').appendChild(input)
         document.getElementById('download-area').appendChild(button)
         input.type = 'text'
@@ -349,8 +350,17 @@ export default {
     }
     #download-area {
         position: absolute;
-        top: 250px;
-        right: 500px;
+        background: #ff4d4d;
+        padding: 7px;
+        border-radius: 3px;
+        display: grid;
+        border: 2px solid black;
+        top: 260px;
+        right: 550px;
         z-index: 999;
     }
+    #download-area input{
+    margin: 7px;
+    }
+
 </style>

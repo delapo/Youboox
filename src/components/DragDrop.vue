@@ -106,14 +106,11 @@ export default {
       var z = this.$refs.movingbd.value
       var r = this.$refs.movingxbd.value
       var u = this.$refs.movingybd.value
-      console.log(document.getElementById('number' + z))
       document.getElementById('number' + z).style.marginLeft = r + 'px'
       document.getElementById('number' + z).style.marginTop = u + 'px'
     },
 
     addbd () {
-      console.log(this.$data.i)
-
       var z = this.$refs.addingbd.value
       var w = this.$refs.casew.value
       var e = this.$refs.caseh.value
@@ -157,8 +154,7 @@ export default {
       // files.forEach(this.uploadFile)
       this.$data.files = this.$data.files.concat(files)
       this.previewFile(0)
-      this.middleImg(files)
-      console.log(files)
+      this.middleImg(0)
     },
     handleFiles () {
       let files = document.getElementById('fileElem').files
@@ -166,7 +162,7 @@ export default {
       // files.forEach(this.uploadFile)
       this.$data.files = this.$data.files.concat(files)
       this.previewFile(0)
-      this.middleImg()
+      this.middleImg(0)
     },
     uploadFile (file) {
       let url = 'http://localhost:8080/'
@@ -185,18 +181,23 @@ export default {
     },
     previewFile (i) {
       if (document.getElementById('gallery').getElementsByTagName('img')[i] != null) {
-        setTimeout(() => {
-          this.previewFile(i + 1)
-        }, 100)
+        this.previewFile(i + 1)
       } else {
         let file = this.$data.files[i]
+        let files = this.$data.files
         let reader = new FileReader()
         reader.readAsDataURL(file)
         reader.onloadend = () => {
           let img = document.createElement('img')
           img.src = reader.result
           img.class = 'page'
-          console.log(file)
+          img.addEventListener('click', function () {
+            reader.readAsDataURL(files[i])
+            reader.onloadend = function () {
+              let select = document.getElementById('imageCenter')
+              select.src = reader.result
+            }
+          })
           img.addEventListener('click', function () {
             console.log('asas')
           }, false)
@@ -207,9 +208,8 @@ export default {
         }
       }
     },
-    middleImg () {
+    middleImg (i) {
       let files = this.$data.files
-      let i = 0
       let prev = document.getElementById('prev')
       let next = document.getElementById('next')
       let reader = new FileReader()
@@ -265,8 +265,6 @@ function _add (tool, e) {
 
   newDiv.setAttribute('id', 'number' + y)
   newDiv.style.border = '3px solid red'
-
-  console.log(document.getElementById('number' + y))
 
   newDiv.draggable = false
   newDiv.onclick = Tool
@@ -329,7 +327,7 @@ function Tool (e) {
     fn: window[name]
   }))
   const tool = tools.find(x => x.img_but.classList.contains('tool_selected'))
-  console.log(tool)
+  console.log(tool);
   if (tool !== undefined) {
     var fun = eval(tool.name)
     console.log(fun)
