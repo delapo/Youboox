@@ -78,10 +78,10 @@ export default {
           newdiv.setAttribute('class', 'bd')
           newdiv.setAttribute('number', z)
           newdiv.style.position = 'absolute'
-          newdiv.style.left = (obj[z].x) * 1 + 'px'
-          newdiv.style.top = (obj[z].y) * 1 + 'px'
-          newdiv.style.width = (obj[z].width) * 1 + 'px'
-          newdiv.style.height = (obj[z].height) * 1 + 'px'
+          newdiv.style.left = (obj[z].x) + 'px'
+          newdiv.style.top = (obj[z].y) + 'px'
+          newdiv.style.width = (obj[z].width) + 'px'
+          newdiv.style.height = (obj[z].height) + 'px'
           newdiv.style.border = 'thick solid #ff4d4d'
           newdiv.draggable = false
           newdiv.addEventListener('click', Tool, false)
@@ -597,9 +597,9 @@ function edit (tool, e) {
 
     #fullGrid {
         top: 30px;
-        height: 1300px;
-        width: 1100px;
-        margin-left: 24%;
-        position: absolute;
+        height: 1080px;
+        width: 1080px;
+        margin-left: 13%;
+        position: fixed;
     }
 </style>
