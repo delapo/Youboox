@@ -78,10 +78,10 @@ export default {
           newdiv.setAttribute('class', 'bd')
           newdiv.setAttribute('number', z)
           newdiv.style.position = 'absolute'
-          newdiv.style.left = (obj[z].x) * 0.65 + 'px'
-          newdiv.style.top = (obj[z].y) * 0.55 + 'px'
-          newdiv.style.width = (obj[z].width) * 0.65 + 'px'
-          newdiv.style.height = (obj[z].height) * 0.55 + 'px'
+          newdiv.style.left = (obj[z].x) * 1 + 'px'
+          newdiv.style.top = (obj[z].y) * 1 + 'px'
+          newdiv.style.width = (obj[z].width) * 1 + 'px'
+          newdiv.style.height = (obj[z].height) * 1 + 'px'
           newdiv.style.border = 'thick solid #ff4d4d'
           newdiv.draggable = false
           newdiv.addEventListener('click', Tool, false)
@@ -243,6 +243,8 @@ function del (tool, e) {
   div.parentNode.removeChild(div)
 }
 
+var y = 20
+
 function _add (tool, e) {
   let div = tool.div
   div.draggable = true
@@ -261,12 +263,18 @@ function _add (tool, e) {
   newDiv.style.width = '100px'
   newDiv.style.height = '100px'
 
+  newDiv.setAttribute('id', 'number' + y)
   newDiv.style.border = '3px solid red'
+
+  console.log(document.getElementById('number' + y))
 
   newDiv.draggable = false
   newDiv.onclick = Tool
-
   board.appendChild(newDiv)
+  var r = document.getElementById('number' + y)
+  console.log(r)
+  r.innerHTML = '<p>' + y + '</p>'
+  y = y + 1
 }
 
 function move (tool, e) {
@@ -321,7 +329,7 @@ function Tool (e) {
     fn: window[name]
   }))
   const tool = tools.find(x => x.img_but.classList.contains('tool_selected'))
-  console.log(tool);
+  console.log(tool)
   if (tool !== undefined) {
     var fun = eval(tool.name)
     console.log(fun)
@@ -595,7 +603,6 @@ function edit (tool, e) {
 
     #fullGrid {
         top: 60px;
-        left: 30.5%;
         position: absolute;
     }
 </style>
