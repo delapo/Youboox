@@ -96,25 +96,10 @@ function Tool(e) {
     }
   }
   if (selected !== undefined) {
-    console.log("selected defined");
     selected.draggable = false;
-    if (selected.firstChild) {
-      console.log("firstChild exist");
-      selected.draggable = false;
-      selected.style.border = "1px solid blue";
-      selected.parentNode.removeEventListener("dragstart", _funcs_edit);
-      selected.parentNode.removeEventListener("dragover", m_move);
-      selected.parentNode.removeEventListener("dragend", _funce_edit)
+    selected.style.border = "1px solid blue";
+    if (selected.firstChild)
       selected.removeChild(document.getElementById("tl_resize"));
-    } else if (!selected.firstChild) {
-      console.log("no firstChild", selected);
-      selected.draggable = false;
-      selected.style.border = "1px solid blue";
-      selected.parentNode.removeEventListener("dragstart", _funcs_edit);
-      selected.parentNode.removeEventListener("dragover", m_edit);
-      selected.parentNode.removeEventListener("dragend", _funce_edit);
-      console.log("no more listener");
-    }
   }
   if (tool !== undefined) {
     tool.div.style.border = "2px solid red";
@@ -159,21 +144,12 @@ function Tool(e) {
 
   function move (tool, e, cursor, start_div) {
     tool.div.draggable = true;
-    tool.div.parentNode.addEventListener("dragstart", _funcs_move);
-    tool.div.parentNode.addEventListener("dragover", function m_move(e) {_funco_move(e, tool, cursor, start_div)});
-    tool.div.parentNode.addEventListener("dragend", _funce_move);
+    tool.div.parentNode.ondragstart = ondragstart_move;
+    tool.div.parentNode.ondragover = function (e) {_funco_move(e, tool, cursor, start_div)};
+    tool.div.parentNode.ondragend = ondragend_move;
   }
-
-  function _funcs_move () {
-    ondragstart_move()
-  }
-
   function _funco_move (e, tool, cursor, start_div) {
     ondragover_move(e, tool, cursor, start_div)
-  }
-
-  function _funce_move () {
-    ondragend_move()
   }
 
   function ondragstart_move () {
@@ -207,7 +183,6 @@ function Tool(e) {
   /*------------------------------------------------- function edit ----------------------------------------------------*/
 
   function edit (tool, e, cursor, start_div) {
-
     const div_resize = document.getElementById("tl_resize");
     if (!div_resize) {
       console.log("no resize div");
@@ -220,21 +195,13 @@ function Tool(e) {
     } else if (div_resize) {
       tool.div.appendChild(document.getElementById("tl_resize"));
     }
-    tool.div.parentNode.addEventListener("dragstart", _funcs_edit);
-    tool.div.parentNode.addEventListener("dragover", function m_edit(e){ _funco_edit(e, tool, cursor, start_div)});
-    tool.div.parentNode.addEventListener("dragend", _funce_edit);
-  }
-
-  function _funcs_edit () {
-    ondragstart_edit()
+    tool.div.parentNode.ondragstart = ondragstart_edit;
+    tool.div.parentNode.ondragover = function (e){ _funco_edit(e, tool, cursor, start_div)};
+    tool.div.parentNode.ondragend = ondragend_edit;
   }
 
   function _funco_edit (e, tool, cursor, start_div){
     ondragover_edit(e, tool, cursor, start_div)
-  }
-
-  function _funce_edit () {
-    ondragend_edit()
   }
 
   function ondragstart_edit () {
