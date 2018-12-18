@@ -37,7 +37,7 @@ export default {
         z-index: 1;
         top: 45%;
         margin-right: 0;
-        left: 5%;
+        left:20% ;
         background: black;
         border-radius: 50px;
         transform: scale(1.1);
@@ -71,7 +71,7 @@ export default {
         position: fixed;
         z-index: 1;
         top: 45%;
-        right: 20%;
+        right: 30%;
         background: black;
         border-radius: 50px;
         transform: scale(1.1);
@@ -103,8 +103,8 @@ export default {
 
     #BD_show img {
         top: 30px;
-        width: 1500px;
-        margin-left: 7%;
+        width: 50%;
+        left: 20%;
         position: absolute;
         -webkit-user-select: none;
         -khtml-user-select: none;
