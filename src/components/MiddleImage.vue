@@ -31,13 +31,13 @@ export default {
 
 <style>
     #next {
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
         position: fixed;
         z-index: 1;
-        top: 45%;
+        top:0;
         margin-right: 0;
-        left:20% ;
+        left:32% ;
         background: black;
         border-radius: 50px;
         transform: scale(1.1);
@@ -55,8 +55,8 @@ export default {
     }
 
     #next img {
-        width: 50px;
-        height: 50px;
+        width: 30px;
+        height: 30px;
         position: absolute;
         z-index: 1;
         top: 10px;
@@ -66,12 +66,12 @@ export default {
     }
 
     #prev {
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
         position: fixed;
         z-index: 1;
-        top: 45%;
-        right: 30%;
+        top:0;
+        right: 37%;
         background: black;
         border-radius: 50px;
         transform: scale(1.1);
@@ -90,8 +90,8 @@ export default {
     }
 
     #prev img {
-        width: 50px;
-        height: 50px;
+        width: 30px;
+        height: 30px;
         position: fixed;
         z-index: 1;
         top: 10px;
@@ -102,9 +102,7 @@ export default {
     }
 
     #BD_show img {
-        top: 30px;
-        width: 50%;
-        left: 20%;
+        top: 60px;
         position: absolute;
         -webkit-user-select: none;
         -khtml-user-select: none;
