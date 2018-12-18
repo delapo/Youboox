@@ -43,6 +43,11 @@
                     <input type="number" id="movingybd" name="movingybd" ref="movingybd" placeholder="Set a Y position">
                     <button v-on:click="movebd()">move a box !</button>
                 </div>
+                <div id="changeOrder">
+                    <input type="number" id="number1" name="number1" ref="number1" placeholder="Séléctionner la première case">
+                    <input type="number" id="number2" name="number2" ref="number2" placeholder="Séléctionner la deuxième case">
+                    <button v-on:click="swapOrder">Swap!</button>
+                </div>
             </div>
         </div>
     </div>
@@ -93,6 +98,16 @@ export default {
         }
       }
     },
+    swapOrder () {
+      let number1 = this.$refs.number1.value
+      let number2 = this.$refs.number2.value
+      let case1 = document.getElementById('number' + number1)
+      let case2 = document.getElementById('number' + number2)
+      case1.innerHTML = '<p>' + number2 + '</p>'
+      case1.id = ('number' + number2)
+      case2.innerHTML = '<p>' + number1 + '</p>'
+      case2.id = ('number' + number1)
+    },
     deletebd () {
       var z = this.$refs.casebd.value
       document.getElementById('number' + z).remove()
@@ -113,6 +128,7 @@ export default {
     },
 
     addbd () {
+      var y = document.getElementById('fullGrid').childElementCount
       var z = this.$refs.addingbd.value
       var w = this.$refs.casew.value
       var e = this.$refs.caseh.value
@@ -122,14 +138,17 @@ export default {
       var select = document.getElementById('number' + z)
       newcase.setAttribute('class', 'new')
       newcase.setAttribute('number', '2')
-      newcase.setAttribute('id', 'number' + this.$data.i)
+      newcase.setAttribute('id', 'number' + y)
       newcase.style.border = 'thick solid red'
       newcase.style.width = w + 'px'
       newcase.style.height = e + 'px'
       newcase.style.marginLeft = xx + 'px'
       newcase.style.marginTop = yy + 'px'
       select.appendChild(newcase)
-      this.$data.i = this.$data.i + 1
+      var r = document.getElementById('number' + y)
+      console.log(r)
+      r.innerHTML = '<p>' + y + '</p>'
+      y = y + 1
     },
     dropFileZone () {
       let select = document.getElementById('drop-area')
@@ -249,10 +268,9 @@ function del (tool, e) {
   div.parentNode.removeChild(div)
 }
 
-var y = 20
-
 function _add (tool, e) {
   let div = tool.div
+  let y = document.getElementById('fullGrid').childElementCount
   div.draggable = true
   let cursorLeft = e.pageX - div.parentNode.offsetLeft
   let cursorTop = e.pageY - div.parentNode.offsetTop
@@ -275,6 +293,7 @@ function _add (tool, e) {
   newDiv.onclick = Tool
   board.appendChild(newDiv)
   var r = document.getElementById('number' + y)
+  console.log(r)
   r.innerHTML = '<p>' + y + '</p>'
   y = y + 1
 }
@@ -298,6 +317,7 @@ function move (tool, e) {
     console.log('dragstart')
   }
   function ondragover (e, div, divTop, divLeft, cursorLeft, cursorTop) {
+    console.log('div', divLeft, divTop, 'cursor', cursorLeft, cursorTop)
     e = window.event
     /* calc position of mouse refer to parent node */
     let currLeft = (e.pageX - div.parentNode.offsetLeft)
@@ -408,10 +428,6 @@ function edit (tool, e) {
     div.parentNode.removeEventListener('dragend', _funceEdit)
     div.removeChild(document.getElementById('tl_resize'))
     console.log('dragend')
-  }
-  function redo () {
-  }
-  function undo () {
   }
 }
 
@@ -575,7 +591,7 @@ function edit (tool, e) {
         margin-bottom: -5px;
     }
 
-    #addCase, #moveCase, #deleteCase, #modifyCase {
+    #addCase, #moveCase, #deleteCase, #modifyCase, #changeOrder {
         border: 1px darkred solid;
         border-radius: 20px;
         margin: 5px;
@@ -612,5 +628,15 @@ function edit (tool, e) {
     #fullGrid {
         top: 60px;
         position: absolute;
+    }
+    .square_add p {
+        margin: 10px;
+        padding-left: 25px;
+        border: black 2px solid;
+        border-radius: 50px;
+        width: 50px;
+        background: rgba(255, 66, 39, 0.7);
+        -webkit-user-select: none;
+        font-size: 45px;
     }
 </style>
