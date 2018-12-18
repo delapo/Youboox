@@ -78,10 +78,10 @@ export default {
           newdiv.setAttribute('class', 'bd')
           newdiv.setAttribute('number', z)
           newdiv.style.position = 'absolute'
-          newdiv.style.left = (obj[z].x) + 'px'
-          newdiv.style.top = (obj[z].y) + 'px'
-          newdiv.style.width = (obj[z].width) + 'px'
-          newdiv.style.height = (obj[z].height) + 'px'
+          newdiv.style.left = (obj[z].x) * 0.65 + 'px'
+          newdiv.style.top = (obj[z].y) * 0.55 + 'px'
+          newdiv.style.width = (obj[z].width) * 0.65 + 'px'
+          newdiv.style.height = (obj[z].height) * 0.55 + 'px'
           newdiv.style.border = 'thick solid #ff4d4d'
           newdiv.draggable = false
           newdiv.addEventListener('click', Tool, false)
@@ -587,19 +587,15 @@ function edit (tool, e) {
     #tl_resize{
         position: absolute;
         background-color: black;
-
         top: 0;
         left: 0;
-
         width: 10px;
         height: 10px;
     }
 
     #fullGrid {
-        top: 30px;
-        height: 1080px;
-        width: 1080px;
-        margin-left: 13%;
-        position: fixed;
+        top: 60px;
+        left: 30.5%;
+        position: absolute;
     }
 </style>

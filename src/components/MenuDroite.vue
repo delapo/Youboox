@@ -105,10 +105,10 @@ export default {
       let fileContent = []
       for (let i = 0; i < document.getElementById('fullGrid').childElementCount; i++) {
         let div = document.getElementById('fullGrid').childNodes[i]
-        let x = (parseInt(div.style.left) / 1.1 >> 0)
-        let y = (parseInt(div.style.top) / 0.825 >> 0)
-        let width = (parseInt(div.style.width) / 1.1 >> 0)
-        let height = (parseInt(div.style.height) / 0.825 >> 0)
+        let x = (parseInt(div.style.left) * 1.539 >> 0)
+        let y = (parseInt(div.style.top) * 1.819 >> 0)
+        let width = (parseInt(div.style.width) * 1.539 >> 0)
+        let height = (parseInt(div.style.height) * 1.819 >> 0)
         let table = (JSON.parse('{"x":' + x + ',"y":' + y + ',"width":' + width + ',"height":' + height + '}'))
         fileContent = fileContent.concat(table)
       }
