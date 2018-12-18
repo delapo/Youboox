@@ -43,6 +43,11 @@
                     <input type="number" id="movingybd" name="movingybd" ref="movingybd" placeholder="Set a Y position">
                     <button v-on:click="movebd()">move a box !</button>
                 </div>
+                <div id="changeOrder">
+                    <input type="number" id="number1" name="number1" ref="number1" placeholder="Séléctionner la première case">
+                    <input type="number" id="number2" name="number2" ref="number2" placeholder="Séléctionner la deuxième case">
+                    <button v-on:click="swapOrder">Swap!</button>
+                </div>
             </div>
         </div>
     </div>
@@ -90,6 +95,16 @@ export default {
           r.innerHTML = '<p>' + z + '</p>'
         }
       }
+    },
+    swapOrder () {
+      let number1 = this.$refs.number1.value
+      let number2 = this.$refs.number2.value
+      let case1 = document.getElementById('number' + number1)
+      let case2 = document.getElementById('number' + number2)
+      case1.innerHTML = '<p>' + number2 + '</p>'
+      case1.id = ('number' + number2)
+      case2.innerHTML = '<p>' + number1 + '</p>'
+      case2.id = ('number' + number1)
     },
     deletebd () {
       var z = this.$refs.casebd.value
@@ -243,10 +258,9 @@ function del (tool, e) {
   div.parentNode.removeChild(div)
 }
 
-var y = 20
-
 function _add (tool, e) {
   let div = tool.div
+  let y = document.getElementById('fullGrid').childElementCount
   div.draggable = true
   let cursorLeft = e.pageX - div.parentNode.offsetLeft
   let cursorTop = e.pageY - div.parentNode.offsetTop
@@ -330,7 +344,6 @@ function Tool (e) {
   console.log(tool);
   if (tool !== undefined) {
     var fun = eval(tool.name)
-    console.log(fun)
     fun(tool, e)
   } else {
     console.log('no tool')
@@ -570,7 +583,7 @@ function edit (tool, e) {
         margin-bottom: -5px;
     }
 
-    #addCase, #moveCase, #deleteCase, #modifyCase {
+    #addCase, #moveCase, #deleteCase, #modifyCase, #changeOrder {
         border: 1px darkred solid;
         border-radius: 20px;
         margin: 5px;
