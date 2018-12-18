@@ -243,6 +243,8 @@ function del (tool, e) {
   div.parentNode.removeChild(div)
 }
 
+var y = 20
+
 function _add (tool, e) {
   let div = tool.div
   div.draggable = true
@@ -261,12 +263,18 @@ function _add (tool, e) {
   newDiv.style.width = '100px'
   newDiv.style.height = '100px'
 
+  newDiv.setAttribute('id', 'number' + y)
   newDiv.style.border = '3px solid red'
+
+  console.log(document.getElementById('number' + y))
 
   newDiv.draggable = false
   newDiv.onclick = Tool
-
   board.appendChild(newDiv)
+  var r = document.getElementById('number' + y)
+  console.log(r)
+  r.innerHTML = '<p>' + y + '</p>'
+  y = y + 1
 }
 
 function move (tool, e) {
@@ -321,7 +329,7 @@ function Tool (e) {
     fn: window[name]
   }))
   const tool = tools.find(x => x.img_but.classList.contains('tool_selected'))
-  console.log(tool);
+  console.log(tool)
   if (tool !== undefined) {
     var fun = eval(tool.name)
     console.log(fun)
