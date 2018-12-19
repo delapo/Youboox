@@ -87,7 +87,7 @@ export default {
           newdiv.style.top = (obj[z].y) * 1 + 'px'
           newdiv.style.width = (obj[z].width) * 1 + 'px'
           newdiv.style.height = (obj[z].height) * 1 + 'px'
-          newdiv.style.border = 'thick solid #ff4d4d'
+          newdiv.style.border = '1px solid blue'
           newdiv.draggable = false
           newdiv.addEventListener('click', Tool, false)
           fullGrid.appendChild(newdiv)
@@ -278,7 +278,7 @@ function _add (tool, e) {
   newDiv.style.height = '100px'
 
   newDiv.setAttribute('id', 'number' + y)
-  newDiv.style.border = '3px solid red'
+  newDiv.style.border = '1px solid blue'
 
   newDiv.draggable = false
   newDiv.onclick = Tool
@@ -289,70 +289,96 @@ function _add (tool, e) {
   y = y + 1
 }
 
-function move (tool, e) {
-  let div = tool.div
-  div.draggable = true
-  let divTop = parseInt(div.style.top)
-  let divLeft = parseInt(div.style.left)
-  let cursorLeft = e.pageX - div.parentNode.offsetLeft
-  let cursorTop = e.pageY - div.parentNode.offsetTop
-  div.parentNode.addEventListener('dragstart', _funcs)
-  function _funcs () { onDragstart(e, div) }
-  div.parentNode.addEventListener('dragover', _funco)
-  function _funco () { ondragover(e, div, divTop, divLeft, cursorLeft, cursorTop) }
-  div.parentNode.addEventListener('dragend', _funce)
-  function _funce () { ondragend(e, div) }
-  console.log('end')
+/* ------------------------------------------------ function move --------------------------------------------------- */
 
-  function onDragstart (e, div) {
-    console.log('dragstart')
-  }
-  function ondragover (e, div, divTop, divLeft, cursorLeft, cursorTop) {
-    console.log('div', divLeft, divTop, 'cursor', cursorLeft, cursorTop)
-    e = window.event
-    /* calc position of mouse refer to parent node */
-    let currLeft = (e.pageX - div.parentNode.offsetLeft)
-    let currTop = (e.pageY - div.parentNode.offsetTop)
-    /* calc diff btw div origin position and cursor current position */
-    let difLeft = cursorLeft - divLeft
-    let difTop = cursorTop - divTop
-    /* calc new div position */
-    let x = currLeft - difLeft
-    let y = currTop - difTop
-    /* applie new position */
-    div.style.left = x + 'px'
-    div.style.top = y + 'px'
-  }
-
-  function ondragend (e, div) {
-    div.draggable = false
-    div.parentNode.removeEventListener('dragstart', _funcs)
-    div.parentNode.removeEventListener('dragover', _funco)
-    div.parentNode.removeEventListener('dragend', _funce)
-    console.log('dragend')
-  }
+function move (tool, e, cursor, startDiv) {
+  tool.div.draggable = true
+  tool.div.parentNode.ondragstart = ondragstartMove
+  tool.div.parentNode.ondragover = function (e) { _funcoMove(e, tool, cursor, startDiv) }
+  tool.div.parentNode.ondragend = ondragendMove
 }
+function _funcoMove (e, tool, cursor, startDiv) {
+  ondragoverMove(e, tool, cursor, startDiv)
+}
+
+function ondragstartMove () {
+  console.log('dragstart')
+}
+
+function ondragoverMove (e, tool, cursor, startDiv) {
+  e = window.event
+  let div = tool.div
+  /* calc position of mouse refer to parent node */
+
+  let currLeft = (e.pageX - div.parentNode.offsetLeft)
+  let currTop = (e.pageY - div.parentNode.offsetTop)
+
+  /* calc new div position */
+
+  let x = currLeft - startDiv[0].dif_left
+  let y = currTop - startDiv[0].dif_top
+
+  /* applie new position */
+
+  div.style.left = x + 'px'
+  div.style.top = y + 'px'
+}
+
+function ondragendMove () {
+  console.log('dragend')
+}
+
+/* ---------------------------------------- function Call when click on tool ---------------------------------------- */
 
 function Tool (e) {
   let tools = ['_add', 'del', 'move', 'edit'].map(name => ({
     name,
     img_but: document.getElementById(name).firstChild,
-    div: e.path[0],
-    fn: window[name]
+    div: e.path[0]
+  }))
+  let cursor = ['cursor'].map(name => ({
+    name,
+    left: e.pageX - tools[0].div.parentNode.offsetLeft,
+    top: e.pageY - tools[0].div.parentNode.offsetTop
+  }))
+  let startDiv = ['div'].map(name => ({
+    name,
+    left: parseInt(tools[0].div.style.left),
+    top: parseInt(tools[0].div.style.top),
+    dif_left: cursor[0].left - parseInt(tools[0].div.style.left),
+    dif_top: cursor[0].top - parseInt(tools[0].div.style.top),
+    width: parseInt(tools[0].div.style.width),
+    height: parseInt(tools[0].div.style.height)
   }))
   const tool = tools.find(x => x.img_but.classList.contains('tool_selected'))
-  console.log(tool);
+  let squares = document.getElementsByClassName('bd')
+  let selected
+  for (let x in squares) {
+    if (typeof (squares[x]) === 'object') {
+      if (squares[x].style.border === '2px solid red') {
+        selected = squares[x]
+      }
+    }
+  }
+  if (selected !== undefined) {
+    selected.draggable = false
+    selected.style.border = '1px solid blue'
+    if (selected.firstChild) {
+      selected.removeChild(document.getElementById('tl_resize'))
+    }
+  }
   if (tool !== undefined) {
+    tool.div.style.border = '2px solid red'
     var fun = eval(tool.name)
-    fun(tool, e)
+    fun(tool, e, cursor, startDiv)
   } else {
     console.log('no tool')
   }
 }
 
-function edit (tool, e) {
-  let div = tool.div
+/* ------------------------------------------------ function edit --------------------------------------------------- */
 
+function edit (tool, e, cursor, startDiv) {
   const divResize = document.getElementById('tl_resize')
   if (!divResize) {
     console.log('no resize div')
@@ -360,67 +386,52 @@ function edit (tool, e) {
     let divResizeTl = document.createElement('div')
     divResizeTl.id = 'tl_resize'
     divResizeTl.draggable = true
-    div.appendChild(divResizeTl)
+    tool.div.appendChild(divResizeTl)
   } else if (divResize) {
-    div.appendChild(document.getElementById('tl_resize'))
+    tool.div.appendChild(document.getElementById('tl_resize'))
   }
+  tool.div.parentNode.ondragstart = ondragstartEdit
+  tool.div.parentNode.ondragover = function (e) { _funcoEdit(e, tool, cursor, startDiv) }
+  tool.div.parentNode.ondragend = ondragendEdit
+}
 
-  /* commun part */
+function _funcoEdit (e, tool, cursor, startDiv) {
+  ondragoverEdit(e, tool, cursor, startDiv)
+}
 
-  let currWidth = parseInt(div.style.width)
-  let currHeight = parseInt(div.style.height)
+function ondragstartEdit () {
+  console.log('dragstart')
+}
 
-  let divTop = parseInt(div.style.top)
-  let divLeft = parseInt(div.style.left)
+function ondragoverEdit (e, tool, cursor, startDiv) {
+  e = window.event
+  //    let div = tool.div
+  /* calc position of mouse refer to parent node */
 
-  div.parentNode.addEventListener('dragstart', _funcsEdit)
-  function _funcsEdit () { onDragstartEdit(e, div) }
-  div.parentNode.addEventListener('dragover', _funcoEdit)
-  function _funcoEdit () { ondragoverEdit(e, div, currWidth, currHeight, divLeft, divTop) }
-  div.parentNode.addEventListener('dragend', _funceEdit)
-  function _funceEdit () { ondragendEdit(e, div) }
+  let currLeft = (e.pageX - tool.div.parentNode.offsetLeft)
+  let currTop = (e.pageY - tool.div.parentNode.offsetTop)
 
-  function onDragstartEdit (e, div) {
-    console.log('dragstart')
-  }
+  /* calc dif btw origin and current mouse position */
 
-  function ondragoverEdit (e, div, currWidth, currHeight, divLeft, divTop) {
-    console.log('cursor', divLeft, divTop)
-    e = window.event
+  let difLeft = startDiv[0].left - currLeft
+  let difTop = startDiv[0].top - currTop
 
-    /* calc position of mouse refer to parent node */
+  /* calc new dif height and width */
 
-    let currLeft = (e.pageX - div.parentNode.offsetLeft)
-    let currTop = (e.pageY - div.parentNode.offsetTop)
+  let newWidth = startDiv[0].width + difLeft
+  let newHeight = startDiv[0].height + difTop
 
-    /* calc diff height and width */
+  /* applie new position */
 
-    let diffLeft = divLeft - currLeft
-    let diffTop = divTop - currTop
+  tool.div.style.width = newWidth + 'px'
+  tool.div.style.height = newHeight + 'px'
 
-    /* calc new diff height and width */
+  tool.div.style.left = currLeft + 'px'
+  tool.div.style.top = currTop + 'px'
+}
 
-    console.log('width', currWidth, 'height', currHeight)
-
-    let newWidth = currWidth + diffLeft
-    let newHeight = currHeight + diffTop
-
-    /* applie new position */
-
-    div.style.width = newWidth + 'px'
-    div.style.height = newHeight + 'px'
-
-    div.style.left = currLeft + 'px'
-    div.style.top = currTop + 'px'
-  }
-  function ondragendEdit (e, div) {
-    div.draggable = false
-    div.parentNode.removeEventListener('dragstart', _funcsEdit)
-    div.parentNode.removeEventListener('dragover', _funcoEdit)
-    div.parentNode.removeEventListener('dragend', _funceEdit)
-    div.removeChild(document.getElementById('tl_resize'))
-    console.log('dragend')
-  }
+function ondragendEdit () {
+  console.log('dragend')
 }
 
 </script>

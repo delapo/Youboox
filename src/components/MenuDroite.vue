@@ -364,3 +364,7 @@ export default {
     }
 
 </style>
+
+var undo = JSON.parse('{"undo": func}')
+let array = []
+array = array.push(undo)
