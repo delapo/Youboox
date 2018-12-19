@@ -31,6 +31,7 @@ export default {
         height: 250px;
         background: #ff4d4d;
         border: 2px solid black;
+        box-shadow:7px 7px white;
         z-index: 100;
     }
     #img-undo{

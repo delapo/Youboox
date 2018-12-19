@@ -52,11 +52,8 @@
         </div>
     </div>
 </template>
-
 <script>
-  /* eslint-disable no-eval,camelcase */
-
-  export default {
+export default {
   name: 'drag-drop',
   data () {
     return {
@@ -268,7 +265,7 @@ function del (tool, e, cursor, startDiv) {
   tool.div.parentNode.removeChild(tool.div)
 }
 
-/* ------------------------------------------------ function _add --------------------------------------------------- */
+/* ------------------------------------------------ function add --------------------------------------------------- */
 
 function _add (tool, e, cursor, start_div) {
   tool.div.style.border = '1px solid blue'
@@ -279,8 +276,8 @@ function _add (tool, e, cursor, start_div) {
   newDiv.style.position = 'absolute'
   newDiv.className = 'square_add'
 
-  newDiv.style.left = cursor[0].left - 50 + 'px'
-  newDiv.style.top = cursor[0].top - 50 + 'px'
+  newDiv.style.left = cursor[0].left - 125 + 'px'
+  newDiv.style.top = cursor[0].top - 125 + 'px'
 
   newDiv.style.width = '250px'
   newDiv.style.height = '250px'
@@ -405,13 +402,13 @@ function edit (tool, e, cursor, start_div) {
     }
     tool.div.parentNode.appendChild(div_resize_tl)
 
-    let div_resize_br = document.createElement("div")
+    let div_resize_br = document.createElement('div')
     console.log(tool.div.style.left + tool.div.style.width)
     div_resize_br.style.left = parseInt(tool.div.style.left) + parseInt(tool.div.style.width) + 'px'
     div_resize_br.style.top = parseInt(tool.div.style.top) + parseInt(tool.div.style.height) + 'px'
     div_resize_br.id = 'br_resize'
     div_resize_br.draggable = true
-    div_resize_br.ondragstart = ondragstart_edit;
+    div_resize_br.ondragstart = ondragstart_edit
     div_resize_br.ondragover = function (e) {
       ondragover_edit_br(e, tool, cursor, start_div)
     }
@@ -455,7 +452,6 @@ function ondragover_edit_tl (e, tool, cursor, start_div) {
 
   tool.div.style.left = curr_left + 'px'
   tool.div.style.top = curr_top + 'px'
-
 }
 
 function ondragover_edit_br (e, tool, cursor, start_div) {
@@ -479,14 +475,13 @@ function ondragover_edit_br (e, tool, cursor, start_div) {
 
   /* calc new dif height and width */
 
-  let new_width = - dif_left
-  let new_height = - dif_top
+  let new_width = -dif_left
+  let new_height = -dif_top
 
   /* applie new position */
 
   tool.div.style.width = new_width + 'px'
   tool.div.style.height = new_height + 'px'
-
 }
 function ondragend_edit_tl (e, tool, start_div) {
   console.log('dragend')
@@ -712,14 +707,15 @@ function ondragend_edit_br (e, tool, start_div) {
     .bd{
     }
     .square_add p {
-        margin: 10px;
-        padding-left: 25px;
+        margin: 5px;
+        padding-left: 10px;
         border: black 2px solid;
-        border-radius: 50px;
-        width: 50px;
-        background: rgba(255, 66, 39, 0.7);
+        width: 30px;
+        height: 30px;
+        background: rgba(109, 109, 109, 0.7);
         -webkit-user-select: none;
-        font-size: 45px;
+        -moz-user-select: none;
+        font-size: 30px;
     }
     [draggable=true] {
         cursor: move;
