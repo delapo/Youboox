@@ -638,13 +638,17 @@ function ondragendEdit () {
         bottom: 10% !important;
     }
     #fullGrid {
-        top: 60px;
+        top: 80px;
         position: absolute;
         height: 200%;
+        left: 7%;
         width: 75%;
         z-index: -10;
         border-radius: 30px;
         background: rgba(0, 0, 0, 0.05);
+    }
+    .bd{
+        margin-left: -10%;
     }
     .square_add p {
         margin: 10px;

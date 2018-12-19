@@ -102,7 +102,7 @@ export default {
     }
 
     #BD_show img {
-        top: 60px;
+        top: 100px;
         position: absolute;
         -webkit-user-select: none;
         -khtml-user-select: none;
