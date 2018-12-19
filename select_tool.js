@@ -308,9 +308,52 @@ function ondragend_edit_tl (e, tool, start_div) {
     start_div[0].height = parseInt(div.style.height);
     console.log("new start size", start_div[0].width, start_div[0].height);
   }
+/*--------------------------------------------------- move board -----------------------------------------------------*/
+
+function board_move(){
+  let board = document.getElementById("board");
+  let e = window.event;
+  board.draggable = true;
+  board.ondragstart = board_dragstart;
+  board.ondragover = function (e){ board_dragover(e, board) };
+  board.ondragend = board_dragend;
+}
+function board_dragstart(){
+  console.log("dragstart");
+}
+function board_dragover(e, board){
+  e = window.event;
+
+  console.log("board", board.style.left, board.style.top, board);
+
+  let cursor_left = e.clientX - parseInt(board.style.left);
+  let cursor_top = e.clientY - parseInt(board.style.top);
+
+  console.log("cursor", cursor_left, cursor_top);
+
+
+  board.style.left = cursor_left + "px";
+  board.style.top = cursor_top + "px";
+
+  console.log("new board", board.offsetLeft, board.offsetTop);
+}
+function board_dragend(){
+  console.log("dragend");
+  document.getElementById("board").draggable = false;
+
+}
 /*------------------------------------------- crete all div with json ------------------------------------------------*/
 
 $.getJSON("data.json", function(json) {
+  let board_create = document.createElement("div");
+  board_create.id = "board";
+  board_create.style.position = "absolute";
+  board_create.style.top = "0px";
+  board_create.style.left = "267px";
+  board_create.ondblclick = board_move;
+  board_create.draggable = false;
+  document.body.appendChild(board_create);
+
   var regions = json.regions_of_interest;
   console.log(regions);
   var board = document.getElementById('board');
