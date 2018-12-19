@@ -283,8 +283,8 @@ function _add (tool, e) {
   newDiv.style.left = cursorLeft - 50 + 'px'
   newDiv.style.top = cursorTop - 50 + 'px'
 
-  newDiv.style.width = '100px'
-  newDiv.style.height = '100px'
+  newDiv.style.width = '250px'
+  newDiv.style.height = '250px'
 
   newDiv.setAttribute('id', 'number' + y)
   newDiv.style.border = '1px solid blue'
