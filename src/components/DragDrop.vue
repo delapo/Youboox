@@ -274,7 +274,7 @@ function _add (tool, e, cursor, start_div) {
   let newDiv = document.createElement('div')
 
   newDiv.style.position = 'absolute'
-  newDiv.className = 'square_add'
+  newDiv.className = 'bd'
 
   newDiv.style.left = cursor[0].left - 125 + 'px'
   newDiv.style.top = cursor[0].top - 125 + 'px'
@@ -283,6 +283,7 @@ function _add (tool, e, cursor, start_div) {
   newDiv.style.height = '250px'
 
   newDiv.setAttribute('id', 'number' + y)
+  newDiv.setAttribute('number', '' + y)
   newDiv.style.border = '1px solid blue'
 
   newDiv.draggable = false
