@@ -54,7 +54,9 @@
 </template>
 
 <script>
-export default {
+  /* eslint-disable no-eval,camelcase */
+
+  export default {
   name: 'drag-drop',
   data () {
     return {
@@ -152,7 +154,6 @@ export default {
     },
     dropFileZone () {
       let select = document.getElementById('drop-area')
-      let selectImg = document.getElementById('plus-ou-moins')
       select.classList.toggle('drop-area-hover')
     },
     hover (e) {
@@ -337,7 +338,7 @@ function ondragendMove () {
 function Tool (e) {
   const div_resize_tl = document.getElementById('tl_resize')
   const div_resize_br = document.getElementById('br_resize')
-  if (div_resize_br){
+  if (div_resize_br) {
     div_resize_br.parentNode.removeChild(div_resize_br)
     div_resize_tl.parentNode.removeChild(div_resize_tl)
   }
@@ -504,7 +505,6 @@ function ondragend_edit_br (e, tool, start_div) {
   start_div[0].height = parseInt(div.style.height)
   console.log('new start size', start_div[0].width, start_div[0].height)
 }
-
 </script>
 <style>
     #menu img{
@@ -702,14 +702,14 @@ function ondragend_edit_br (e, tool, start_div) {
         top: 80px;
         position: absolute;
         height: 200%;
-        left: 7%;
-        width: 75%;
+        left: 3%;
+        width: 72%;
         z-index: -10;
         border-radius: 30px;
         background: rgba(0, 0, 0, 0.05);
+        padding-right: 10%;
     }
     .bd{
-        margin-left: -10%;
     }
     .square_add p {
         margin: 10px;
