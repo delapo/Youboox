@@ -335,6 +335,12 @@ function ondragendMove () {
 /* ---------------------------------------- function Call when click on tool ---------------------------------------- */
 
 function Tool (e) {
+  const div_resize_tl = document.getElementById('tl_resize')
+  const div_resize_br = document.getElementById('br_resize')
+  if (div_resize_br){
+    div_resize_br.parentNode.removeChild(div_resize_br)
+    div_resize_tl.parentNode.removeChild(div_resize_tl)
+  }
   let tools = ['_add', 'del', 'move', 'edit'].map(name => ({
     name,
     img_but: document.getElementById(name).firstChild,
@@ -390,8 +396,12 @@ function edit (tool, e, cursor, start_div) {
     div_resize_tl.id = 'tl_resize'
     div_resize_tl.draggable = true
     div_resize_tl.ondragstart = ondragstart_edit
-    div_resize_tl.ondragover = function (e) { ondragover_edit_tl(e, tool, cursor, start_div) }
-    div_resize_tl.ondragend = function (e) { ondragend_edit_tl(e, tool, start_div) }
+    div_resize_tl.ondragover = function (e) {
+      ondragover_edit_tl(e, tool, cursor, start_div)
+    }
+    div_resize_tl.ondragend = function (e) {
+      ondragend_edit_tl(e, tool, start_div)
+    }
     tool.div.parentNode.appendChild(div_resize_tl)
 
     let div_resize_br = document.createElement("div")
@@ -401,21 +411,13 @@ function edit (tool, e, cursor, start_div) {
     div_resize_br.id = 'br_resize'
     div_resize_br.draggable = true
     div_resize_br.ondragstart = ondragstart_edit;
-    div_resize_br.ondragover = function (e){ ondragover_edit_br(e, tool, cursor, start_div)}
-    div_resize_br.ondragend = function (e){ ondragend_edit_br(e, tool, start_div)}
+    div_resize_br.ondragover = function (e) {
+      ondragover_edit_br(e, tool, cursor, start_div)
+    }
+    div_resize_br.ondragend = function (e) {
+      ondragend_edit_br(e, tool, start_div)
+    }
     tool.div.parentNode.appendChild(div_resize_br)
-  } else if (div_resize_tl) {
-    div_resize_tl.style.left = tool.div.style.left
-    div_resize_tl.style.top = tool.div.style.top
-    div_resize_tl.ondragstart = ondragstart_edit
-    div_resize_tl.ondragover = function (e){ ondragover_edit_tl(e, tool, cursor, start_div)}
-    div_resize_tl.ondragend = function (e){ ondragend_edit_tl(e, tool, start_div)}
-
-    div_resize_br.style.left = parseInt(tool.div.style.left) + parseInt(tool.div.style.width) + 'px'
-    div_resize_br.style.top = parseInt(tool.div.style.top) + parseInt(tool.div.style.height) + 'px'
-    div_resize_br.ondragstart = ondragstart_edit
-    div_resize_br.ondragover = function (e){ ondragover_edit_br(e, tool, cursor, start_div)}
-    div_resize_br.ondragend = function (e){ ondragend_edit_br(e, tool, start_div)}
   }
 }
 function ondragstart_edit () {
@@ -432,8 +434,8 @@ function ondragover_edit_tl (e, tool, cursor, start_div) {
   let curr_left = (e.pageX - div.parentNode.offsetLeft)
   let curr_top = (e.pageY - div.parentNode.offsetTop)
 
-  div_resize.style.left = curr_left - 6 + 'px'
-  div_resize.style.top = curr_top - 6 + 'px'
+  div_resize.style.left = curr_left - 15 + 'px'
+  div_resize.style.top = curr_top - 15 + 'px'
 
   /* calc dif btw origin and current mouse position */
 
@@ -466,8 +468,8 @@ function ondragover_edit_br (e, tool, cursor, start_div) {
   let curr_top = (e.pageY - div.parentNode.offsetTop)
   console.log(curr_left, curr_top)
 
-  div_resize.style.left = curr_left - 6 + 'px'
-  div_resize.style.top = curr_top - 6 + 'px'
+  div_resize.style.left = curr_left - 15 + 'px'
+  div_resize.style.top = curr_top - 15 + 'px'
 
   /* calc dif btw origin and current mouse position */
 
@@ -500,14 +502,13 @@ function ondragend_edit_br (e, tool, start_div) {
   console.log('curr start size', start_div[0].width, start_div[0].height)
   start_div[0].width = parseInt(div.style.width)
   start_div[0].height = parseInt(div.style.height)
-  console.log("new start size", start_div[0].width, start_div[0].height)
+  console.log('new start size', start_div[0].width, start_div[0].height)
 }
 
 </script>
 <style>
     #menu img{
         -webkit-user-select: none;
-        -khtml-user-select: none;
         -moz-user-select: none;
         -webkit-user-drag: none;
     }
@@ -728,10 +729,8 @@ function ondragend_edit_br (e, tool, start_div) {
         position: absolute;
         background-color: black;
 
-        width: 16px;
-        height: 16px;
-
-        border-radius: 50%;
+        width: 30px;
+        height: 30px;
 
         opacity: .4;
     }
@@ -740,10 +739,8 @@ function ondragend_edit_br (e, tool, start_div) {
         position: absolute;
         background-color: black;
 
-        width: 16px;
-        height: 16px;
-
-        border-radius: 50%;
+        width: 30px;
+        height: 30px;
 
         opacity: .4;
     }

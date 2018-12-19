@@ -111,18 +111,18 @@ export default {
         z-index: -50;
     }
     .bd {
-        font-size: 45px;
+        font-size: 30px;
         background: rgba(255, 255, 255, 0.5);
         -webkit-user-select: unset;
         -moz-user-select: unset;
     }
     .bd p {
-        margin: 10px;
-        padding-left: 25px;
-    border: black 2px solid;
-        border-radius: 50px;
-        width: 50px;
-        background: rgba(255, 66, 39, 0.7);
+        margin: 5px;
+        padding-left: 10px;
+         border: black 2px solid;
+        width: 30px;
+        height: 30px;
+        background: rgba(109, 109, 109, 0.7);
         -webkit-user-select: none;
         -moz-user-select: none;
     }
