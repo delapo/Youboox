@@ -313,44 +313,36 @@ function ondragend_edit_tl (e, tool, start_div) {
 function board_move(){
   let board = document.getElementById("board");
   let e = window.event;
-  board.draggable = true;
-  board.ondragstart = board_dragstart;
-  board.ondragover = function (e){ board_dragover(e, board) };
-  board.ondragend = board_dragend;
-}
-function board_dragstart(){
-  console.log("dragstart");
-}
-function board_dragover(e, board){
-  e = window.event;
+  console.log(e.code);
 
-  console.log("board", board.style.left, board.style.top, board);
-
-  let cursor_left = e.clientX - parseInt(board.style.left);
-  let cursor_top = e.clientY - parseInt(board.style.top);
-
-  console.log("cursor", cursor_left, cursor_top);
-
-
-  board.style.left = cursor_left + "px";
-  board.style.top = cursor_top + "px";
-
-  console.log("new board", board.offsetLeft, board.offsetTop);
-}
-function board_dragend(){
-  console.log("dragend");
-  document.getElementById("board").draggable = false;
-
+  if (e.code === "ArrowRight"){
+    board.style.left = parseInt(board.style.left) + 10 + "px";
+  }
+  if (e.code === "ArrowLeft"){
+    board.style.left = parseInt(board.style.left) - 10 + "px";
+  }
+  if (e.code === "ArrowUp"){
+    board.style.top = parseInt(board.style.top) - 10 + "px";
+  }
+  if (e.code === "ArrowDown"){
+    board.style.top = parseInt(board.style.top) + 10 + "px";
+  }
 }
 /*------------------------------------------- crete all div with json ------------------------------------------------*/
 
 $.getJSON("data.json", function(json) {
+  window.addEventListener("keydown", function(e) {
+    if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+      e.preventDefault();
+    }
+  }, false);
+
   let board_create = document.createElement("div");
   board_create.id = "board";
   board_create.style.position = "absolute";
-  board_create.style.top = "0px";
-  board_create.style.left = "267px";
-  board_create.ondblclick = board_move;
+  board_create.style.top = "100px";
+  board_create.style.left = "100px";
+  document.onkeydown = board_move;
   board_create.draggable = false;
   document.body.appendChild(board_create);
 
