@@ -66,6 +66,7 @@ new Vue({
 /*----------------------------------------- function Call when click on tool -----------------------------------------*/
 
 function Tool(e) {
+  document.getElementById("board").ondragover = function (){};
   let tools = ['_add', 'del', 'move', 'edit'].map(name => ({
     name,
     img_but: document.getElementById(name).firstChild,
@@ -76,7 +77,7 @@ function Tool(e) {
     left: e.pageX - tools[0].div.parentNode.offsetLeft,
     top: e.pageY - tools[0].div.parentNode.offsetTop,
   }));
-  let start_div = ["div"].map(name => ({
+  let start_div = ["start_div"].map(name => ({
     name,
     left: parseInt(tools[0].div.style.left),
     top: parseInt(tools[0].div.style.top),
@@ -98,8 +99,7 @@ function Tool(e) {
   if (selected !== undefined) {
     selected.draggable = false;
     selected.style.border = "1px solid blue";
-    if (selected.firstChild)
-      selected.removeChild(document.getElementById("tl_resize"));
+    selected.ondragover = function() {};
   }
   if (tool !== undefined) {
     tool.div.style.border = "2px solid red";
@@ -145,13 +145,9 @@ function Tool(e) {
   function move (tool, e, cursor, start_div) {
     tool.div.draggable = true;
     tool.div.parentNode.ondragstart = ondragstart_move;
-    tool.div.parentNode.ondragover = function (e) {_funco_move(e, tool, cursor, start_div)};
+    tool.div.parentNode.ondragover = function (e) {ondragover_move(e, tool, cursor, start_div)};
     tool.div.parentNode.ondragend = ondragend_move;
   }
-  function _funco_move (e, tool, cursor, start_div) {
-    ondragover_move(e, tool, cursor, start_div)
-  }
-
   function ondragstart_move () {
     console.log("dragstart");
   }
@@ -183,62 +179,135 @@ function Tool(e) {
   /*------------------------------------------------- function edit ----------------------------------------------------*/
 
   function edit (tool, e, cursor, start_div) {
-    const div_resize = document.getElementById("tl_resize");
-    if (!div_resize) {
-      console.log("no resize div");
-
+    const div_resize_tl = document.getElementById("tl_resize");
+    const div_resize_br = document.getElementById("br_resize");
+    if (!div_resize_tl) {
       let div_resize_tl = document.createElement("div");
+      div_resize_tl.style.left = tool.div.style.left;
+      div_resize_tl.style.top = tool.div.style.top;
       div_resize_tl.id = "tl_resize";
       div_resize_tl.draggable = true;
-      tool.div.appendChild(div_resize_tl);
+      div_resize_tl.ondragstart = ondragstart_edit;
+      div_resize_tl.ondragover = function (e){ ondragover_edit_tl(e, tool, cursor, start_div)};
+      div_resize_tl.ondragend = function (e){ ondragend_edit_tl(e, tool, start_div)};
+      tool.div.parentNode.appendChild(div_resize_tl);
 
-    } else if (div_resize) {
-      tool.div.appendChild(document.getElementById("tl_resize"));
+      let div_resize_br = document.createElement("div");
+      console.log(tool.div.style.left + tool.div.style.width);
+      div_resize_br.style.left = parseInt(tool.div.style.left) + parseInt(tool.div.style.width) + "px";
+      div_resize_br.style.top = parseInt(tool.div.style.top) + parseInt(tool.div.style.height) + "px";
+      div_resize_br.id = "br_resize";
+      div_resize_br.draggable = true;
+      div_resize_br.ondragstart = ondragstart_edit;
+      div_resize_br.ondragover = function (e){ ondragover_edit_br(e, tool, cursor, start_div)};
+      div_resize_br.ondragend = function (e){ ondragend_edit_br(e, tool, start_div)};
+      tool.div.parentNode.appendChild(div_resize_br);
+    } else if (div_resize_tl) {
+
+      div_resize_tl.style.left = tool.div.style.left;
+      div_resize_tl.style.top = tool.div.style.top;
+      div_resize_tl.ondragstart = ondragstart_edit;
+      div_resize_tl.ondragover = function (e){ ondragover_edit_tl(e, tool, cursor, start_div)};
+      div_resize_tl.ondragend = function (e){ ondragend_edit_tl(e, tool, start_div)};
+
+      div_resize_br.style.left = parseInt(tool.div.style.left) + parseInt(tool.div.style.width) + "px";
+      div_resize_br.style.top = parseInt(tool.div.style.top) + parseInt(tool.div.style.height) + "px";
+      div_resize_br.ondragstart = ondragstart_edit;
+      div_resize_br.ondragover = function (e){ ondragover_edit_br(e, tool, cursor, start_div)};
+      div_resize_br.ondragend = function (e){ ondragend_edit_br(e, tool, start_div)};
     }
-    tool.div.parentNode.ondragstart = ondragstart_edit;
-    tool.div.parentNode.ondragover = function (e){ _funco_edit(e, tool, cursor, start_div)};
-    tool.div.parentNode.ondragend = ondragend_edit;
+  }
+  function ondragstart_edit(){
+    console.log("drag start tl");
   }
 
-  function _funco_edit (e, tool, cursor, start_div){
-    ondragover_edit(e, tool, cursor, start_div)
-  }
-
-  function ondragstart_edit () {
-    console.log("dragstart");
-  }
-
-  function ondragover_edit (e, tool, cursor, start_div) {
+  function ondragover_edit_tl (e, tool, cursor, start_div) {
     e = window.event;
     let div = tool.div;
+    let div_resize = document.getElementById("tl_resize");
+
     /* calc position of mouse refer to parent node */
 
-    let curr_left = (e.pageX - tool.div.parentNode.offsetLeft);
-    let curr_top = (e.pageY - tool.div.parentNode.offsetTop);
+    let curr_left = (e.pageX - div.parentNode.offsetLeft);
+    let curr_top = (e.pageY - div.parentNode.offsetTop);
+
+    div_resize.style.left = curr_left - 6 + "px";
+    div_resize.style.top = curr_top - 6  + "px";
+
+
+    /* calc dif btw origin and current mouse position */
+
+    let dif_left = parseInt(start_div[0].left) - curr_left;
+    let dif_top = parseInt(start_div[0].top) - curr_top;
+
+
+
+    /* calc new dif height and width */
+
+    let new_width = parseInt(start_div[0].width) + dif_left + "px";
+    let new_height = parseInt(start_div[0].height) + dif_top + "px"
+
+
+    /* applie new position */
+
+    tool.div.style.width = new_width;
+    tool.div.style.height = new_height;
+
+    tool.div.style.left = curr_left + "px";
+    tool.div.style.top = curr_top + "px";
+
+  }
+
+function ondragover_edit_br (e, tool, cursor, start_div) {
+    e = window.event;
+    let div = tool.div;
+    let div_resize = document.getElementById("br_resize");
+
+
+    /* calc position of mouse refer to parent node */
+
+    let curr_left = (e.pageX - div.parentNode.offsetLeft);
+    let curr_top = (e.pageY - div.parentNode.offsetTop);
+
+    console.log(curr_left, curr_top);
+
+    div_resize.style.left = curr_left - 6 + "px";
+    div_resize.style.top = curr_top - 6 + "px";
 
     /* calc dif btw origin and current mouse position */
 
     let dif_left = start_div[0].left - curr_left;
     let dif_top = start_div[0].top - curr_top;
 
-    /* calc new dif height and width */
+   /* calc new dif height and width */
 
-    let new_width = start_div[0].width + dif_left;
-    let new_height = start_div[0].height + dif_top;
+    let new_width = - dif_left;
+   let new_height = - dif_top;
 
-    /* applie new position */
 
-    tool.div.style.width = new_width + "px";
-    tool.div.style.height = new_height + "px";
+   /* applie new position */
 
-    tool.div.style.left = curr_left + "px";
-    tool.div.style.top = curr_top + "px";
-  }
+   tool.div.style.width = new_width + "px";
+   tool.div.style.height = new_height + "px";
 
-  function ondragend_edit () {
+}
+function ondragend_edit_tl (e, tool, start_div) {
+  console.log("dragend");
+  let div = tool.div;
+  start_div[0].width = parseInt(div.style.width);
+  start_div[0].height = parseInt(div.style.height);
+  start_div[0].left = parseInt(div.style.left);
+  start_div[0].top = parseInt(div.style.top);
+}
+
+  function ondragend_edit_br (e, tool, start_div) {
     console.log("dragend");
+    let div = tool.div;
+    console.log("curr start size", start_div[0].width, start_div[0].height);
+    start_div[0].width = parseInt(div.style.width);
+    start_div[0].height = parseInt(div.style.height);
+    console.log("new start size", start_div[0].width, start_div[0].height);
   }
-
 /*------------------------------------------- crete all div with json ------------------------------------------------*/
 
 $.getJSON("data.json", function(json) {

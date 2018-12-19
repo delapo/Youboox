@@ -263,22 +263,24 @@ p {
   position: absolute;
   background-color: black;
 
-  top: 0;
-  left: 0;
+  width: 16px;
+  height: 16px;
 
-  width: 10px;
-  height: 10px;
+  border-radius: 50%;
+
+  opacity: .4;
 }
 
 #br_resize{
   position: absolute;
   background-color: black;
 
-  bottom: 0;
-  right: 0;
+  width: 16px;
+  height: 16px;
 
-  width: 10px;
-  height: 10px;
+  border-radius: 50%;
+
+  opacity: .4;
 }
 
 .square_add {
