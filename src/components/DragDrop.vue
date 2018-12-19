@@ -570,7 +570,7 @@ function ondragendEdit () {
     #dropJason p{
         text-align: center;
         position: absolute;
-        bottom: -15px;
+        bottom: -18px;
         margin-left: 40%;
     }
     #dropJason:hover {
@@ -640,6 +640,11 @@ function ondragendEdit () {
     #fullGrid {
         top: 60px;
         position: absolute;
+        height: 200%;
+        width: 75%;
+        z-index: -10;
+        border-radius: 30px;
+        background: rgba(0, 0, 0, 0.05);
     }
     .square_add p {
         margin: 10px;
