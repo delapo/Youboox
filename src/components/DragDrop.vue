@@ -267,7 +267,7 @@ function del (tool, e, cursor, startDiv) {
 
 /* ------------------------------------------------ function add --------------------------------------------------- */
 
-function _add (tool, e, cursor, start_div) {
+function _add (tool, e, cursor, startDiv) {
   tool.div.style.border = '1px solid blue'
   let y = document.getElementById('fullGrid').childElementCount
   let board = document.getElementById('fullGrid')
