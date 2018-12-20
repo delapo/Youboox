@@ -78,6 +78,8 @@ function memory_f(tool){
   memory.undo.unshift(new_memory);
 }
 
+/*----------------------------------------------------- undo ---------------------------------------------------------*/
+
 function undo_f(){
   let memory_div = memory.undo[0];
   if ( memory_div.id === "undo" ){
@@ -91,7 +93,11 @@ function undo_f(){
     current_div.style.top = memory_div.top;
     current_div.style.width = memory_div.width;
     current_div.style.height = memory_div.height;
+    current_div.style.border = "1px solid blue";
+    current_div.draggable = false;
+    let memory_move = memory_div;
     memory.undo.shift();
+    memory.redo.unshift(memory_move)
   }
   else if(!current_div){
     let undo_div = document.createElement("div")
@@ -106,9 +112,38 @@ function undo_f(){
     undo_div.style.top = memory_div.top;
     undo_div.id = memory_div.id
     document.getElementById("board").appendChild(undo_div);
+    memory.redo.unshift(memory.undo[0]);
     memory.undo.shift();
   }
-  console.log(memory.undo)
+}
+
+/*------------------------------------------------------ redo --------------------------------------------------------*/
+
+function redo_f(){
+  let memory_div = memory.redo[0];
+  if ( memory_div.id === "redo" ){
+    alert("redo isn't possible");
+    return
+  }
+  let current_div = (document.getElementById(memory_div.id));
+
+  if(current_div){
+    if( current_div.style.left === memory_div.left && current_div.style.top === memory_div.top && current_div.style.width === memory_div.width && current_div.style.height === memory_div.height){
+      current_div.parentNode.removeChild(current_div);
+      memory.undo.unshift(memory_div);
+      memory.redo.shift();
+      return
+    }
+    current_div.style.left = memory_div.left;
+    current_div.style.top = memory_div.top;
+    current_div.style.width = memory_div.width;
+    current_div.style.height = memory_div.height;
+    current_div.style.border = "1px solid blue";
+    current_div.draggable = false;
+    let memory_move = memory_div;
+    memory.redo.shift();
+    memory.undo.unshift(memory_move)
+  }
 }
 
 /*----------------------------------------- function Call when click on tool -----------------------------------------*/
@@ -395,6 +430,16 @@ $.getJSON("data.json", function(json) {
   undo.style.height = "30px";
   document.body.appendChild(undo);
 
+  let redo = document.createElement("button");
+  redo.id = "undo";
+  redo.onclick = redo_f;
+  redo.style.position = "absolute";
+  redo.style.top = "40px";
+  redo.style.left = "350px";
+  redo.style.width = "30px";
+  redo.style.height = "30px";
+  document.body.appendChild(redo);
+
   let board_create = document.createElement("div");
   board_create.id = "board";
   board_create.style.position = "absolute";
@@ -423,57 +468,3 @@ $.getJSON("data.json", function(json) {
     board.appendChild(region_div);
   }
   });
-
-/* bonus */
-
-$(function(){
-  let game = document.createElement("button");
-  game.id = "game start";
-  game.onclick = game_func;
-  game.style.width = "90px";
-  game.style.height = "30px";
-  game.style.backgroundColor = "blue";
-  game.style.position = "absolute";
-  game.style.top = "0px";
-  game.style.left = "550px";
-  document.body.appendChild(game);
-})
-
-function game_func() {
-  document.body.removeChild(document.getElementById("game start"));
-  document.onkeydown = move_player;
-  console.log("game")
-  let player = document.createElement("div");
-  player.style.position = "absolute";
-  player.style.width = "20px";
-  player.style.height = "20px";
-  player.style.top = "0px";
-  player.style.left = "0px";
-  player.id = "player";
-  player.style.backgroundColor = "black";
-  document.body.appendChild(player);
-}
-
-function move_player() {
-  let e = window.event;
-  console.log(e.code);
-  console.log("move");
-  let player = document.getElementById("player");
-  if (e.code === "KeyD") {
-    player.style.left = parseInt(player.style.left) + 10 + "px";
-    player.style.backgroundColor = "blue";
-
-  }
-  if (e.code === "KeyA") {
-    player.style.left = parseInt(player.style.left) - 10 + "px";
-    player.style.backgroundColor = "yellow";
-  }
-  if (e.code === "KeyW") {
-    player.style.top = parseInt(player.style.top) - 10 + "px";
-    player.style.backgroundColor = "red";
-  }
-  if (e.code === "KeyS") {
-    player.style.top = parseInt(player.style.top) + 10 + "px";
-    player.style.backgroundColor = "green";
-  }
-}
