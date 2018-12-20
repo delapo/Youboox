@@ -184,6 +184,8 @@ export default {
       newcase.style.height = e + 'px'
       newcase.style.left = xx + 'px'
       newcase.style.top = yy + 'px'
+      newcase.onclick = Tool
+
       newcase.draggable = false
       select.appendChild(newcase)
       var r = document.getElementById('number' + y)
