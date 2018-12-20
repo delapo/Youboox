@@ -5,7 +5,7 @@
             <div id="save_text" v-show="showSave === e"><p>Sauvegarder</p></div>
         </section>
         <section id="_add" ref="add" v-for="e in 1" :key="e.id" @mouseover="showAdd = e" @mouseout="showAdd = null">
-            <img v-bind:class="add_selected" v-on:click="check(1)" id="imgAdd" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaWv7Z9KZToWdMyUCma8E1jAdzkXd27WIVJ-QuJMurz7s7gLUX_g">
+            <img v-bind:class="add_selected" id="imgAdd" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaWv7Z9KZToWdMyUCma8E1jAdzkXd27WIVJ-QuJMurz7s7gLUX_g">
             <div id="add_text" v-show="showAdd === e"><p>Ajouter une case</p></div>
         </section>
         <section id="del" ref="del" v-for="e in 1" :key="e.id" @mouseover="showRm = e" @mouseout="showRm = null">
@@ -61,10 +61,10 @@ export default {
         switch (int) {
           case 1:
             this.selected = 1
-            this.add_selected = 'tool_selected'
+            this.add_selected = 'not selected'
             console.log('add')
             this.delete_selected = 'not selected'
-            this.edit_selected = 'not selected'
+            this.edit_selected = 'tool_selected'
             this.move_selected = 'not selected'
             break
           case 2:

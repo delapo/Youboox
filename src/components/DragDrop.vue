@@ -110,6 +110,7 @@ export default {
           newdiv.style.height = (obj[z].height) * 1 + 'px'
           newdiv.style.border = '1px solid blue'
           newdiv.draggable = false
+          document.getElementById('_add').onclick = _add
           newdiv.addEventListener('mouseover', Tool, false)
           fullGrid.appendChild(newdiv)
           var r = document.getElementById('number' + z)
@@ -266,7 +267,6 @@ export default {
         this.previewFile(i + 1)
       } else {
         let file = this.$data.files[i]
-        let files = this.$data.files
         let reader = new FileReader()
         reader.readAsDataURL(file)
         reader.onloadend = () => {
@@ -292,48 +292,44 @@ export default {
 }
 
 function del (tool, e, cursor, startDiv) {
-  tool.div.addEventListener('click', () => {
+  tool.div.onclick = function () {
     e.stopPropagation()
     tool.div.parentNode.removeChild(tool.div)
-  })
+  }
+  tool.div.removeAttribute('onclick')
 }
 
 /* ------------------------------------------------ function add --------------------------------------------------- */
 
-function _add (tool, e, cursor, startDiv) {
-  tool.div.addEventListener('click', () => {
-    tool.div.style.border = '1px solid blue'
-    let y = document.getElementById('fullGrid').childElementCount
-    let board = document.getElementById('fullGrid')
-    let newDiv = document.createElement('div')
-    e.stopPropagation()
-    newDiv.style.position = 'absolute'
-    newDiv.className = 'bd'
+function _add (e) {
+  let y = document.getElementById('fullGrid').childElementCount
+  let board = document.getElementById('fullGrid')
+  let newDiv = document.createElement('div')
+  newDiv.style.position = 'absolute'
+  newDiv.className = 'bd'
 
-    newDiv.style.left = cursor[0].left - 125 + 'px'
-    newDiv.style.top = cursor[0].top - 125 + 'px'
+  newDiv.style.left = 500 + 'px'
+  newDiv.style.top = 500 + 'px'
 
-    newDiv.style.width = '250px'
-    newDiv.style.height = '250px'
+  newDiv.style.width = '250px'
+  newDiv.style.height = '250px'
+  newDiv.zIndex = 20000000000
+  newDiv.setAttribute('id', 'number' + y)
+  newDiv.setAttribute('number', '' + y)
+  newDiv.innerHTML = '<p>' + y + '</p>'
 
-    newDiv.setAttribute('id', 'number' + y)
-    newDiv.setAttribute('number', '' + y)
-    newDiv.innerHTML = '<p>' + y + '</p>'
-
-    for (let i = 0; i < document.getElementById('fullGrid').childElementCount; i++) {
-      if (!document.getElementById('number' + i)) {
-        newDiv.setAttribute('id', 'number' + i)
-        newDiv.setAttribute('number', '' + i)
-        newDiv.innerHTML = '<p>' + i + '</p>'
-        break
-      }
+  for (let i = 0; i < document.getElementById('fullGrid').childElementCount; i++) {
+    if (!document.getElementById('number' + i)) {
+      newDiv.setAttribute('id', 'number' + i)
+      newDiv.setAttribute('number', '' + i)
+      newDiv.innerHTML = '<p>' + i + '</p>'
+      break
     }
-    newDiv.style.border = '1px solid blue'
-    newDiv.draggable = false
-    newDiv.onclick = Tool
-    board.appendChild(newDiv)
-  })
-  tool.div.removeAllListeners()
+  }
+  newDiv.style.border = '1px solid blue'
+  newDiv.draggable = false
+  newDiv.addEventListener('mouseover', Tool, false)
+  board.appendChild(newDiv)
 }
 
 /* ------------------------------------------------ function move --------------------------------------------------- */
