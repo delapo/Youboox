@@ -43,7 +43,7 @@ export default {
         height: 80px;
         position: absolute;
         z-index: 1;
-        top:0;
+        top:5;
         margin-right: 0;
         left:32% ;
         background: black;
@@ -78,7 +78,7 @@ export default {
         height: 80px;
         position: absolute;
         z-index: 1;
-        top:0;
+        top:5;
         right: 37%;
         background: black;
         border-radius: 50px;
