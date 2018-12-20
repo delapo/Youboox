@@ -292,6 +292,7 @@ export default {
 }
 
 function del (tool, e, cursor, startDiv) {
+  memory_f(tool)
   tool.div.parentNode.removeChild(tool.div)
 }
 
@@ -335,17 +336,18 @@ function _add (tool, e, cursor, startDiv) {
 
 function move (tool, e, cursor, startDiv) {
   tool.div.draggable = true
-  tool.div.parentNode.ondragstart = ondragstartMove
+  tool.div.parentNode.ondragstart = function (e) { ondragstartMove(e, tool) }
   tool.div.parentNode.ondragover = function (e) { ondragoverMove(e, tool, cursor, startDiv) }
   tool.div.parentNode.ondragend = ondragendMove
   e.stopPropagation()
   e.stopImmediatePropagation()
 }
 
-function ondragstartMove (e) {
+function ondragstartMove (e, tool) {
   console.log('dragstart')
   e.stopPropagation()
   e.stopImmediatePropagation()
+  memory_f(tool)
 }
 
 function ondragoverMove (e, tool, cursor, startDiv) {
@@ -373,7 +375,7 @@ function ondragendMove (e) {
   console.log('dragend')
   e.stopPropagation()
   e.stopImmediatePropagation()
-  e.removeEvent()
+
 }
 
 /* ---------------------------------------- function Call when click on tool ---------------------------------------- */
@@ -420,7 +422,6 @@ function Tool (e) {
     selected.ondragover = function () {}
   }
   if (tool !== undefined) {
-    memory_f(tool)
     tool.div.style.border = '2px solid red'
     var fun = eval(tool.name)
     fun(tool, e, cursor, startDiv)
@@ -520,8 +521,6 @@ function redo_f () {
 
   if (current_div) {
     if (current_div.style.left === memory_div.left && current_div.style.top === memory_div.top && current_div.style.width === memory_div.width && current_div.style.height === memory_div.height) {
-      current_div.parentNode.removeChild(current_div)
-      memory.undo.unshift(memory_div)
       memory.redo.shift()
       return
     }
