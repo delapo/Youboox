@@ -29,7 +29,6 @@
                 </div>
                 <img src="http://l-3ab.com/images/Slider/double-fleche.png">
                 <div id="addCase">
-                    <input type="number" id="addingbd" name="addingbd" ref="addingbd" placeholder="Choisir une case">
                     <input type="number" id="casew" name="casew" ref="casew" placeholder="Choisir une longueur">
                     <input type="number" id="caseh" name="caseh" ref="caseh" placeholder="Choisir une hauteur">
                     <input type="number" id="casex" name="casex" ref="casex" placeholder="Choisir la position de X">
@@ -129,21 +128,22 @@
 
     addbd () {
       var y = document.getElementById('fullGrid').childElementCount
-      var z = this.$refs.addingbd.value
       var w = this.$refs.casew.value
       var e = this.$refs.caseh.value
       var xx = this.$refs.casex.value
       var yy = this.$refs.casey.value
       var newcase = document.createElement('div')
-      var select = document.getElementById('number' + z)
-      newcase.setAttribute('class', 'new')
-      newcase.setAttribute('number', '2')
+      var select = document.getElementById('fullGrid')
+      newcase.setAttribute('class', 'bd')
+      newcase.setAttribute('number', '' + y)
       newcase.setAttribute('id', 'number' + y)
-      newcase.style.border = 'thick solid red'
+      newcase.style.position = 'relative'
+      newcase.style.border = '1px solid blue'
       newcase.style.width = w + 'px'
       newcase.style.height = e + 'px'
-      newcase.style.marginLeft = xx + 'px'
-      newcase.style.marginTop = yy + 'px'
+      newcase.style.left = xx + 'px'
+      newcase.style.top = yy + 'px'
+      newcase.draggable = false
       select.appendChild(newcase)
       var r = document.getElementById('number' + y)
       console.log(r)
@@ -292,7 +292,6 @@ function _add (tool, e, cursor, startDiv) {
 
   for (let i = 0; i < document.getElementById('fullGrid').childElementCount; i++) {
     if (!document.getElementById('number' + i)) {
-      console.log('coycou', i)
       newDiv.setAttribute('id', 'number' + i)
       newDiv.setAttribute('number', '' + i)
       newDiv.innerHTML = '<p>' + i + '</p>'
