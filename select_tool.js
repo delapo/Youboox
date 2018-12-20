@@ -74,7 +74,6 @@ var memory = {
 function memory_f(tool){
   let div = tool.div;
   let new_memory = {id: div.id, left: div.style.left, top: div.style.top, width: div.style.width, height: div.style.height};
-  console.log(memory);
   memory.undo.unshift(new_memory);
 }
 
@@ -89,15 +88,15 @@ function undo_f(){
   let current_div = (document.getElementById(memory_div.id));
 
   if(current_div){
+    memory.redo.unshift({id: current_div.id, left: current_div.style.left, top: current_div.style.top, width: current_div.style.width, height: current_div.style.height});
     current_div.style.left = memory_div.left;
     current_div.style.top = memory_div.top;
     current_div.style.width = memory_div.width;
     current_div.style.height = memory_div.height;
     current_div.style.border = "1px solid blue";
     current_div.draggable = false;
-    let memory_move = memory_div;
     memory.undo.shift();
-    memory.redo.unshift(memory_move)
+
   }
   else if(!current_div){
     let undo_div = document.createElement("div")
@@ -116,11 +115,11 @@ function undo_f(){
     memory.undo.shift();
   }
 }
-
 /*------------------------------------------------------ redo --------------------------------------------------------*/
 
 function redo_f(){
   let memory_div = memory.redo[0];
+
   if ( memory_div.id === "redo" ){
     alert("redo isn't possible");
     return
@@ -134,15 +133,15 @@ function redo_f(){
       memory.redo.shift();
       return
     }
+    console.log("not the same");
+    memory.undo.unshift({id: current_div.id, left: current_div.style.left, top: current_div.style.top, width: current_div.style.width, height: current_div.style.height});
     current_div.style.left = memory_div.left;
     current_div.style.top = memory_div.top;
     current_div.style.width = memory_div.width;
     current_div.style.height = memory_div.height;
     current_div.style.border = "1px solid blue";
     current_div.draggable = false;
-    let memory_move = memory_div;
     memory.redo.shift();
-    memory.undo.unshift(memory_move)
   }
 }
 
@@ -453,7 +452,7 @@ $.getJSON("data.json", function(json) {
 
   console.log(regions);
   var board = document.getElementById('board');
-  for (var region in regions) {
+  for (let region in regions) {
     var region_div = document.createElement("div");
     region_div.id = "square" + region;
     region_div.classList.add("square");
