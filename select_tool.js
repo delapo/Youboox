@@ -4,8 +4,8 @@ new Vue({
       add_selected: "not selected",
       delete_selected: "not selected",
       edit_selected: "not selected",
-      move_selected: "not selected",
-      selected: 0,
+      move_selected: "tool_selected",
+      selected: 4,
     },
   methods: {
     check(int){
@@ -62,6 +62,54 @@ new Vue({
     },
   }
 });
+/*----------------------------------------------- memory undo / redo -------------------------------------------------*/
+
+var memory = {
+  undo:
+    [{id: "undo"}],
+  redo:
+      [{id: "redo"}],
+  };
+
+function memory_f(tool){
+  let div = tool.div;
+  let new_memory = {id: div.id, left: div.style.left, top: div.style.top, width: div.style.width, height: div.style.height};
+  console.log(memory);
+  memory.undo.unshift(new_memory);
+}
+
+function undo_f(){
+  let memory_div = memory.undo[0];
+  if ( memory_div.id === "undo" ){
+    alert("undo isn't possible");
+    return
+  }
+  let current_div = (document.getElementById(memory_div.id));
+
+  if(current_div){
+    current_div.style.left = memory_div.left;
+    current_div.style.top = memory_div.top;
+    current_div.style.width = memory_div.width;
+    current_div.style.height = memory_div.height;
+    memory.undo.shift();
+  }
+  else if(!current_div){
+    let undo_div = document.createElement("div")
+    undo_div.style.position = "absolute";
+    undo_div.style.border = "1px solid blue";
+    undo_div.classList.add("square");
+    undo_div.draggable = false;
+    undo_div.onclick = Tool;
+    undo_div.style.width = memory_div.width;
+    undo_div.style.height = memory_div.height;
+    undo_div.style.left = memory_div.left;
+    undo_div.style.top = memory_div.top;
+    undo_div.id = memory_div.id
+    document.getElementById("board").appendChild(undo_div);
+    memory.undo.shift();
+  }
+  console.log(memory.undo)
+}
 
 /*----------------------------------------- function Call when click on tool -----------------------------------------*/
 
@@ -102,6 +150,7 @@ function Tool(e) {
     selected.ondragover = function() {};
   }
   if (tool !== undefined) {
+    memory_f(tool);
     tool.div.style.border = "2px solid red";
     window[tool.name](tool, e, cursor, start_div);
   } else {
@@ -313,7 +362,6 @@ function ondragend_edit_tl (e, tool, start_div) {
 function board_move(){
   let board = document.getElementById("board");
   let e = window.event;
-  console.log(e.code);
 
   if (e.code === "ArrowRight"){
     board.style.left = parseInt(board.style.left) + 10 + "px";
@@ -337,6 +385,16 @@ $.getJSON("data.json", function(json) {
     }
   }, false);
 
+  let undo = document.createElement("button");
+  undo.id = "undo";
+  undo.onclick = undo_f;
+  undo.style.position = "absolute";
+  undo.style.top = "0px";
+  undo.style.left = "350px";
+  undo.style.width = "30px";
+  undo.style.height = "30px";
+  document.body.appendChild(undo);
+
   let board_create = document.createElement("div");
   board_create.id = "board";
   board_create.style.position = "absolute";
@@ -347,6 +405,7 @@ $.getJSON("data.json", function(json) {
   document.body.appendChild(board_create);
 
   var regions = json.regions_of_interest;
+
   console.log(regions);
   var board = document.getElementById('board');
   for (var region in regions) {
@@ -364,3 +423,57 @@ $.getJSON("data.json", function(json) {
     board.appendChild(region_div);
   }
   });
+
+/* bonus */
+
+$(function(){
+  let game = document.createElement("button");
+  game.id = "game start";
+  game.onclick = game_func;
+  game.style.width = "90px";
+  game.style.height = "30px";
+  game.style.backgroundColor = "blue";
+  game.style.position = "absolute";
+  game.style.top = "0px";
+  game.style.left = "550px";
+  document.body.appendChild(game);
+})
+
+function game_func() {
+  document.body.removeChild(document.getElementById("game start"));
+  document.onkeydown = move_player;
+  console.log("game")
+  let player = document.createElement("div");
+  player.style.position = "absolute";
+  player.style.width = "20px";
+  player.style.height = "20px";
+  player.style.top = "0px";
+  player.style.left = "0px";
+  player.id = "player";
+  player.style.backgroundColor = "black";
+  document.body.appendChild(player);
+}
+
+function move_player() {
+  let e = window.event;
+  console.log(e.code);
+  console.log("move");
+  let player = document.getElementById("player");
+  if (e.code === "KeyD") {
+    player.style.left = parseInt(player.style.left) + 10 + "px";
+    player.style.backgroundColor = "blue";
+
+  }
+  if (e.code === "KeyA") {
+    player.style.left = parseInt(player.style.left) - 10 + "px";
+    player.style.backgroundColor = "yellow";
+  }
+  if (e.code === "KeyW") {
+    player.style.top = parseInt(player.style.top) - 10 + "px";
+    player.style.backgroundColor = "red";
+  }
+  if (e.code === "KeyS") {
+    player.style.top = parseInt(player.style.top) + 10 + "px";
+    player.style.backgroundColor = "green";
+  }
+}
