@@ -93,7 +93,7 @@ export default {
         fullGrid.draggable = false
         fullGrid.style.left = 50 + 'px'
         fullGrid.style.right = 10 + 'px'
-        fullGrid.style.top = 130 + 'px'
+        fullGrid.style.top = 100 + 'px'
         fullGrid.style.bottom = 5 + 'px'
         select.appendChild(fullGrid)
         var obj = array.regions_of_interest
@@ -231,35 +231,20 @@ export default {
       this.previewFile(0)
       this.middleImg(0)
     },
-    middleImg (i) {
-      document.getElementById('imageCenter').innerHTML = ''
-      let files = this.$data.files
-      let prev = document.getElementById('prev')
-      let next = document.getElementById('next')
-      let reader = new FileReader()
-      reader.readAsDataURL(files[i])
-      reader.onloadend = function () {
-        let select = document.getElementById('imageCenter')
-        select.src = reader.result
-      }
-      prev.addEventListener('click', function () {
-        reader.readAsDataURL(files[i])
-        console.log(i)
-        reader.onloadend = function () {
-          let select = document.getElementById('imageCenter')
-          select.src = reader.result
-        }
-        i++
-      }, true)
-      next.addEventListener('click', function () {
-        reader.readAsDataURL(files[i])
-        console.log(i)
-        reader.onloadend = function () {
-          let select = document.getElementById('imageCenter')
-          select.src = reader.result
-        }
-        i--
-      }, true)
+    uploadFile (file) {
+      let url = 'http://localhost:8080/'
+      let formData = new FormData()
+      formData.append('file', file)
+      fetch(url, {
+        method: 'POST',
+        body: formData
+      })
+        .then(() => {
+          console.log('Done')
+        })
+        .catch(() => {
+          console.log('Error')
+        })
     },
     previewFile (i) {
       if (document.getElementById('gallery').getElementsByTagName('img')[i] != null) {
@@ -274,25 +259,53 @@ export default {
           img.src = reader.result
           img.class = 'page'
           img.addEventListener('click', function () {
-            /* reader.readAsDataURL(files[i])
+            reader.readAsDataURL(files[i])
             reader.onloadend = function () {
               let select = document.getElementById('imageCenter')
               select.src = reader.result
-            } */
+            }
           })
-          img.addEventListener('click', () => this.middleImg(i))
+          img.addEventListener('click', function () {
+            console.log('asas')
+          }, false)
           document.getElementById('gallery').appendChild(img)
           if (this.$data.files[i + 1]) {
             this.previewFile(i + 1)
           }
         }
       }
+    },
+    middleImg (i) {
+      let files = this.$data.files
+      let prev = document.getElementById('prev')
+      let next = document.getElementById('next')
+      let reader = new FileReader()
+      prev.addEventListener('click', function () {
+        reader.readAsDataURL(files[i + 1])
+        reader.onloadend = function () {
+          let select = document.getElementById('imageCenter')
+          select.src = reader.result
+        }
+        i++
+      }, true)
+      next.addEventListener('click', function () {
+        reader.readAsDataURL(files[i - 1])
+        reader.onloadend = function () {
+          let select = document.getElementById('imageCenter')
+          select.src = reader.result
+        }
+        i--
+      }, true)
+      reader.readAsDataURL(files[i])
+      reader.onloadend = function () {
+        let select = document.getElementById('imageCenter')
+        select.src = reader.result
+      }
     }
   }
 }
 
 function del (tool, e, cursor, startDiv) {
-  memory_f(tool)
   tool.div.parentNode.removeChild(tool.div)
 }
 
@@ -336,29 +349,17 @@ function _add (tool, e, cursor, startDiv) {
 
 function move (tool, e, cursor, startDiv) {
   tool.div.draggable = true
-  tool.div.parentNode.ondragstart = function (e) { ondragstartMove(e, tool) }
+  tool.div.parentNode.ondragstart = ondragstartMove
   tool.div.parentNode.ondragover = function (e) { ondragoverMove(e, tool, cursor, startDiv) }
   tool.div.parentNode.ondragend = ondragendMove
-  tool.div.parentNode.ondragstart = ondragstartMove
-  tool.div.parentNode.ondragover = function (e) {
-    ondragoverMove(e, tool, cursor, startDiv)
-  }
   e.stopPropagation()
   e.stopImmediatePropagation()
-  let bdIndex = document.getElementsByClassName('bd')
-  for (let x in bdIndex) {
-    if (typeof (bdIndex[x]) === 'object') {
-      bdIndex.style.zIndex = 10
-      console.log(bdIndex)
-    }
-  }
 }
 
-function ondragstartMove (e, tool) {
+function ondragstartMove (e) {
   console.log('dragstart')
   e.stopPropagation()
   e.stopImmediatePropagation()
-  memory_f(tool)
 }
 
 function ondragoverMove (e, tool, cursor, startDiv) {
@@ -378,6 +379,7 @@ function ondragoverMove (e, tool, cursor, startDiv) {
 
   div.style.left = x + 'px'
   div.style.top = y + 'px'
+  div.style.zIndex = 1000
   e.stopPropagation()
   e.stopImmediatePropagation()
 }
@@ -386,13 +388,8 @@ function ondragendMove (e) {
   console.log('dragend')
   e.stopPropagation()
   e.stopImmediatePropagation()
-
-  div.ondragend = function () {
-    div.style.border = '1px solid blue'
-    div.draggable = false
-    div.style.zIndex = '100'
-  }
 }
+
 /* ---------------------------------------- function Call when click on tool ---------------------------------------- */
 
 function Tool (e) {
@@ -437,6 +434,7 @@ function Tool (e) {
     selected.ondragover = function () {}
   }
   if (tool !== undefined) {
+    memory_f(tool)
     tool.div.style.border = '2px solid red'
     var fun = eval(tool.name)
     fun(tool, e, cursor, startDiv)
@@ -472,9 +470,9 @@ var memory = {
   undo:
     [{id: 'undo'}],
   redo:
-  [{id: 'redo'}]
+    [{id: 'redo'}]
 }
-window.memory = memory
+
 function memory_f (tool) {
   let div = tool.div
   let new_memory = {id: div.id, left: div.style.left, top: div.style.top, width: div.style.width, height: div.style.height}
@@ -536,6 +534,8 @@ function redo_f () {
 
   if (current_div) {
     if (current_div.style.left === memory_div.left && current_div.style.top === memory_div.top && current_div.style.width === memory_div.width && current_div.style.height === memory_div.height) {
+      current_div.parentNode.removeChild(current_div)
+      memory.undo.unshift(memory_div)
       memory.redo.shift()
       return
     }
@@ -625,13 +625,6 @@ function redo_f () {
         margin-right: 10px;
         vertical-align: middle;
         background: white;
-        -webkit-transition: .6s ease-in-out;
-        transition: .6s ease-in-out;
-    }
-
-    #gallery img:hover {
-        -webkit-transform: scale(1.2);
-        transform: scale(1.2);
     }
 
     .button {
@@ -751,7 +744,6 @@ function redo_f () {
     #fullGrid {
         top: 120px;
         position: absolute;
-        top: 120px;
         height: 200%;
         left: 3%;
         width: 72%;
