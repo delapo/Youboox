@@ -1,7 +1,7 @@
 <template>
     <div>
         <div id="dropJason">
-            <input type="file" id="jasonElem" accept="application/json" ref="myJason" @change="displayJason">
+            <input type="file" name="Jason" id="jasonElem" accept="application/json" ref="myJason" @change="displayJason" class="custom-file-input">
         </div>
         <div id="drop-area" ref="azerty" v-on:dragenter="hover" v-on:dragover="hover" v-on:dragleave="unhover" v-on:click="dropFileZone"
              v-on:drop="handleDrop">
@@ -626,5 +626,27 @@ function Tool (e) {
 
         opacity: .4;
     }
-
+    .custom-file-input::-webkit-file-upload-button {
+        visibility: hidden;
+    }
+    .custom-file-input::before {
+        content: 'Choisir un Jason';
+        display: inline-block;
+        background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+        border: 1px solid #999;
+        border-radius: 3px;
+        padding: 5px 8px;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        cursor: pointer;
+        text-shadow: 1px 1px #fff;
+        font-weight: 700;
+        font-size: 10pt;
+    }
+    .custom-file-input:hover::before {
+        border-color: black;
+    }
+    .custom-file-input:active::before {
+        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+    }
 </style>
