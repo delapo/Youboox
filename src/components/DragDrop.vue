@@ -339,8 +339,19 @@ function move (tool, e, cursor, startDiv) {
   tool.div.parentNode.ondragstart = function (e) { ondragstartMove(e, tool) }
   tool.div.parentNode.ondragover = function (e) { ondragoverMove(e, tool, cursor, startDiv) }
   tool.div.parentNode.ondragend = ondragendMove
+  tool.div.parentNode.ondragstart = ondragstartMove
+  tool.div.parentNode.ondragover = function (e) {
+    ondragoverMove(e, tool, cursor, startDiv)
+  }
   e.stopPropagation()
   e.stopImmediatePropagation()
+  let bdIndex = document.getElementsByClassName('bd')
+  for (let x in bdIndex) {
+    if (typeof (bdIndex[x]) === 'object') {
+      bdIndex.style.zIndex = 10
+      console.log(bdIndex)
+    }
+  }
 }
 
 function ondragstartMove (e, tool) {
@@ -376,8 +387,12 @@ function ondragendMove (e) {
   e.stopPropagation()
   e.stopImmediatePropagation()
 
+  div.ondragend = function () {
+    div.style.border = '1px solid blue'
+    div.draggable = false
+    div.style.zIndex = '100'
+  }
 }
-
 /* ---------------------------------------- function Call when click on tool ---------------------------------------- */
 
 function Tool (e) {
@@ -437,7 +452,7 @@ function board_move () {
     console.log(board)
     console.log(parseInt(board.style.left) + 10 + 'px')
     /*  if(parseInt(board.style.left === NaN))
-                  board.style.left = 10px */
+          board.style.left = 10px */
     board.style.left = parseInt(board.style.left) + 10 + 'px'
   }
   if (e.code === 'ArrowLeft') {
@@ -455,11 +470,11 @@ function board_move () {
 
 var memory = {
   undo:
-            [{id: 'undo'}],
+    [{id: 'undo'}],
   redo:
-            [{id: 'redo'}]
+  [{id: 'redo'}]
 }
-
+window.memory = memory
 function memory_f (tool) {
   let div = tool.div
   let new_memory = {id: div.id, left: div.style.left, top: div.style.top, width: div.style.width, height: div.style.height}
@@ -734,6 +749,7 @@ function redo_f () {
         bottom: 10% !important;
     }
     #fullGrid {
+        top: 120px;
         position: absolute;
         top: 120px;
         height: 200%;
