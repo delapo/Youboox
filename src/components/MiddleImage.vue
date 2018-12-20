@@ -2,14 +2,14 @@
     <div id="middleImage">
         <section id="prev" v-for="e in 1" :key="e.id" @mouseover="showMove= e" @mouseout="showMove = null">
         <img ref="prev" src="https://www.dsbrowser.com/documentation/images/8/8d/Fleche-droite.png">
-            <div id="move_text1" v-show="showMove === e">Next</div>
+            <div id="move_text1" v-show="showMove === e">Suivant</div>
         </section>
         <section id="BD_show">
             <img id="imageCenter"/>
         </section>
         <section id="next" v-for="e in 1" :key="e.id" @mouseover="shownext = e" @mouseout="shownext = null">
             <img ref="next" src="https://www.dsbrowser.com/documentation/images/8/8d/Fleche-droite.png">
-            <div id="move_text1" v-show="shownext === e">Prev</div>
+            <div id="move_text1" v-show="shownext === e">Précédent</div>
         </section>
     </div>
 </template>
@@ -30,10 +30,18 @@ export default {
 </script>
 
 <style>
+    body{
+        background-image: url('https://youboox.fr/assets/notsupported/colibri_blanc.png');
+        background-repeat: no-repeat;
+        background-size: 1000px;
+        background-position: 100px 100px;
+        background-color: rgba(109, 109, 109, 0.07);
+    }
+
     #next {
-        width: 50px;
-        height: 50px;
-        position: fixed;
+        width: 80px;
+        height: 80px;
+        position: absolute;
         z-index: 1;
         top:0;
         margin-right: 0;
@@ -55,8 +63,8 @@ export default {
     }
 
     #next img {
-        width: 30px;
-        height: 30px;
+        width: 60px;
+        height: 60px;
         position: absolute;
         z-index: 1;
         top: 10px;
@@ -66,9 +74,9 @@ export default {
     }
 
     #prev {
-        width: 50px;
-        height: 50px;
-        position: fixed;
+        width: 80px;
+        height: 80px;
+        position: absolute;
         z-index: 1;
         top:0;
         right: 37%;
@@ -90,9 +98,9 @@ export default {
     }
 
     #prev img {
-        width: 30px;
-        height: 30px;
-        position: fixed;
+        width: 60px;
+        height: 60px;
+        position: absolute;
         z-index: 1;
         top: 10px;
         left: 10px;
@@ -116,6 +124,8 @@ export default {
         background: rgba(255, 255, 255, 0.5);
         -webkit-user-select: unset;
         -moz-user-select: unset;
+        resize: both;
+        overflow: auto;
     }
     .bd p {
         margin: 5px;
@@ -149,5 +159,26 @@ export default {
     #move_text1 p {
         margin: auto;
     }
-
+    #logo{
+        background: rgba(17, 17, 17, 0.15);
+        border-radius: 50%;
+        margin-left: auto;
+        margin-right: 30%;
+        margin-top: 2%;
+        width: 900px;
+        height: 900px;
+        display: block;
+        z-index: -100;
+    }
+    #logo img{
+        width: 700px;
+        height: 500px;
+        margin-right: 30%;
+        display: block;
+        margin-left: 20px;
+        float: left;
+        margin-top: 23%;
+        opacity: 0.3;
+        z-index: -90;
+    }
 </style>

@@ -4,7 +4,6 @@
             <img src="https://img.icons8.com/metro/1600/save-as.png">
             <div id="save_text" v-show="showSave === e"><p>Sauvegarder</p></div>
         </section>
-
         <section id="_add" ref="add" v-for="e in 1" :key="e.id" @mouseover="showAdd = e" @mouseout="showAdd = null">
             <img v-bind:class="add_selected" v-on:click="check(1)" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaWv7Z9KZToWdMyUCma8E1jAdzkXd27WIVJ-QuJMurz7s7gLUX_g">
             <div id="add_text" v-show="showAdd === e"><p>Ajouter une case</p></div>
@@ -14,7 +13,7 @@
             <div id="rm_text" v-show="showRm === e">Supprimer une case</div>
         </section>
         <section id="edit" ref="edit" v-for="e in 1" :key="e.id" @mouseover="showEdit = e" @mouseout="showEdit = null">
-            <img v-bind:class="edit_selected" v-on:click="check(3)" src="https://image.freepik.com/icones-gratuites/ecriture-sur-un-cahier-ouvert_318-44015.jpg">
+            <img v-bind:class="edit_selected" v-on:click="check(3)src="t">
             <div id="edit_text" v-show="showEdit === e">Modifier une case</div>
         </section>
         <section id="move" ref="move" v-for="e in 1" :key="e.id" @mouseover="showMove = e" @mouseout="showMove = null">
@@ -75,14 +74,6 @@ export default {
             this.delete_selected = 'tool_selected'
             console.log('del')
             this.edit_selected = 'not selected'
-            this.move_selected = 'not selected'
-            break
-          case 3:
-            this.selected = 3
-            this.add_selected = 'not selected'
-            this.delete_selected = 'not selected'
-            this.edit_selected = 'tool_selected'
-            console.log('edit')
             this.move_selected = 'not selected'
             break
           case 4:
@@ -186,25 +177,15 @@ export default {
         right: 5px;
         border: 2px solid black;
     }
-
-    #add {
-        position: fixed;
-        top: 10px;
-        right: 5px;
-        width: 200px;
-        height: 200px;
-        display: contents;
-    }
-
     #_add img {
         display: flex;
-        width: 70px;
-        height: 70px;
+        width: 100px;
+        height: 100px;
         background: white;
         border-radius: 100px;
         border: 3px solid white;
         position: fixed;
-        right: 215px;
+        right: 200px;
         top: 10px;
         -webkit-transform: scale(1) rotate(45deg);
         transform: scale(1) rotate(45deg);
@@ -219,14 +200,14 @@ export default {
 
     #del img {
         display: flex;
-        width: 70px;
-        height: 70px;
+        width: 100px;
+        height: 100px;
         background: white;
         border-radius: 100px;
         border: 3px solid white;
         position: fixed;
-        right: 185px;
-        top: 100px;
+        right: 125px;
+        top: 130px;
         transform: scale(1.1);
         -webkit-transform: scale(1);
         -webkit-transition: .3s ease-in-out;
@@ -237,39 +218,15 @@ export default {
         -webkit-transform: scale(1.1);
         transform: scale(1.1);
     }
-
-    #edit img:hover {
-        -webkit-transform: scale(1.1);
-        transform: scale(1.1);
-    }
-
-    #edit img {
-        display: flex;
-        width: 70px;
-        height: 70px;
-        background: white;
-        border-radius: 100px;
-        position: fixed;
-        border: 3.5px solid white;
-        right: 105px;
-        top: 175px;
-        z-index: 20;
-        transform: scale(1.1);
-        -webkit-transform: scale(1);
-        -webkit-transition: .3s ease-in-out;
-        transition: .3s ease-in-out;
-    }
-
     #move img {
         display: flex;
-        width: 70px;
-        height: 70px;
+        width: 100px;
+        height: 100px;
         background: white;
         border-radius: 100px;
-        border: 0.5px solid white;
         position: fixed;
         right: 10px;
-        top: 210px;
+        top: 205px;
         z-index: 20;
         transform: scale(1.1);
         -webkit-transform: scale(1);
@@ -328,7 +285,7 @@ export default {
 
     #move_text {
         position: fixed;
-        top: 275px;
+        top: 310px;
         right: 10px;
         background: aliceblue;
         padding: 5px;
@@ -345,8 +302,8 @@ export default {
         position: fixed;
     }
     .tool_selected {
-        background-color: #ff4d4d !important;
-        border: 3.5px solid #ff4d4d !important;
+        background-color: black !important;
+        border: 20px solid black !important;
     }
     #download-area {
         position: absolute;
@@ -362,5 +319,4 @@ export default {
     #download-area input{
     margin: 7px;
     }
-
 </style>

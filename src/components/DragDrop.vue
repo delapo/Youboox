@@ -2,7 +2,6 @@
     <div>
         <div id="dropJason">
             <input type="file" id="jasonElem" accept="application/json" ref="myJason" @change="displayJason">
-            <p> JSON </p>
         </div>
         <div id="drop-area" ref="azerty" v-on:dragenter="hover" v-on:dragover="hover" v-on:dragleave="unhover" v-on:click="dropFileZone"
              v-on:drop="handleDrop">
@@ -53,13 +52,15 @@
     </div>
 </template>
 <script>
-export default {
+  /* eslint-disable no-eval */
+
+  export default {
   name: 'drag-drop',
   data () {
     return {
       files: [],
-      undo: [],
-      redo: [],
+      UndoRedoTable: [20],
+      o: 0,
       i: 20
     }
   },
@@ -264,7 +265,10 @@ export default {
 function del (tool, e, cursor, startDiv) {
   tool.div.parentNode.removeChild(tool.div)
 }
-
+function undo () {
+}
+function redo () {
+}
 /* ------------------------------------------------ function add --------------------------------------------------- */
 
 function _add (tool, e, cursor, start_div) {
@@ -381,125 +385,6 @@ function Tool (e) {
     console.log('no tool')
   }
 }
-
-/* ------------------------------------------------ function edit --------------------------------------------------- */
-
-function edit (tool, e, cursor, start_div) {
-  const div_resize_tl = document.getElementById('tl_resize')
-  const div_resize_br = document.getElementById('br_resize')
-  if (!div_resize_tl) {
-    let div_resize_tl = document.createElement('div')
-    div_resize_tl.style.left = tool.div.style.left
-    div_resize_tl.style.top = tool.div.style.top
-    div_resize_tl.id = 'tl_resize'
-    div_resize_tl.draggable = true
-    div_resize_tl.ondragstart = ondragstart_edit
-    div_resize_tl.ondragover = function (e) {
-      ondragover_edit_tl(e, tool, cursor, start_div)
-    }
-    div_resize_tl.ondragend = function (e) {
-      ondragend_edit_tl(e, tool, start_div)
-    }
-    tool.div.parentNode.appendChild(div_resize_tl)
-
-    let div_resize_br = document.createElement('div')
-    console.log(tool.div.style.left + tool.div.style.width)
-    div_resize_br.style.left = parseInt(tool.div.style.left) + parseInt(tool.div.style.width) + 'px'
-    div_resize_br.style.top = parseInt(tool.div.style.top) + parseInt(tool.div.style.height) + 'px'
-    div_resize_br.id = 'br_resize'
-    div_resize_br.draggable = true
-    div_resize_br.ondragstart = ondragstart_edit
-    div_resize_br.ondragover = function (e) {
-      ondragover_edit_br(e, tool, cursor, start_div)
-    }
-    div_resize_br.ondragend = function (e) {
-      ondragend_edit_br(e, tool, start_div)
-    }
-    tool.div.parentNode.appendChild(div_resize_br)
-  }
-}
-function ondragstart_edit () {
-  console.log('drag start tl')
-}
-
-function ondragover_edit_tl (e, tool, cursor, start_div) {
-  e = window.event
-  let div = tool.div
-  let div_resize = document.getElementById('tl_resize')
-
-  /* calc position of mouse refer to parent node */
-
-  let curr_left = (e.pageX - div.parentNode.offsetLeft)
-  let curr_top = (e.pageY - div.parentNode.offsetTop)
-
-  div_resize.style.left = curr_left - 15 + 'px'
-  div_resize.style.top = curr_top - 15 + 'px'
-
-  /* calc dif btw origin and current mouse position */
-
-  let dif_left = parseInt(start_div[0].left) - curr_left
-  let dif_top = parseInt(start_div[0].top) - curr_top
-
-  /* calc new dif height and width */
-
-  let new_width = parseInt(start_div[0].width) + dif_left + 'px'
-  let new_height = parseInt(start_div[0].height) + dif_top + 'px'
-
-  /* applie new position */
-
-  tool.div.style.width = new_width
-  tool.div.style.height = new_height
-
-  tool.div.style.left = curr_left + 'px'
-  tool.div.style.top = curr_top + 'px'
-}
-
-function ondragover_edit_br (e, tool, cursor, start_div) {
-  e = window.event
-  let div = tool.div
-  let div_resize = document.getElementById('br_resize')
-
-  /* calc position of mouse refer to parent node */
-
-  let curr_left = (e.pageX - div.parentNode.offsetLeft)
-  let curr_top = (e.pageY - div.parentNode.offsetTop)
-  console.log(curr_left, curr_top)
-
-  div_resize.style.left = curr_left - 15 + 'px'
-  div_resize.style.top = curr_top - 15 + 'px'
-
-  /* calc dif btw origin and current mouse position */
-
-  let dif_left = start_div[0].left - curr_left
-  let dif_top = start_div[0].top - curr_top
-
-  /* calc new dif height and width */
-
-  let new_width = -dif_left
-  let new_height = -dif_top
-
-  /* applie new position */
-
-  tool.div.style.width = new_width + 'px'
-  tool.div.style.height = new_height + 'px'
-}
-function ondragend_edit_tl (e, tool, start_div) {
-  console.log('dragend')
-  let div = tool.div
-  start_div[0].width = parseInt(div.style.width)
-  start_div[0].height = parseInt(div.style.height)
-  start_div[0].left = parseInt(div.style.left)
-  start_div[0].top = parseInt(div.style.top)
-}
-
-function ondragend_edit_br (e, tool, start_div) {
-  console.log('dragend')
-  let div = tool.div
-  console.log('curr start size', start_div[0].width, start_div[0].height)
-  start_div[0].width = parseInt(div.style.width)
-  start_div[0].height = parseInt(div.style.height)
-  console.log('new start size', start_div[0].width, start_div[0].height)
-}
 </script>
 <style>
     #menu img{
@@ -607,34 +492,26 @@ function ondragend_edit_br (e, tool, start_div) {
 
     #dropJason {
         border: 2px solid #111;
-        width: 300px;
-        height: 40px;
+        width: 100%;
+        height: 20px;
         font-family: sans-serif;
         margin: auto;
         border-radius: 10px;
         background: #ff4d4d;
         padding: 10px;
-        position: fixed;
+        position: absolute;
         display: flex;
-        top: -45px;
+        top: -7px;
         text-align: center;
-        z-index: 10000;
-        right: 44%;
+        right: 0;
+        z-index: -1;
         -webkit-transition: .4s ease-in-out;
         transition: .4s ease-in-out;
     }
-    #dropJason p{
-        text-align: center;
-        position: absolute;
-        bottom: -18px;
-        margin-left: 40%;
+    #dropJason input{
+        margin-left: auto;
+        margin-right: auto;
     }
-    #dropJason:hover {
-        border-color: #ccc;
-        border-radius: 10px;
-        top:-1%;
-    }
-
     #manualSet {
         top: 20%;
         z-index: 100000;
@@ -701,7 +578,7 @@ function ondragend_edit_br (e, tool, start_div) {
         width: 72%;
         z-index: -10;
         border-radius: 30px;
-        background: rgba(0, 0, 0, 0.05);
+        background: rgba(255, 66, 39, 0.11);
         padding-right: 10%;
     }
     .bd{
@@ -716,6 +593,14 @@ function ondragend_edit_br (e, tool, start_div) {
         -webkit-user-select: none;
         -moz-user-select: none;
         font-size: 30px;
+    }
+    .square_add{
+        resize: both;
+        overflow: auto;
+        font-size: 30px;
+        background: rgba(255, 255, 255, 0.5);
+        -webkit-user-select: unset;
+        -moz-user-select: unset;
     }
     [draggable=true] {
         cursor: move;
