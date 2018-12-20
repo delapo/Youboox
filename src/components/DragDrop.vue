@@ -93,7 +93,7 @@ export default {
         fullGrid.draggable = false
         fullGrid.style.left = 50 + 'px'
         fullGrid.style.right = 10 + 'px'
-        fullGrid.style.top = 100 + 'px'
+        fullGrid.style.top = 130 + 'px'
         fullGrid.style.bottom = 5 + 'px'
         select.appendChild(fullGrid)
         var obj = array.regions_of_interest
@@ -231,20 +231,35 @@ export default {
       this.previewFile(0)
       this.middleImg(0)
     },
-    uploadFile (file) {
-      let url = 'http://localhost:8080/'
-      let formData = new FormData()
-      formData.append('file', file)
-      fetch(url, {
-        method: 'POST',
-        body: formData
-      })
-        .then(() => {
-          console.log('Done')
-        })
-        .catch(() => {
-          console.log('Error')
-        })
+    middleImg (i) {
+      document.getElementById('imageCenter').innerHTML = ''
+      let files = this.$data.files
+      let prev = document.getElementById('prev')
+      let next = document.getElementById('next')
+      let reader = new FileReader()
+      reader.readAsDataURL(files[i])
+      reader.onloadend = function () {
+        let select = document.getElementById('imageCenter')
+        select.src = reader.result
+      }
+      prev.addEventListener('click', function () {
+        reader.readAsDataURL(files[i])
+        console.log(i)
+        reader.onloadend = function () {
+          let select = document.getElementById('imageCenter')
+          select.src = reader.result
+        }
+        i++
+      }, true)
+      next.addEventListener('click', function () {
+        reader.readAsDataURL(files[i])
+        console.log(i)
+        reader.onloadend = function () {
+          let select = document.getElementById('imageCenter')
+          select.src = reader.result
+        }
+        i--
+      }, true)
     },
     previewFile (i) {
       if (document.getElementById('gallery').getElementsByTagName('img')[i] != null) {
@@ -259,47 +274,18 @@ export default {
           img.src = reader.result
           img.class = 'page'
           img.addEventListener('click', function () {
-            reader.readAsDataURL(files[i])
+            /* reader.readAsDataURL(files[i])
             reader.onloadend = function () {
               let select = document.getElementById('imageCenter')
               select.src = reader.result
-            }
+            } */
           })
-          img.addEventListener('click', function () {
-            console.log('asas')
-          }, false)
+          img.addEventListener('click', () => this.middleImg(i))
           document.getElementById('gallery').appendChild(img)
           if (this.$data.files[i + 1]) {
             this.previewFile(i + 1)
           }
         }
-      }
-    },
-    middleImg (i) {
-      let files = this.$data.files
-      let prev = document.getElementById('prev')
-      let next = document.getElementById('next')
-      let reader = new FileReader()
-      prev.addEventListener('click', function () {
-        reader.readAsDataURL(files[i + 1])
-        reader.onloadend = function () {
-          let select = document.getElementById('imageCenter')
-          select.src = reader.result
-        }
-        i++
-      }, true)
-      next.addEventListener('click', function () {
-        reader.readAsDataURL(files[i - 1])
-        reader.onloadend = function () {
-          let select = document.getElementById('imageCenter')
-          select.src = reader.result
-        }
-        i--
-      }, true)
-      reader.readAsDataURL(files[i])
-      reader.onloadend = function () {
-        let select = document.getElementById('imageCenter')
-        select.src = reader.result
       }
     }
   }
@@ -387,6 +373,7 @@ function ondragendMove (e) {
   console.log('dragend')
   e.stopPropagation()
   e.stopImmediatePropagation()
+  e.removeEvent()
 }
 
 /* ---------------------------------------- function Call when click on tool ---------------------------------------- */
@@ -748,8 +735,8 @@ function redo_f () {
         bottom: 10% !important;
     }
     #fullGrid {
-        top: 120px;
         position: absolute;
+        top: 120px;
         height: 200%;
         left: 3%;
         width: 72%;
