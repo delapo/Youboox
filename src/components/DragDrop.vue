@@ -362,6 +362,7 @@ function ondragstartMove (e) {
   e.stopImmediatePropagation()
 }
 let zIndex = 10
+let zOtherIndex = 0
 function ondragoverMove (e, tool, cursor, startDiv) {
   e = window.event
   let div = tool.div
@@ -381,7 +382,9 @@ function ondragoverMove (e, tool, cursor, startDiv) {
   div.style.left = x + 'px'
   div.style.top = y + 'px'
   div.style.zIndex = zIndex
-zIndex++
+  otherDiv.style.zIndex = zOtherIndex
+  zOtherIndex--
+  zIndex++
   e.stopPropagation()
   e.stopImmediatePropagation()
 }
