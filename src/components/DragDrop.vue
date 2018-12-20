@@ -8,43 +8,43 @@
             <img class="plus" src="https://elitegraphicsllc.com/wp-content/plugins/udraw/designer/includes/img/photo-icon.png">
             <form class="my-form">
                 <input type="file" id="fileElem" multiple accept="image/*" ref="myFiles" @change="handleFiles">
-                <label class="button" for="fileElem" >Select or drop some files</label>
+                <label class="button" for="fileElem" >Choisissez ou lachez des images</label>
             </form>
         </div>
         <div>
             <div id="manualSet">
                 <div id="deleteCase">
                     <label for="casebd"> </label>
-                    <input type="number" id="casebd" name="casebd" ref="casebd" placeholder="number of the box">
-                    <button v-on:click="deletebd()">delete a box !</button>
+                    <input type="number" id="casebd" name="casebd" ref="casebd" placeholder="Numéro de la case">
+                    <button v-on:click="deletebd()">Supprimer une case</button>
                 </div>
                 <div id="modifyCase"><label for="modifyingbd"> </label><input type="number" id="modifyingbd"
                                                                               name="modifyingbd" ref="modifyingbd"
-                                                                              placeholder="Set a box">
+                                                                              placeholder="Choisir une case">
                     <input type="number" id="modifying1bd" name="modifying1bd" ref="modifying1bd"
-                           placeholder="Set a width">
+                           placeholder="Choisir une longueur">
                     <input type="number" id="modifyinghbd" name="modifyinghbd" ref="modifyinghbd"
-                           placeholder="Set a height">
-                    <button v-on:click="modifybd()">Modify the box !</button>
+                           placeholder="Choisir une hauteur">
+                    <button v-on:click="modifybd()">Modifier une case</button>
                 </div>
                 <img src="http://l-3ab.com/images/Slider/double-fleche.png">
                 <div id="addCase">
-                    <input type="number" id="addingbd" name="addingbd" ref="addingbd" placeholder="Select a box">
-                    <input type="number" id="casew" name="casew" ref="casew" placeholder="Set a width">
-                    <input type="number" id="caseh" name="caseh" ref="caseh" placeholder="Set a height">
-                    <input type="number" id="casex" name="casex" ref="casex" placeholder="Set a X position">
-                    <input type="number" id="casey" name="casey" ref="casey" placeholder="Set a Y position">
-                    <button v-on:click="addbd()">add a box !</button>
+                    <input type="number" id="addingbd" name="addingbd" ref="addingbd" placeholder="Choisir une case">
+                    <input type="number" id="casew" name="casew" ref="casew" placeholder="Choisir une longueur">
+                    <input type="number" id="caseh" name="caseh" ref="caseh" placeholder="Choisir une hauteur">
+                    <input type="number" id="casex" name="casex" ref="casex" placeholder="Choisir la position de X">
+                    <input type="number" id="casey" name="casey" ref="casey" placeholder="Choisir la position de Y">
+                    <button v-on:click="addbd()">Ajouter une case</button>
                 </div>
                 <div id="moveCase"><label for="movingbd"> </label>
-                    <input type="number" id="movingbd" name="movingbd" ref="movingbd" placeholder="Select a box">
-                    <input type="number" id="movingxbd" name="movingxbd" ref="movingxbd" placeholder="Set a X position">
-                    <input type="number" id="movingybd" name="movingybd" ref="movingybd" placeholder="Set a Y position">
-                    <button v-on:click="movebd()">move a box !</button>
+                    <input type="number" id="movingbd" name="movingbd" ref="movingbd" placeholder="Choisir une case">
+                    <input type="number" id="movingxbd" name="movingxbd" ref="movingxbd" placeholder="Choisir la position de X">
+                    <input type="number" id="movingybd" name="movingybd" ref="movingybd" placeholder="Choisir la position de Y">
+                    <button v-on:click="movebd()">Déplacer une case</button>
                 </div>
                 <div id="changeOrder">
-                    <input type="number" id="number1" name="number1" ref="number1" placeholder="Séléctionner la première case">
-                    <input type="number" id="number2" name="number2" ref="number2" placeholder="Séléctionner la deuxième case">
+                    <input type="number" id="nbr1" name="number1" ref="number1" placeholder="Séléctionner la première case">
+                    <input type="number" id="nbr2" name="number2" ref="number2" placeholder="Séléctionner la deuxième case">
                     <button v-on:click="swapOrder">Swap!</button>
                 </div>
             </div>
@@ -288,15 +288,22 @@ function _add (tool, e, cursor, startDiv) {
 
   newDiv.setAttribute('id', 'number' + y)
   newDiv.setAttribute('number', '' + y)
+  newDiv.innerHTML = '<p>' + y + '</p>'
+
+  for (let i = 0; i < document.getElementById('fullGrid').childElementCount; i++) {
+    if (!document.getElementById('number' + i)) {
+      console.log('coycou', i)
+      newDiv.setAttribute('id', 'number' + i)
+      newDiv.setAttribute('number', '' + i)
+      newDiv.innerHTML = '<p>' + i + '</p>'
+      break
+    }
+  }
   newDiv.style.border = '1px solid blue'
 
   newDiv.draggable = false
   newDiv.onclick = Tool
   board.appendChild(newDiv)
-  let r = document.getElementById('number' + y)
-  console.log(r)
-  r.innerHTML = '<p>' + y + '</p>'
-  y = y + 1
 }
 
 /* ------------------------------------------------ function move --------------------------------------------------- */
@@ -308,11 +315,15 @@ function move (tool, e, cursor, startDiv) {
   tool.div.parentNode.ondragend = ondragendMove
 }
 
-function ondragstartMove () {
+function ondragstartMove (e) {
+  e.stopPropagation()
+  e.stopImmediatePropagation()
   console.log('dragstart')
 }
 
 function ondragoverMove (e, tool, cursor, startDiv) {
+  e.stopPropagation()
+  e.stopImmediatePropagation()
   e = window.event
   let div = tool.div
   /* calc position of mouse refer to parent node */
@@ -331,7 +342,9 @@ function ondragoverMove (e, tool, cursor, startDiv) {
   div.style.top = y + 'px'
 }
 
-function ondragendMove () {
+function ondragendMove (e) {
+  e.stopPropagation()
+  e.stopImmediatePropagation()
   console.log('dragend')
 }
 
