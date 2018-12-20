@@ -24,7 +24,7 @@ export default {
         background: #ff4d4d;
         border: 2px solid black;
         box-shadow:7px 7px white;
-        z-index: 100;
+        z-index: 1;
     }
     #img-undo{
         -webkit-transition: .7s ease-in-out;
@@ -33,12 +33,14 @@ export default {
     #img-undo:hover{
         transform: scale(1.3);
         -webkit-transform: scale(1.3);
+        z-index: 2;
+
     }
     #img-redo{
             -webkit-transition: .7s ease-in-out;
             transition: .7s ease-in-out;
         transform: scale(1) rotate(180deg);
-
+        z-index: 2;
     }
     #img-redo:hover{
         transform: scale(1.3) rotate(180deg);

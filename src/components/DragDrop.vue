@@ -116,25 +116,26 @@ export default {
           r.innerHTML = '<p>' + z + '</p>'
         }
         let undo = document.createElement('img')
-        undo.id = 'undo'
+        undo.id = 'img-undo'
         undo.src = 'https://img.icons8.com/metro/1600/reply-arrow.png'
         undo.onclick = undo_f
-        undo.style.position = 'absolute'
-        undo.style.top = '0px'
-        undo.style.left = '350px'
-        undo.style.width = '30px'
-        undo.style.height = '30px'
-        document.body.appendChild(undo)
+        undo.style.position = 'fixed'
+        undo.style.top = '40px'
+        undo.style.left = '1px'
+        undo.style.width = '90px'
+        undo.style.height = '90px'
+        document.getElementById('undo').appendChild(undo)
 
-        let redo = document.createElement('button')
-        redo.id = 'undo'
+        let redo = document.createElement('img')
+        redo.id = 'img-redo'
+        redo.src = 'https://img.icons8.com/metro/1600/reply-arrow.png'
         redo.onclick = redo_f
-        redo.style.position = 'absolute'
-        redo.style.top = '40px'
-        redo.style.left = '350px'
-        redo.style.width = '30px'
-        redo.style.height = '30px'
-        document.body.appendChild(redo)
+        redo.style.position = 'fixed'
+        redo.style.top = '5px'
+        redo.style.left = '50px'
+        redo.style.width = '90px'
+        redo.style.height = '90px'
+        document.getElementById('undo').appendChild(redo)
       }
     },
     swapOrder () {
@@ -486,7 +487,13 @@ function undo_f () {
   let current_div = (document.getElementById(memory_div.id))
 
   if (current_div) {
-    memory.redo.unshift({id: current_div.id, left: current_div.style.left, top: current_div.style.top, width: current_div.style.width, height: current_div.style.height})
+    memory.redo.unshift({
+      id: current_div.id,
+      left: current_div.style.left,
+      top: current_div.style.top,
+      width: current_div.style.width,
+      height: current_div.style.height
+    })
     current_div.style.left = memory_div.left
     current_div.style.top = memory_div.top
     current_div.style.width = memory_div.width
