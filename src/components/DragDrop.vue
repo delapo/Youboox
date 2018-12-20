@@ -50,9 +50,12 @@
                 </div>
             </div>
         </div>
+        <section id="undo" v-for="e in 1" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null">
+        </section>
     </div>
 </template>
 <script>
+import '@/components/MenuDroite'
 export default {
   name: 'drag-drop',
   data () {
@@ -60,7 +63,9 @@ export default {
       files: [],
       UndoRedoTable: [20],
       o: 0,
-      i: 20
+      i: 20,
+      undo: null,
+      redo: null
     }
   },
   methods: {
@@ -110,6 +115,27 @@ export default {
           var r = document.getElementById('number' + z)
           r.innerHTML = '<p>' + z + '</p>'
         }
+        let undo = document.createElement('img')
+        undo.id = 'img-undo'
+        undo.src = 'https://img.icons8.com/metro/1600/reply-arrow.png'
+        undo.onclick = undo_f
+        undo.style.position = 'fixed'
+        undo.style.top = '40px'
+        undo.style.left = '1px'
+        undo.style.width = '90px'
+        undo.style.height = '90px'
+        document.getElementById('undo').appendChild(undo)
+
+        let redo = document.createElement('img')
+        redo.id = 'img-redo'
+        redo.src = 'https://img.icons8.com/metro/1600/reply-arrow.png'
+        redo.onclick = redo_f
+        redo.style.position = 'fixed'
+        redo.style.top = '5px'
+        redo.style.left = '50px'
+        redo.style.width = '90px'
+        redo.style.height = '90px'
+        document.getElementById('undo').appendChild(redo)
       }
     },
     swapOrder () {
@@ -394,6 +420,7 @@ function Tool (e) {
     selected.ondragover = function () {}
   }
   if (tool !== undefined) {
+    memory_f(tool)
     tool.div.style.border = '2px solid red'
     var fun = eval(tool.name)
     fun(tool, e, cursor, startDiv)
@@ -420,6 +447,93 @@ function board_move () {
   }
   if (e.code === 'ArrowDown') {
     board.style.top = parseInt(board.style.top) + 10 + 'px'
+  }
+}
+
+/* ----------------------------------------------- memory undo / redo ------------------------------------------------- */
+
+var memory = {
+  undo:
+    [{id: 'undo'}],
+  redo:
+    [{id: 'redo'}]
+}
+
+function memory_f (tool) {
+  let div = tool.div
+  let new_memory = {id: div.id, left: div.style.left, top: div.style.top, width: div.style.width, height: div.style.height}
+  memory.undo.unshift(new_memory)
+}
+
+/* ----------------------------------------------------- undo --------------------------------------------------------- */
+
+function undo_f () {
+  let memory_div = memory.undo[0]
+  if (memory_div.id === 'undo') {
+    alert("undo isn't possible")
+    return
+  }
+  let current_div = (document.getElementById(memory_div.id))
+
+  if (current_div) {
+    memory.redo.unshift({
+      id: current_div.id,
+      left: current_div.style.left,
+      top: current_div.style.top,
+      width: current_div.style.width,
+      height: current_div.style.height
+    })
+    current_div.style.left = memory_div.left
+    current_div.style.top = memory_div.top
+    current_div.style.width = memory_div.width
+    current_div.style.height = memory_div.height
+    current_div.style.border = '1px solid blue'
+    current_div.draggable = false
+    memory.undo.shift()
+  } else if (!current_div) {
+    let undo_div = document.createElement('div')
+    undo_div.style.position = 'absolute'
+    undo_div.style.border = '1px solid blue'
+    undo_div.classList.add('square')
+    undo_div.draggable = false
+    undo_div.onclick = Tool
+    undo_div.style.width = memory_div.width
+    undo_div.style.height = memory_div.height
+    undo_div.style.left = memory_div.left
+    undo_div.style.top = memory_div.top
+    undo_div.id = memory_div.id
+    document.getElementById('board').appendChild(undo_div)
+    memory.redo.unshift(memory.undo[0])
+    memory.undo.shift()
+  }
+}
+/* ------------------------------------------------------ redo -------------------------------------------------------- */
+
+function redo_f () {
+  let memory_div = memory.redo[0]
+
+  if (memory_div.id === 'redo') {
+    alert("redo isn't possible")
+    return
+  }
+  let current_div = (document.getElementById(memory_div.id))
+
+  if (current_div) {
+    if (current_div.style.left === memory_div.left && current_div.style.top === memory_div.top && current_div.style.width === memory_div.width && current_div.style.height === memory_div.height) {
+      current_div.parentNode.removeChild(current_div)
+      memory.undo.unshift(memory_div)
+      memory.redo.shift()
+      return
+    }
+    console.log('not the same')
+    memory.undo.unshift({id: current_div.id, left: current_div.style.left, top: current_div.style.top, width: current_div.style.width, height: current_div.style.height})
+    current_div.style.left = memory_div.left
+    current_div.style.top = memory_div.top
+    current_div.style.width = memory_div.width
+    current_div.style.height = memory_div.height
+    current_div.style.border = '1px solid blue'
+    current_div.draggable = false
+    memory.redo.shift()
   }
 }
 </script>
