@@ -53,16 +53,6 @@
         <section id="undo" v-for="e in 1" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null">
         </section>
     </div>
-    <div id="do-undo">
-    <section id="undo" v-for="e in 1" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null">
-        <img id="img-undo" src="https://img.icons8.com/metro/1600/reply-arrow.png">
-        <div id="undo_json"  v-on:click="undo_f" v-show="undo === e"><p>undo</p></div>
-    </section>
-    <section id="do" v-for="e in 1" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null">
-        <img id="img-redo" src="https://img.icons8.com/metro/1600/reply-arrow.png">
-        <div id="redo_json" v-on:click="redo_f" v-show="redo === e"><p>undo</p></div>
-    </section>
-</div>
 </template>
 <script>
 import '@/components/MenuDroite'
@@ -399,87 +389,6 @@ function ondragendMove (e) {
   e.stopImmediatePropagation()
 }
 
-/* ----------------------------------------------- memory undo / redo ------------------------------------------------- */
-
-var memory = {
-  undo:
-        [{id: 'undo'}],
-  redo:
-        [{id: 'redo'}]
-}
-
-function memory_f (tool) {
-  let div = tool.div
-  let new_memory = {id: div.id, left: div.style.left, top: div.style.top, width: div.style.width, height: div.style.height}
-  memory.undo.unshift(new_memory)
-}
-
-/* ----------------------------------------------------- undo --------------------------------------------------------- */
-
-function undo_f () {
-  let memory_div = memory.undo[0]
-  if (memory_div.id === 'undo') {
-    alert("undo isn't possible")
-    return
-  }
-  let current_div = (document.getElementById(memory_div.id))
-
-  if (current_div) {
-    memory.redo.unshift({id: current_div.id, left: current_div.style.left, top: current_div.style.top, width: current_div.style.width, height: current_div.style.height})
-    current_div.style.left = memory_div.left
-    current_div.style.top = memory_div.top
-    current_div.style.width = memory_div.width
-    current_div.style.height = memory_div.height
-    current_div.style.border = '1px solid blue'
-    current_div.draggable = false
-    memory.undo.shift()
-  } else if (!current_div) {
-    let undo_div = document.createElement('div')
-    undo_div.style.position = 'absolute'
-    undo_div.style.border = '1px solid blue'
-    undo_div.classList.add('square')
-    undo_div.draggable = false
-    undo_div.onclick = Tool
-    undo_div.style.width = memory_div.width
-    undo_div.style.height = memory_div.height
-    undo_div.style.left = memory_div.left
-    undo_div.style.top = memory_div.top
-    undo_div.id = memory_div.id
-    document.getElementById('board').appendChild(undo_div)
-    memory.redo.unshift(memory.undo[0])
-    memory.undo.shift()
-  }
-}
-/* ------------------------------------------------------ redo -------------------------------------------------------- */
-
-function redo_f () {
-  let memory_div = memory.redo[0]
-
-  if (memory_div.id === 'redo') {
-    alert("redo isn't possible")
-    return
-  }
-  let current_div = (document.getElementById(memory_div.id))
-
-  if (current_div) {
-    if (current_div.style.left === memory_div.left && current_div.style.top === memory_div.top && current_div.style.width === memory_div.width && current_div.style.height === memory_div.height) {
-      current_div.parentNode.removeChild(current_div)
-      memory.undo.unshift(memory_div)
-      memory.redo.shift()
-      return
-    }
-    console.log('not the same')
-    memory.undo.unshift({id: current_div.id, left: current_div.style.left, top: current_div.style.top, width: current_div.style.width, height: current_div.style.height})
-    current_div.style.left = memory_div.left
-    current_div.style.top = memory_div.top
-    current_div.style.width = memory_div.width
-    current_div.style.height = memory_div.height
-    current_div.style.border = '1px solid blue'
-    current_div.draggable = false
-    memory.redo.shift()
-  }
-}
-
 /* ---------------------------------------- function Call when click on tool ---------------------------------------- */
 
 function Tool (e) {
@@ -540,7 +449,7 @@ function board_move () {
     console.log(board)
     console.log(parseInt(board.style.left) + 10 + 'px')
     /*  if(parseInt(board.style.left === NaN))
-          board.style.left = 10px */
+                  board.style.left = 10px */
     board.style.left = parseInt(board.style.left) + 10 + 'px'
   }
   if (e.code === 'ArrowLeft') {
@@ -558,9 +467,9 @@ function board_move () {
 
 var memory = {
   undo:
-    [{id: 'undo'}],
+            [{id: 'undo'}],
   redo:
-    [{id: 'redo'}]
+            [{id: 'redo'}]
 }
 
 function memory_f (tool) {
@@ -715,14 +624,13 @@ function redo_f () {
         margin-right: 10px;
         vertical-align: middle;
         background: white;
-        -webkit-transition: .4s ease-in-out;
-        transition: .4s ease-in-out;
+        -webkit-transition: .6s ease-in-out;
+        transition: .6s ease-in-out;
     }
 
     #gallery img:hover {
-        -webkit-transform: scale(1.3);
-        transform: scale(1.3);
-
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
     }
 
     .button {
@@ -917,5 +825,4 @@ function redo_f () {
     .custom-file-input:active::before {
         background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
     }
-
 </style>
