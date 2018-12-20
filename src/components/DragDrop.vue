@@ -350,10 +350,18 @@ function _add (tool, e, cursor, startDiv) {
 function move (tool, e, cursor, startDiv) {
   tool.div.draggable = true
   tool.div.parentNode.ondragstart = ondragstartMove
-  tool.div.parentNode.ondragover = function (e) { ondragoverMove(e, tool, cursor, startDiv) }
-  tool.div.parentNode.ondragend = ondragendMove
+  tool.div.parentNode.ondragover = function (e) {
+    ondragoverMove(e, tool, cursor, startDiv)
+  }
   e.stopPropagation()
   e.stopImmediatePropagation()
+  let bdIndex = document.getElementsByClassName('bd')
+  for (let x in bdIndex) {
+    if (typeof (bdIndex[x]) === 'object') {
+      bdIndex.style.zIndex = 10
+      console.log(bdIndex)
+    }
+  }
 }
 
 function ondragstartMove (e) {
@@ -381,14 +389,12 @@ function ondragoverMove (e, tool, cursor, startDiv) {
   div.style.top = y + 'px'
   e.stopPropagation()
   e.stopImmediatePropagation()
+  div.ondragend = function () {
+    div.style.border = '1px solid blue'
+    div.draggable = false
+    div.style.zIndex = '100'
+  }
 }
-
-function ondragendMove (e) {
-  console.log('dragend')
-  e.stopPropagation()
-  e.stopImmediatePropagation()
-}
-
 /* ---------------------------------------- function Call when click on tool ---------------------------------------- */
 
 function Tool (e) {
@@ -469,9 +475,9 @@ var memory = {
   undo:
     [{id: 'undo'}],
   redo:
-    [{id: 'redo'}]
+  [{id: 'redo'}]
 }
-
+window.memory = memory
 function memory_f (tool) {
   let div = tool.div
   let new_memory = {id: div.id, left: div.style.left, top: div.style.top, width: div.style.width, height: div.style.height}
