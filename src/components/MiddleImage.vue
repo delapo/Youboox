@@ -34,7 +34,7 @@ export default {
         background-image: url('https://youboox.fr/assets/notsupported/colibri_blanc.png');
         background-repeat: no-repeat;
         background-size: 1000px;
-        background-position: 100px 100px;
+        background-position: 100px 120px;
         background-color: rgba(109, 109, 109, 0.07);
     }
 
@@ -110,7 +110,7 @@ export default {
     }
 
     #BD_show img {
-        top: 100px;
+        top: 140px;
         left: 2.5%;
         position: absolute;
         -webkit-user-select: none;
