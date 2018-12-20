@@ -1,13 +1,5 @@
 <template>
     <div id="do-undo">
-        <section id="undo" v-for="e in 1" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null">
-            <img id="img-undo" src="https://img.icons8.com/metro/1600/reply-arrow.png">
-            <div id="undo_json" v-show="undo === e"><p>undo</p></div>
-        </section>
-        <section id="do" v-for="e in 1" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null">
-            <img id="img-redo" src="https://img.icons8.com/metro/1600/reply-arrow.png">
-            <div id="redo_json" v-show="redo === e"><p>undo</p></div>
-        </section>
     </div>
 </template>
 <script>

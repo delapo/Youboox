@@ -17,7 +17,7 @@
             <div id="edit_text" v-show="showEdit === e">Modifier une case</div>
         </section>
         <section id="move" ref="move" v-for="e in 1" :key="e.id" @mouseover="showMove = e" @mouseout="showMove = null">
-            <img v-bind:class="move_selected" v-on:click="check(4)" src="../assets/4d38a18f-f2e7-4df4-95ed-5cf2332654ed.png">
+            <img v-bind:class="move_selected" v-on:click="check(4)" id="imgMove" src="../assets/4d38a18f-f2e7-4df4-95ed-5cf2332654ed.png">
             <div id="move_text" v-show="showMove === e">Déplacer une case</div>
         </section>
     </div>
