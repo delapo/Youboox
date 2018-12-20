@@ -17,7 +17,7 @@
         bottom: 10px;
         right: 2.5%;
         z-index: 10;
-        background-color: rgba(0, 0, 0, 0.02);
+        background-color: white;
         padding: 10px;
         overflow-y: scroll;
     }

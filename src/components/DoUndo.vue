@@ -37,8 +37,8 @@ export default {
 
     }
     #img-redo{
-            -webkit-transition: .7s ease-in-out;
-            transition: .7s ease-in-out;
+        -webkit-transition: .7s ease-in-out;
+        transition: .7s ease-in-out;
         transform: scale(1) rotate(180deg);
         z-index: 2;
     }
