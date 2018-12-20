@@ -5,11 +5,11 @@
             <div id="save_text" v-show="showSave === e"><p>Sauvegarder</p></div>
         </section>
         <section id="_add" ref="add" v-for="e in 1" :key="e.id" @mouseover="showAdd = e" @mouseout="showAdd = null">
-            <img v-bind:class="add_selected" v-on:click="check(1)" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaWv7Z9KZToWdMyUCma8E1jAdzkXd27WIVJ-QuJMurz7s7gLUX_g">
+            <img v-bind:class="add_selected" v-on:click="check(1)" id="imgAdd" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaWv7Z9KZToWdMyUCma8E1jAdzkXd27WIVJ-QuJMurz7s7gLUX_g">
             <div id="add_text" v-show="showAdd === e"><p>Ajouter une case</p></div>
         </section>
         <section id="del" ref="del" v-for="e in 1" :key="e.id" @mouseover="showRm = e" @mouseout="showRm = null">
-            <img v-bind:class="delete_selected" v-on:click="check(2)" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaWv7Z9KZToWdMyUCma8E1jAdzkXd27WIVJ-QuJMurz7s7gLUX_g">
+            <img v-bind:class="delete_selected" v-on:click="check(2)" id="imgDel" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaWv7Z9KZToWdMyUCma8E1jAdzkXd27WIVJ-QuJMurz7s7gLUX_g">
             <div id="rm_text" v-show="showRm === e">Supprimer une case</div>
         </section>
         <section id="edit" ref="edit" v-for="e in 1" :key="e.id" @mouseover="showEdit = e" @mouseout="showEdit = null">

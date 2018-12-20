@@ -110,7 +110,7 @@ export default {
           newdiv.style.height = (obj[z].height) * 1 + 'px'
           newdiv.style.border = '1px solid blue'
           newdiv.draggable = false
-          newdiv.addEventListener('click', Tool, false)
+          newdiv.addEventListener('mouseover', Tool, false)
           fullGrid.appendChild(newdiv)
           var r = document.getElementById('number' + z)
           r.innerHTML = '<p>' + z + '</p>'
@@ -292,43 +292,48 @@ export default {
 }
 
 function del (tool, e, cursor, startDiv) {
-  tool.div.parentNode.removeChild(tool.div)
+  tool.div.addEventListener('click', () => {
+    e.stopPropagation()
+    tool.div.parentNode.removeChild(tool.div)
+  })
 }
 
 /* ------------------------------------------------ function add --------------------------------------------------- */
 
 function _add (tool, e, cursor, startDiv) {
-  tool.div.style.border = '1px solid blue'
-  let y = document.getElementById('fullGrid').childElementCount
-  let board = document.getElementById('fullGrid')
-  let newDiv = document.createElement('div')
+  tool.div.addEventListener('click', () => {
+    tool.div.style.border = '1px solid blue'
+    let y = document.getElementById('fullGrid').childElementCount
+    let board = document.getElementById('fullGrid')
+    let newDiv = document.createElement('div')
+    e.stopPropagation()
+    newDiv.style.position = 'absolute'
+    newDiv.className = 'bd'
 
-  newDiv.style.position = 'absolute'
-  newDiv.className = 'bd'
+    newDiv.style.left = cursor[0].left - 125 + 'px'
+    newDiv.style.top = cursor[0].top - 125 + 'px'
 
-  newDiv.style.left = cursor[0].left - 125 + 'px'
-  newDiv.style.top = cursor[0].top - 125 + 'px'
+    newDiv.style.width = '250px'
+    newDiv.style.height = '250px'
 
-  newDiv.style.width = '250px'
-  newDiv.style.height = '250px'
+    newDiv.setAttribute('id', 'number' + y)
+    newDiv.setAttribute('number', '' + y)
+    newDiv.innerHTML = '<p>' + y + '</p>'
 
-  newDiv.setAttribute('id', 'number' + y)
-  newDiv.setAttribute('number', '' + y)
-  newDiv.innerHTML = '<p>' + y + '</p>'
-
-  for (let i = 0; i < document.getElementById('fullGrid').childElementCount; i++) {
-    if (!document.getElementById('number' + i)) {
-      newDiv.setAttribute('id', 'number' + i)
-      newDiv.setAttribute('number', '' + i)
-      newDiv.innerHTML = '<p>' + i + '</p>'
-      break
+    for (let i = 0; i < document.getElementById('fullGrid').childElementCount; i++) {
+      if (!document.getElementById('number' + i)) {
+        newDiv.setAttribute('id', 'number' + i)
+        newDiv.setAttribute('number', '' + i)
+        newDiv.innerHTML = '<p>' + i + '</p>'
+        break
+      }
     }
-  }
-  newDiv.style.border = '1px solid blue'
-
-  newDiv.draggable = false
-  newDiv.onclick = Tool
-  board.appendChild(newDiv)
+    newDiv.style.border = '1px solid blue'
+    newDiv.draggable = false
+    newDiv.onclick = Tool
+    board.appendChild(newDiv)
+  })
+  tool.div.removeAllListeners()
 }
 
 /* ------------------------------------------------ function move --------------------------------------------------- */
@@ -337,7 +342,7 @@ function move (tool, e, cursor, startDiv) {
   tool.div.draggable = true
   tool.div.parentNode.ondragstart = ondragstartMove
   tool.div.parentNode.ondragover = function (e) { ondragoverMove(e, tool, cursor, startDiv) }
-  tool.div.parentNode.ondragend = ondragendMove
+
   e.stopPropagation()
   e.stopImmediatePropagation()
 }
@@ -367,13 +372,10 @@ function ondragoverMove (e, tool, cursor, startDiv) {
   div.style.top = y + 'px'
   e.stopPropagation()
   e.stopImmediatePropagation()
-}
-
-function ondragendMove (e) {
-  console.log('dragend')
-  e.stopPropagation()
-  e.stopImmediatePropagation()
-  e.removeEvent()
+  div.ondragend = function () {
+    div.style.border = '1px solid blue'
+    div.draggable = false
+  }
 }
 
 /* ---------------------------------------- function Call when click on tool ---------------------------------------- */
@@ -458,7 +460,7 @@ var memory = {
   redo:
     [{id: 'redo'}]
 }
-
+window.memory = memory
 function memory_f (tool) {
   let div = tool.div
   let new_memory = {id: div.id, left: div.style.left, top: div.style.top, width: div.style.width, height: div.style.height}
