@@ -361,10 +361,11 @@ function ondragstartMove (e) {
   e.stopPropagation()
   e.stopImmediatePropagation()
 }
-
+let zIndex = 10
 function ondragoverMove (e, tool, cursor, startDiv) {
   e = window.event
   let div = tool.div
+  let otherDiv = document.getElementsByClassName('bd')
   /* calc position of mouse refer to parent node */
 
   let currLeft = (e.pageX - div.parentNode.offsetLeft)
@@ -379,7 +380,8 @@ function ondragoverMove (e, tool, cursor, startDiv) {
 
   div.style.left = x + 'px'
   div.style.top = y + 'px'
-  div.style.zIndex = 1000
+  div.style.zIndex = zIndex
+zIndex++
   e.stopPropagation()
   e.stopImmediatePropagation()
 }
