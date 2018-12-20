@@ -1,5 +1,13 @@
 <template>
     <div id="do-undo">
+        <section id="undo" v-for="e in 1" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null">
+            <img id="img-undo" src="https://img.icons8.com/metro/1600/reply-arrow.png">
+            <div id="undo_json"  v-on:click="undo_f" v-show="undo === e"><p>undo</p></div>
+        </section>
+        <section id="do" v-for="e in 1" :key="e.id" @mouseover="showSave = e" @mouseout="showSave = null">
+            <img id="img-redo" src="https://img.icons8.com/metro/1600/reply-arrow.png">
+            <div id="redo_json" v-on:click="redo_f" v-show="redo === e"><p>undo</p></div>
+        </section>
     </div>
 </template>
 <script>
@@ -12,6 +20,7 @@ export default {
     }
   }
 }
+
 </script>
 <style>
     #undo {
@@ -24,7 +33,7 @@ export default {
         background: #ff4d4d;
         border: 2px solid black;
         box-shadow:7px 7px white;
-        z-index: 1;
+        z-index: 100;
     }
     #img-undo{
         -webkit-transition: .7s ease-in-out;
@@ -33,14 +42,12 @@ export default {
     #img-undo:hover{
         transform: scale(1.3);
         -webkit-transform: scale(1.3);
-        z-index: 2;
-
     }
     #img-redo{
             -webkit-transition: .7s ease-in-out;
             transition: .7s ease-in-out;
         transform: scale(1) rotate(180deg);
-        z-index: 2;
+
     }
     #img-redo:hover{
         transform: scale(1.3) rotate(180deg);
