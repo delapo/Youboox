@@ -22,7 +22,6 @@
         </section>
     </div>
 </template>
-
 <script>
 export default {
   name: 'app',
@@ -36,8 +35,8 @@ export default {
       add_selected: 'not selected',
       delete_selected: 'not selected',
       edit_selected: 'not selected',
-      move_selected: 'not selected',
-      selected: 0
+      move_selected: 'tool_selected',
+      selected: 4
     }
   },
   methods: {
@@ -130,7 +129,6 @@ export default {
   }
 }
 </script>
-
 <style>
     #menu {
         position: fixed;
@@ -142,7 +140,6 @@ export default {
         background: #ff4d4d;
         border: 3px solid black;
     }
-
     #save img {
         width: 62px;
         height: 62px;
@@ -150,7 +147,6 @@ export default {
         bottom: 6px;
         left:6px;
     }
-
     #save_text {
         position: fixed;
         top: 8%;
@@ -161,12 +157,10 @@ export default {
         background: #e4e4e4;
         border: 2px solid black;
     }
-
     #save_text p {
         margin-top: auto;
         margin-bottom: auto;
     }
-
     #save {
         background: white;
         width: 70px;
@@ -192,12 +186,10 @@ export default {
         -webkit-transition: .3s ease-in-out;
         transition: .3s ease-in-out;
     }
-
     #_add img:hover {
         -webkit-transform: scale(1.1) rotate(45deg);
         transform: scale(1.1) rotate(45deg);
     }
-
     #del img {
         display: flex;
         width: 100px;
@@ -206,14 +198,13 @@ export default {
         border-radius: 100px;
         border: 3px solid white;
         position: fixed;
-        right: 125px;
-        top: 130px;
+        right: 10px;
+        top: 205px;
         transform: scale(1.1);
         -webkit-transform: scale(1);
         -webkit-transition: .3s ease-in-out;
         transition: .3s ease-in-out;
     }
-
     #del img:hover {
         -webkit-transform: scale(1.1);
         transform: scale(1.1);
@@ -225,20 +216,18 @@ export default {
         background: white;
         border-radius: 100px;
         position: fixed;
-        right: 10px;
-        top: 205px;
+        right: 125px;
+        top: 130px;
         z-index: 20;
         transform: scale(1.1);
         -webkit-transform: scale(1);
         -webkit-transition: .3s ease-in-out;
         transition: .3s ease-in-out;
     }
-
     #move img:hover {
         -webkit-transform: scale(1.1);
         transform: scale(1.1);
     }
-
     #add_text {
         position: fixed;
         top: 25px;
@@ -248,12 +237,10 @@ export default {
         border-radius: 20px;
         border: 2px solid black;
     }
-
     #add_text {
         margin: auto;
         height: 20px;
     }
-
     #rm_text {
         position: fixed;
         top: 114px;
@@ -263,11 +250,9 @@ export default {
         border-radius: 20px;
         border: 2px solid black;
     }
-
     #rm_text p {
         margin: auto;
     }
-
     #edit_text {
         position: fixed;
         top: 150px;
@@ -278,11 +263,9 @@ export default {
         border: 2px solid black;
         z-index: 100;
     }
-
     #edit_text p {
         margin: auto;
     }
-
     #move_text {
         position: fixed;
         top: 310px;
@@ -293,11 +276,9 @@ export default {
         border: 2px solid black;
         z-index: 100;
     }
-
     #move_text p {
         margin: auto;
     }
-
     #save_text {
         position: fixed;
     }
@@ -317,6 +298,6 @@ export default {
         z-index: 999;
     }
     #download-area input{
-    margin: 7px;
+        margin: 7px;
     }
 </style>

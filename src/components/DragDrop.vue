@@ -1,7 +1,9 @@
 <template>
     <div>
         <div id="dropJason">
-            <input type="file" name="Jason" id="jasonElem" accept="application/json" ref="myJason" @change="displayJason" class="custom-file-input">
+            <div id ="btn_jsn">
+                <input type="file" name="Jason" id="jasonElem" accept="application/json" ref="myJason" @change="displayJason" class="custom-file-input">
+            </div>
         </div>
         <div id="drop-area" ref="azerty" v-on:dragenter="hover" v-on:dragover="hover" v-on:dragleave="unhover" v-on:click="dropFileZone"
              v-on:drop="handleDrop">
@@ -51,9 +53,7 @@
     </div>
 </template>
 <script>
-  /* eslint-disable no-eval */
-
-  export default {
+export default {
   name: 'drag-drop',
   data () {
     return {
@@ -65,7 +65,15 @@
   },
   methods: {
     displayJason () {
-      console.log(document.getElementById('jasonElem').files)
+      window.addEventListener('keydown', function (e) {
+        if ([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+          e.preventDefault()
+        }
+      }, false)
+      let randomdiv = document.getElementById('fullGrid')
+      if (randomdiv) {
+        randomdiv.parentNode.removeChild(randomdiv)
+      }
       var jasonFile = document.getElementById('jasonElem').files[0]
       var reader = new FileReader()
       reader.readAsText(jasonFile, 'utf8')
@@ -75,6 +83,13 @@
         var fullGrid = document.createElement('div')
         fullGrid.id = 'fullGrid'
         var select = document.getElementById('BD_show')
+        select.appendChild(fullGrid)
+        document.onkeydown = board_move
+        fullGrid.draggable = false
+        fullGrid.style.left = 50 + 'px'
+        fullGrid.style.right = 10 + 'px'
+        fullGrid.style.top = 100 + 'px'
+        fullGrid.style.bottom = 5 + 'px'
         select.appendChild(fullGrid)
         var obj = array.regions_of_interest
         console.log(obj)
@@ -265,10 +280,7 @@
 function del (tool, e, cursor, startDiv) {
   tool.div.parentNode.removeChild(tool.div)
 }
-function undo () {
-}
-function redo () {
-}
+
 /* ------------------------------------------------ function add --------------------------------------------------- */
 
 function _add (tool, e, cursor, startDiv) {
@@ -312,17 +324,17 @@ function move (tool, e, cursor, startDiv) {
   tool.div.parentNode.ondragstart = ondragstartMove
   tool.div.parentNode.ondragover = function (e) { ondragoverMove(e, tool, cursor, startDiv) }
   tool.div.parentNode.ondragend = ondragendMove
+  e.stopPropagation()
+  e.stopImmediatePropagation()
 }
 
 function ondragstartMove (e) {
+  console.log('dragstart')
   e.stopPropagation()
   e.stopImmediatePropagation()
-  console.log('dragstart')
 }
 
 function ondragoverMove (e, tool, cursor, startDiv) {
-  e.stopPropagation()
-  e.stopImmediatePropagation()
   e = window.event
   let div = tool.div
   /* calc position of mouse refer to parent node */
@@ -339,12 +351,14 @@ function ondragoverMove (e, tool, cursor, startDiv) {
 
   div.style.left = x + 'px'
   div.style.top = y + 'px'
+  e.stopPropagation()
+  e.stopImmediatePropagation()
 }
 
 function ondragendMove (e) {
+  console.log('dragend')
   e.stopPropagation()
   e.stopImmediatePropagation()
-  console.log('dragend')
 }
 
 /* ---------------------------------------- function Call when click on tool ---------------------------------------- */
@@ -396,6 +410,27 @@ function Tool (e) {
     fun(tool, e, cursor, startDiv)
   } else {
     console.log('no tool')
+  }
+}
+function board_move () {
+  let board = document.getElementById('fullGrid')
+  let e = window.event
+  console.log(e.code)
+  if (e.code === 'ArrowRight') {
+    console.log(board)
+    console.log(parseInt(board.style.left) + 10 + 'px')
+    /*  if(parseInt(board.style.left === NaN))
+          board.style.left = 10px */
+    board.style.left = parseInt(board.style.left) + 10 + 'px'
+  }
+  if (e.code === 'ArrowLeft') {
+    board.style.left = parseInt(board.style.left) - 10 + 'px'
+  }
+  if (e.code === 'ArrowUp') {
+    board.style.top = parseInt(board.style.top) - 10 + 'px'
+  }
+  if (e.code === 'ArrowDown') {
+    board.style.top = parseInt(board.style.top) + 10 + 'px'
   }
 }
 </script>
@@ -524,6 +559,12 @@ function Tool (e) {
     #dropJason input{
         margin-left: auto;
         margin-right: auto;
+        display: flex;
+        font-size: 17Px;
+        height: 30px;
+    }
+    #btn_jsn{
+        margin-left: 40%;
     }
     #manualSet {
         top: 20%;
@@ -584,7 +625,7 @@ function Tool (e) {
         bottom: 10% !important;
     }
     #fullGrid {
-        top: 80px;
+        top: 120px;
         position: absolute;
         height: 200%;
         left: 3%;
