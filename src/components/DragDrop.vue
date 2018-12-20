@@ -93,7 +93,7 @@ export default {
         fullGrid.draggable = false
         fullGrid.style.left = 50 + 'px'
         fullGrid.style.right = 10 + 'px'
-        fullGrid.style.top = 130 + 'px'
+        fullGrid.style.top = 100 + 'px'
         fullGrid.style.bottom = 5 + 'px'
         select.appendChild(fullGrid)
         var obj = array.regions_of_interest
@@ -110,8 +110,7 @@ export default {
           newdiv.style.height = (obj[z].height) * 1 + 'px'
           newdiv.style.border = '1px solid blue'
           newdiv.draggable = false
-          document.getElementById('_add').onclick = _add
-          newdiv.addEventListener('mouseover', Tool, false)
+          newdiv.addEventListener('click', Tool, false)
           fullGrid.appendChild(newdiv)
           var r = document.getElementById('number' + z)
           r.innerHTML = '<p>' + z + '</p>'
@@ -232,41 +231,27 @@ export default {
       this.previewFile(0)
       this.middleImg(0)
     },
-    middleImg (i) {
-      document.getElementById('imageCenter').innerHTML = ''
-      let files = this.$data.files
-      let prev = document.getElementById('prev')
-      let next = document.getElementById('next')
-      let reader = new FileReader()
-      reader.readAsDataURL(files[i])
-      reader.onloadend = function () {
-        let select = document.getElementById('imageCenter')
-        select.src = reader.result
-      }
-      prev.addEventListener('click', function () {
-        reader.readAsDataURL(files[i])
-        console.log(i)
-        reader.onloadend = function () {
-          let select = document.getElementById('imageCenter')
-          select.src = reader.result
-        }
-        i++
-      }, true)
-      next.addEventListener('click', function () {
-        reader.readAsDataURL(files[i])
-        console.log(i)
-        reader.onloadend = function () {
-          let select = document.getElementById('imageCenter')
-          select.src = reader.result
-        }
-        i--
-      }, true)
+    uploadFile (file) {
+      let url = 'http://localhost:8080/'
+      let formData = new FormData()
+      formData.append('file', file)
+      fetch(url, {
+        method: 'POST',
+        body: formData
+      })
+        .then(() => {
+          console.log('Done')
+        })
+        .catch(() => {
+          console.log('Error')
+        })
     },
     previewFile (i) {
       if (document.getElementById('gallery').getElementsByTagName('img')[i] != null) {
         this.previewFile(i + 1)
       } else {
         let file = this.$data.files[i]
+        let files = this.$data.files
         let reader = new FileReader()
         reader.readAsDataURL(file)
         reader.onloadend = () => {
@@ -274,46 +259,73 @@ export default {
           img.src = reader.result
           img.class = 'page'
           img.addEventListener('click', function () {
-            /* reader.readAsDataURL(files[i])
+            reader.readAsDataURL(files[i])
             reader.onloadend = function () {
               let select = document.getElementById('imageCenter')
               select.src = reader.result
-            } */
+            }
           })
-          img.addEventListener('click', () => this.middleImg(i))
+          img.addEventListener('click', function () {
+            console.log('asas')
+          }, false)
           document.getElementById('gallery').appendChild(img)
           if (this.$data.files[i + 1]) {
             this.previewFile(i + 1)
           }
         }
       }
+    },
+    middleImg (i) {
+      let files = this.$data.files
+      let prev = document.getElementById('prev')
+      let next = document.getElementById('next')
+      let reader = new FileReader()
+      prev.addEventListener('click', function () {
+        reader.readAsDataURL(files[i + 1])
+        reader.onloadend = function () {
+          let select = document.getElementById('imageCenter')
+          select.src = reader.result
+        }
+        i++
+      }, true)
+      next.addEventListener('click', function () {
+        reader.readAsDataURL(files[i - 1])
+        reader.onloadend = function () {
+          let select = document.getElementById('imageCenter')
+          select.src = reader.result
+        }
+        i--
+      }, true)
+      reader.readAsDataURL(files[i])
+      reader.onloadend = function () {
+        let select = document.getElementById('imageCenter')
+        select.src = reader.result
+      }
     }
   }
 }
 
 function del (tool, e, cursor, startDiv) {
-  tool.div.onclick = function () {
-    e.stopPropagation()
-    tool.div.parentNode.removeChild(tool.div)
-  }
-  tool.div.removeAttribute('onclick')
+  tool.div.parentNode.removeChild(tool.div)
 }
 
 /* ------------------------------------------------ function add --------------------------------------------------- */
 
-function _add (e) {
+function _add (tool, e, cursor, startDiv) {
+  tool.div.style.border = '1px solid blue'
   let y = document.getElementById('fullGrid').childElementCount
   let board = document.getElementById('fullGrid')
   let newDiv = document.createElement('div')
+
   newDiv.style.position = 'absolute'
   newDiv.className = 'bd'
 
-  newDiv.style.left = 500 + 'px'
-  newDiv.style.top = 500 + 'px'
+  newDiv.style.left = cursor[0].left - 125 + 'px'
+  newDiv.style.top = cursor[0].top - 125 + 'px'
 
   newDiv.style.width = '250px'
   newDiv.style.height = '250px'
-  newDiv.zIndex = 20000000000
+
   newDiv.setAttribute('id', 'number' + y)
   newDiv.setAttribute('number', '' + y)
   newDiv.innerHTML = '<p>' + y + '</p>'
@@ -327,8 +339,9 @@ function _add (e) {
     }
   }
   newDiv.style.border = '1px solid blue'
+
   newDiv.draggable = false
-  newDiv.addEventListener('mouseover', Tool, false)
+  newDiv.onclick = Tool
   board.appendChild(newDiv)
 }
 
@@ -338,7 +351,7 @@ function move (tool, e, cursor, startDiv) {
   tool.div.draggable = true
   tool.div.parentNode.ondragstart = ondragstartMove
   tool.div.parentNode.ondragover = function (e) { ondragoverMove(e, tool, cursor, startDiv) }
-
+  tool.div.parentNode.ondragend = ondragendMove
   e.stopPropagation()
   e.stopImmediatePropagation()
 }
@@ -348,10 +361,11 @@ function ondragstartMove (e) {
   e.stopPropagation()
   e.stopImmediatePropagation()
 }
-
+let zIndex = 10
 function ondragoverMove (e, tool, cursor, startDiv) {
   e = window.event
   let div = tool.div
+  let otherDiv = document.getElementsByClassName('bd')
   /* calc position of mouse refer to parent node */
 
   let currLeft = (e.pageX - div.parentNode.offsetLeft)
@@ -366,12 +380,16 @@ function ondragoverMove (e, tool, cursor, startDiv) {
 
   div.style.left = x + 'px'
   div.style.top = y + 'px'
+  div.style.zIndex = zIndex
+zIndex++
   e.stopPropagation()
   e.stopImmediatePropagation()
-  div.ondragend = function () {
-    div.style.border = '1px solid blue'
-    div.draggable = false
-  }
+}
+
+function ondragendMove (e) {
+  console.log('dragend')
+  e.stopPropagation()
+  e.stopImmediatePropagation()
 }
 
 /* ---------------------------------------- function Call when click on tool ---------------------------------------- */
@@ -456,7 +474,7 @@ var memory = {
   redo:
     [{id: 'redo'}]
 }
-window.memory = memory
+
 function memory_f (tool) {
   let div = tool.div
   let new_memory = {id: div.id, left: div.style.left, top: div.style.top, width: div.style.width, height: div.style.height}
@@ -726,8 +744,8 @@ function redo_f () {
         bottom: 10% !important;
     }
     #fullGrid {
-        position: absolute;
         top: 120px;
+        position: absolute;
         height: 200%;
         left: 3%;
         width: 72%;
