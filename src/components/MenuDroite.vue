@@ -13,7 +13,7 @@
             <div id="rm_text" v-show="showRm === e">Supprimer une case</div>
         </section>
         <section id="edit" ref="edit" v-for="e in 1" :key="e.id" @mouseover="showEdit = e" @mouseout="showEdit = null">
-            <img v-bind:class="edit_selected" v-on:click="check(3)src="t">
+            <img v-bind:class="edit_selected" v-on:click="check(3)">
             <div id="edit_text" v-show="showEdit === e">Modifier une case</div>
         </section>
         <section id="move" ref="move" v-for="e in 1" :key="e.id" @mouseover="showMove = e" @mouseout="showMove = null">
