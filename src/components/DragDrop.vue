@@ -325,7 +325,6 @@ function _add (tool, e, cursor, startDiv) {
 
   newDiv.style.width = '250px'
   newDiv.style.height = '250px'
-  newDiv.style.zIndex = 20000000
 
   newDiv.setAttribute('id', 'number' + y)
   newDiv.setAttribute('number', '' + y)
@@ -352,6 +351,7 @@ function move (tool, e, cursor, startDiv) {
   tool.div.draggable = true
   tool.div.parentNode.ondragstart = ondragstartMove
   tool.div.parentNode.ondragover = function (e) { ondragoverMove(e, tool, cursor, startDiv) }
+  tool.div.parentNode.ondragend = ondragendMove
   e.stopPropagation()
   e.stopImmediatePropagation()
 }
@@ -361,7 +361,7 @@ function ondragstartMove (e) {
   e.stopPropagation()
   e.stopImmediatePropagation()
 }
-var zIndex = 10
+
 function ondragoverMove (e, tool, cursor, startDiv) {
   e = window.event
   let div = tool.div
@@ -379,15 +379,14 @@ function ondragoverMove (e, tool, cursor, startDiv) {
 
   div.style.left = x + 'px'
   div.style.top = y + 'px'
-  div.style.zIndex = zIndex
-  zIndex++
   e.stopPropagation()
   e.stopImmediatePropagation()
-  div.ondragend = function () {
-    console.log()
-    div.style.border = '1px solid blue'
-    div.draggable = false
-  }
+}
+
+function ondragendMove (e) {
+  console.log('dragend')
+  e.stopPropagation()
+  e.stopImmediatePropagation()
 }
 
 /* ---------------------------------------- function Call when click on tool ---------------------------------------- */
@@ -450,7 +449,7 @@ function board_move () {
     console.log(board)
     console.log(parseInt(board.style.left) + 10 + 'px')
     /*  if(parseInt(board.style.left === NaN))
-          board.style.left = 10px */
+                  board.style.left = 10px */
     board.style.left = parseInt(board.style.left) + 10 + 'px'
   }
   if (e.code === 'ArrowLeft') {
@@ -468,9 +467,9 @@ function board_move () {
 
 var memory = {
   undo:
-    [{id: 'undo'}],
+            [{id: 'undo'}],
   redo:
-    [{id: 'redo'}]
+            [{id: 'redo'}]
 }
 
 function memory_f (tool) {
@@ -625,6 +624,13 @@ function redo_f () {
         margin-right: 10px;
         vertical-align: middle;
         background: white;
+        -webkit-transition: .6s ease-in-out;
+        transition: .6s ease-in-out;
+    }
+
+    #gallery img:hover {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
     }
 
     .button {
