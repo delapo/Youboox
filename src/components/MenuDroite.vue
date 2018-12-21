@@ -23,111 +23,111 @@
     </div>
 </template>
 <script>
-export default {
-  name: 'app',
-  data () {
-    return {
-      showAdd: null,
-      showRm: null,
-      showEdit: null,
-      showMove: null,
-      showSave: null,
-      add_selected: 'not selected',
-      delete_selected: 'not selected',
-      edit_selected: 'not selected',
-      move_selected: 'tool_selected',
-      selected: 4
-    }
-  },
-  methods: {
-    check (int) {
-      if (int === this.selected) {
-        this.selected = 0
-        switch (int) {
-          case 1:
-            this.add_selected = 'not selected'
-            break
-          case 2:
-            this.delete_selected = 'not selected'
-            break
-          case 3:
-            this.edit_selected = 'not selected'
-            break
-          case 4:
-            this.move_selected = 'not selected'
-            break
+    export default {
+        name: 'app',
+        data () {
+            return {
+                showAdd: null,
+                showRm: null,
+                showEdit: null,
+                showMove: null,
+                showSave: null,
+                add_selected: 'not selected',
+                delete_selected: 'not selected',
+                edit_selected: 'not selected',
+                move_selected: 'tool_selected',
+                selected: 4
+            }
+        },
+        methods: {
+            check (int) {
+                if (int === this.selected) {
+                    this.selected = 0
+                    switch (int) {
+                        case 1:
+                            this.add_selected = 'not selected'
+                            break
+                        case 2:
+                            this.delete_selected = 'not selected'
+                            break
+                        case 3:
+                            this.edit_selected = 'not selected'
+                            break
+                        case 4:
+                            this.move_selected = 'not selected'
+                            break
+                    }
+                } else {
+                    switch (int) {
+                        case 1:
+                            this.selected = 1
+                            this.add_selected = 'tool_selected'
+                            console.log('add')
+                            this.delete_selected = 'not selected'
+                            this.edit_selected = 'not selected'
+                            this.move_selected = 'not selected'
+                            break
+                        case 2:
+                            this.selected = 2
+                            this.add_selected = 'not selected'
+                            this.delete_selected = 'tool_selected'
+                            console.log('del')
+                            this.edit_selected = 'not selected'
+                            this.move_selected = 'not selected'
+                            break
+                        case 4:
+                            this.selected = 4
+                            this.add_selected = 'not selected'
+                            this.delete_selected = 'not selected'
+                            this.edit_selected = 'not selected'
+                            this.move_selected = 'tool_selected'
+                            console.log('move')
+                            break
+                    }
+                }
+            },
+            dlFile () {
+                let strWindowName = document.getElementById('jsonName').value
+                document.getElementById('download-area').innerHTML = ''
+                let fileContent = []
+                for (let i = 0; i < document.getElementById('fullGrid').childElementCount; i++) {
+                    let div = document.getElementById('fullGrid').childNodes[i]
+                    let x = (parseInt(div.style.left) >> 0)
+                    let y = (parseInt(div.style.top) >> 0)
+                    let width = (parseInt(div.style.width) >> 0)
+                    let height = (parseInt(div.style.height) >> 0)
+                    let table = (JSON.parse('{"x":' + x + ',"y":' + y + ',"width":' + width + ',"height":' + height + '}'))
+                    fileContent = fileContent.concat(table)
+                }
+                let finalTable = JSON.parse('{"regions_of_interest":' + JSON.stringify(fileContent) + '}')
+                let a = document.createElement('a')
+                let blob = new Blob([JSON.stringify(finalTable)], {type: 'octet/stream'})
+                let url = window.URL.createObjectURL(blob)
+                a.href = url
+                a.download = strWindowName
+                a.click()
+                window.URL.revokeObjectURL(url)
+                a.remove()
+                document.getElementById('download-area').remove()
+            },
+            displayInput () {
+                if (document.getElementById('jsonName') === null) {
+                    let div = document.createElement('div')
+                    let input = document.createElement('input')
+                    let button = document.createElement('button')
+                    document.getElementById('menu').appendChild(div)
+                    div.id = 'download-area'
+                    document.getElementById('download-area').appendChild(input)
+                    document.getElementById('download-area').appendChild(button)
+                    input.type = 'text'
+                    input.placeholder = 'Entrer le nom du Json'
+                    input.id = 'jsonName'
+                    button.addEventListener('click', this.dlFile, false)
+                    button.textContent = 'Télécharger le JSON'
+                }
+            }
         }
-      } else {
-        switch (int) {
-          case 1:
-            this.selected = 1
-            this.add_selected = 'tool_selected'
-            console.log('add')
-            this.delete_selected = 'not selected'
-            this.edit_selected = 'not selected'
-            this.move_selected = 'not selected'
-            break
-          case 2:
-            this.selected = 2
-            this.add_selected = 'not selected'
-            this.delete_selected = 'tool_selected'
-            console.log('del')
-            this.edit_selected = 'not selected'
-            this.move_selected = 'not selected'
-            break
-          case 4:
-            this.selected = 4
-            this.add_selected = 'not selected'
-            this.delete_selected = 'not selected'
-            this.edit_selected = 'not selected'
-            this.move_selected = 'tool_selected'
-            console.log('move')
-            break
-        }
-      }
-    },
-    dlFile () {
-      let strWindowName = document.getElementById('jsonName').value
-      document.getElementById('download-area').innerHTML = ''
-      let fileContent = []
-      for (let i = 0; i < document.getElementById('fullGrid').childElementCount; i++) {
-        let div = document.getElementById('fullGrid').childNodes[i]
-        let x = (parseInt(div.style.left) >> 0)
-        let y = (parseInt(div.style.top) >> 0)
-        let width = (parseInt(div.style.width) >> 0)
-        let height = (parseInt(div.style.height) >> 0)
-        let table = (JSON.parse('{"x":' + x + ',"y":' + y + ',"width":' + width + ',"height":' + height + '}'))
-        fileContent = fileContent.concat(table)
-      }
-      let finalTable = JSON.parse('{"regions_of_interest":' + JSON.stringify(fileContent) + '}')
-      let a = document.createElement('a')
-      let blob = new Blob([JSON.stringify(finalTable)], {type: 'octet/stream'})
-      let url = window.URL.createObjectURL(blob)
-      a.href = url
-      a.download = strWindowName
-      a.click()
-      window.URL.revokeObjectURL(url)
-      a.remove()
-      document.getElementById('download-area').remove()
-    },
-    displayInput () {
-      if (document.getElementById('jsonName') === null) {
-        let div = document.createElement('div')
-        let input = document.createElement('input')
-        let button = document.createElement('button')
-        document.getElementById('menu').appendChild(div)
-        div.id = 'download-area'
-        document.getElementById('download-area').appendChild(input)
-        document.getElementById('download-area').appendChild(button)
-        input.type = 'text'
-        input.placeholder = 'Entrer le nom du Json'
-        input.id = 'jsonName'
-        button.addEventListener('click', this.dlFile, false)
-        button.textContent = 'Télécharger le JSON'
-      }
     }
-  }
-}
 </script>
 <style>
     #menu {
