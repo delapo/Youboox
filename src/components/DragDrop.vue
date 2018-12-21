@@ -539,8 +539,6 @@ function redo_f () {
 
   if (current_div) {
     if (current_div.style.left === memory_div.left && current_div.style.top === memory_div.top && current_div.style.width === memory_div.width && current_div.style.height === memory_div.height) {
-      current_div.parentNode.removeChild(current_div)
-      memory.undo.unshift(memory_div)
       memory.redo.shift()
       return
     }
@@ -630,6 +628,13 @@ function redo_f () {
         margin-right: 10px;
         vertical-align: middle;
         background: white;
+        -webkit-transition: .6s ease-in-out;
+        transition: .6s ease-in-out;
+    }
+
+    #gallery img:hover {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
     }
 
     .button {
